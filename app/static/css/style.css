@@ -1,0 +1,115 @@
+/*
+ * partner - style.css
+ *
+ * Description:
+ * Author:           Darshan Nagavara (DN)
+ * Created:          13 Nov. 2019
+ * Source:           https://github.com/IntersectAustralia/partner
+ * License:          Copyright (c) 2019 DN - All Rights Reserved DN
+ *                   Unauthorized copying of this file, via any medium is
+ *                   strictly prohibited. Proprietary and confidential
+ *
+ */
+
+/*!
+ */
+
+body {
+    font-family: "Apercu", Helvetica, sans-serif;
+    padding-top: 4.5rem;
+    font-size: 10pt;
+    color: #333333;
+}
+
+h1, h2, h3, h4, h5, h6, .text-heading {
+    font-family: "Apercu", Helvetica, sans-serif;
+    color: #000000;
+}
+
+.bg-sydWhite {
+    background-color: rebeccapurple;
+}
+
+.nav-logo {
+    height: 3em;
+}
+
+.sydDark {
+    color: #333333;
+}
+
+.nav-title {
+    width: 100%;
+    text-align: center;
+    font-size: 2em;
+    font-weight: 900;
+    color: #000000;
+}
+
+.loginName {
+    margin-right: 1em;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+footer {
+    width: 100% !important;
+    text-align: center;
+
+}
+
+footer .intersect-logo {
+    height: 70px;
+}
+
+footer .text-muted {
+    font-size: 0.8em;
+    color: #999999;
+}
+
+
+@media screen and (max-width: 960px) {
+    .nav-title {
+        font-size: 1.5em;
+    }
+
+    .nav-logo {
+        height: 3em;
+    }
+
+    .ml-auto, .mx-auto {
+        float: right;
+        margin: 0;
+        position: inherit;
+    }
+
+
+}
+
+@media screen and (max-width: 550px) {
+    .ml-auto, .mx-auto {
+        float: right;
+        margin: 0;
+        position: inherit;
+        display: flex;
+
+    }
+
+}
+
+nav .nav-tabs a {
+    color: #000000 !important;
+    text-decoration: none;
+}
+
+nav .nav-tabs a:hover {
+    color: #007bff !important;
+}
+
+nav .nav-tabs a.active {
+    font-weight: bold;
+}
+
+table.dataTable > thead > tr > th {
+    border: 0;
+}

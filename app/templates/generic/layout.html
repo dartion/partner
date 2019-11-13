@@ -1,0 +1,94 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="BANK3600 - Simulator">
+    <meta name="author" content="Craig Hamilton">
+    {% block metatags %} {% endblock %}
+    <link rel="icon" href="{% static "formwork/favicon.ico" %}"/>
+    <title>{{ APP_NAME }}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="//stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+    {% block styles %}{% endblock styles %}
+</head>
+{% block bodyTag %}
+    <body>
+{% endblock bodyTag %}
+<header>
+    <!--  fixed-top -->
+    <nav class="navbar navbar-expand-md fixed-top bg-sydWhite sydDark">
+        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+
+{#            <a class="navbar-brand" href="{% url "index" %}">#}
+{#                                                <img class="nav-logo"#}
+{#                                                                  src="{% static "formwork/USydLogo.svg" %}"#}
+{#                                                                  alt="University of Sydney"/></a>#}
+        </div>
+        <div class="mx-auto order-0 w-100 nav-title sydDark">{{ APP_NAME }}
+        </div>
+        <div class="navbar-collapse w-100 order-3 dual-collapse2">
+            {% block userControl %}
+                <ul class="navbar-nav ml-auto">
+                    {% if user.is_authenticated %}
+{#                        <li class="nav-item sydDark loginName">{{ user.get_username }}</li>#}
+                        <li class="nav-item">
+{#                            <button class="btn btn-outline-warning" id="maLogout" type="button"#}
+{#                                    onclick="window.location.href='{% url "logout" %}'"><i#}
+{#                                    class="fas fa-sign-out-alt"></i></button>#}
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+{#                            <button class="btn btn-outline-primary" id="maLogin" type="button">Login</button>#}
+                        </li>
+                        <li class="nav-item">
+{#                            <button class="btn btn-outline-primary" id="maLogin" type="button"#}
+{#                                    onclick="window.location.href='{% url "login" %}'">Login#}
+{#                            </button>#}
+                        </li>
+                    {% endif %}
+                </ul>
+            {% endblock userControl %}
+        </div>
+    </nav>
+</header>
+
+<main role="main" class="col-sm-12">
+    {% block topBody %}{% endblock topBody %}
+    {% block middleBody %}{% endblock middleBody %}
+    {% block lowerBody %}{% endblock lowerBody %}
+
+
+    <!-- FOOTER -->
+    <footer class="container">
+{#        <a href=""><img class=""#}
+{#                                                src="{% static '' %}"></a>#}
+        <span class="text-muted">Developed by <a href="">Dartion</a></span>
+    </footer>
+</main>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="//code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+<script src="//stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+
+{% block scripts %}{% endblock scripts %}
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+
+{% extends "generic/layout.html" %}
+{% load static %}
+{% block styles %}
+
+{% endblock styles %}
+{% block topBody %}
+
+
+    <h1>Login</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" />
+    </form>
+
+{% endblock %}
+
+{% block lowerBody %}{% endblock lowerBody %}
+
+{% block scripts %}{% endblock scripts %}
