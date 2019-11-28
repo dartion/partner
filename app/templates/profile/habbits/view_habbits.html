@@ -1,0 +1,25 @@
+
+{% extends "generic/layout.html" %}
+{% load static %}
+{% block styles %}
+
+{% endblock styles %}
+{% block topBody %}
+
+
+        <h1>View Habbit Info</h1>
+
+        <form action='' method="post">
+            {% csrf_token %}
+                    {{ form }}
+
+            <input id="submit" type="submit" value="Update Habbits Info" class="btn btn-outline-primary"/>
+        </form>
+
+
+
+{% endblock %}
+
+{% block lowerBody %}{% endblock lowerBody %}
+
+{% block scripts %}{% endblock scripts %}

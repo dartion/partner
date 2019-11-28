@@ -1,0 +1,106 @@
+
+{% extends "generic/layout.html" %}
+{% load static %}
+{% block styles %}
+
+{% endblock styles %}
+{% block topBody %}
+{#    {% for i in profile_list %}#}
+{#        {{ i.first_name }}#}
+{#        {{ i.last_name }}#}
+{#        {{ i.dob }}#}
+{##}
+{#    {% endfor %}#}
+
+
+{% endblock %}
+
+{% block lowerBody %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">&nbsp;</div>
+                <table id="profile-list" class="table table-striped" style="width: 100%">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+    </div>
+
+{% endblock lowerBody %}
+
+{% block scripts %}
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link src="//cdn.datatables.net/1.10.19/css/jquery.dataTables.css" rel="stylesheet">
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" class="init">
+        console.log("Document loaded")
+
+
+
+        var groupTable;
+        $(document).ready(function () {
+            {#var open_round_url = "{% url '' id=111 %}".replace(/111/, id);#}
+
+            groupTable = $('#profile-list').DataTable({
+                "processing": true,
+                "deferRender": true,
+                "scrollX": true,
+                "rowId": 'batchID',
+                "bStateSave": true,
+                "filter": true,
+                {#"status": true,#}
+                "paging": true,
+                "bAutoWidth": false,
+                {#"bInfo": true,#}
+                "bSort": true,
+                "overflow-y": scroll,
+                "scrollCollapse": true,
+                "lengthMenu": [[20, 25, 50, -1], [20, 25, 50, "All"]],
+                "order": [0, "desc"],
+                "responsive": false,
+                "language": {
+                    "search": "Filter : ",
+                    "info": "",
+                    "infoEmpty": "",
+                    "infoFiltered": "_TOTAL_ of _MAX_ groups",
+                    "zeroRecords": "No Profiles created in the system.",
+                    "loadingRecords": "Loading  ..."
+                },
+                {#"sDom": '<"top"if>rt<"bottom"><"clear">',#}
+                "ajax": {
+                    {#"processing": true,#}
+                    "url": "{% url 'ajax_get_profile_list' user_id=userID %}",
+                    dataSrc: function (json) {
+                        console.log(json)
+                        {#json = JSON.parse(json['content']);#}
+                        return json.data;
+                    },
+                },
+                "columns": [
+                    {"data": "first_name", "title": "Name", defaultContent: ""},
+                    {"data": "dob", "title": "DOB", defaultContent: ""},
+                    {"data": "phone_number", "title": "Phone number", defaultContent: ""},
+                    {"data": "id", "title": "Actions", defaultContent: "", render:function (id) {
+                        html = ''
+                        edit_profile_url = "{% url 'edit_profile' id=111 %}".replace(/111/, id);
+                        view_profile_url = "{% url 'view_profile' id=111 %}".replace(/111/, id);
+                        html += "<a href=\'"+ edit_profile_url +"\'>Edit</a>"+ "  " +"<a href=\'"+ view_profile_url +"\'>View</a>"
+                        return html
+                        }},
+                ],
+
+
+            });
+
+
+        });
+
+
+    </script>
+
+
+{% endblock scripts %}

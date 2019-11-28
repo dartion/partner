@@ -1,21 +1,81 @@
 
 {% extends "generic/layout.html" %}
 {% load static %}
+
 {% block styles %}
-
+<link href="static/css/custom_style.css" rel="stylesheet">
 {% endblock styles %}
-{% block topBody %}
+{% block middleBody %}
 
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
 
-    <h1>Login</h1>
-    <form method="POST">
+    </div>
+    <div class="col-sm-6 login-border" align="center">
+        <h2>Login</h2>
+            {% for message in messages %}
+                        {% if message.tags == "success" %}
+                            <div class="alert alert-warning">
+                                {{ message|safe }}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger">
+                                {{ message|safe }}
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+                {% if form.errors.items %}
+                        <div class="alert alert-danger ">
+
+                            {% for field, error in form.errors.items %}
+                                {% if field != '__all__' %}{{ field }}{% endif %}
+                                {{ error | striptags }}
+                            {% endfor %}
+
+                        </div>
+                    {% endif %}
+            <div class="row">&nbsp;</div>
+            <div class="row">&nbsp;</div>
+
+        <form method="POST" id="loginForm" class="login">
         {% csrf_token %}
-        {{ form }}
-        <input type="submit" />
-    </form>
+                {% for field in form %}
+                    <span>{{ field.name }}</span>
+
+                    <label class="login-input-field">
+                        {{ field }}
+                    </label>
+                    <br/>
+                {% endfor %}
+<div class="row">&nbsp;</div>
+                <div class="">
+                    <input class="btn btn-outline-primary login-button" value="Log In" type="submit"
+                           name="submit">
+                </div>
+
+        </form>
+        <a class="forgot-password-link" href="{% url 'forgot_password' %}"> Forgot password?</a>
+    <div class="row">&nbsp;</div>
+        <div class="register-now-button">
+            <a class="register-now" href='{% url "register" %}'> Do not have an account? Click think link to register</a>
+        </div>
+    </div>
+    <div class="col-sm-3">
+
+    </div>
+  </div>
+</div>
+
+{#    <form method="POST">#}
+{#        {% csrf_token %}#}
+{#        {{ form }}#}
+{#        <input type="submit" />#}
+{#    </form>#}
 
 {% endblock %}
 
-{% block lowerBody %}{% endblock lowerBody %}
+
 
 {% block scripts %}{% endblock scripts %}

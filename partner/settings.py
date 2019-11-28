@@ -34,7 +34,7 @@ import socket
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
+AUTH_USER_MODEL = 'auth.User'
 # Read from config
 config = configparser.RawConfigParser()
 config.read(os.path.join(BASE_DIR, "config.ini"))
@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app'
 
 
 ]
@@ -88,10 +89,14 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'app.context_processors.settings_context'
             ],
         },
     },
 ]
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+
 
 WSGI_APPLICATION = 'partner.wsgi.application'
 
@@ -162,3 +167,13 @@ STATICFILES_DIRS = (
 )
 
 LOGIN_URL = 'login'
+
+
+# Has to be a valid domain name
+EMAIL_SENDER = "noreply@dartion.com.au"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = "mail.tpg.com.au"
+EMAIL_USE_TLS = True
+EMAIL_PORT = 25
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False

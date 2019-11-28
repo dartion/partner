@@ -1,0 +1,23 @@
+
+{% extends "generic/layout.html" %}
+{% load static %}
+{% block styles %}
+
+{% endblock styles %}
+{% block topBody %}
+        <h1>View Profile</h1>
+
+        <form action='' method="post">
+            {% csrf_token %}
+                    {{ form }}
+
+
+        </form>
+            <a href='{% url "index" %}' class="btn btn-outline-primary" ><span class="glyphicon glyphicon-home"></span>Cancel</a>
+
+
+{% endblock %}
+
+{% block lowerBody %}{% endblock lowerBody %}
+
+{% block scripts %}{% endblock scripts %}
