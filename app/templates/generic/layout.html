@@ -26,43 +26,42 @@
 {% endblock bodyTag %}
 <header>
     <!--  fixed-top -->
-    <nav class="navbar navbar-expand-md fixed-top bg-sydWhite sydDark">
-        <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+{#    <nav class="navbar navbar-expand-md fixed-top bg-sydWhite sydDark">#}
+{#    </nav>#}
+    <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-sydWhite nav-tab-text-color">
+  <a class="navbar-brand" href="{% url 'index' %}"><i
+                                    class="fas fa-home"></i></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-{#            <a class="navbar-brand" href="{% url "index" %}">#}
-{#                                                <img class="nav-logo"#}
-{#                                                                  src="{% static "formwork/USydLogo.svg" %}"#}
-{#                                                                  alt="University of Sydney"/></a>#}
-        </div>
-        <div class="mx-auto order-0 w-100 nav-title sydDark">{{ APP_NAME }}
-        </div>
-        <div class="navbar-collapse w-100 order-3 dual-collapse2">
-            {% block userControl %}
-                <ul class="navbar-nav ml-auto">
-                    {% if user.is_authenticated %}
-{#                        <li class="nav-item sydDark loginName">{{ user.get_username }}</li>#}
-                        <li class="nav-item">
-{#                            <button class="btn btn-outline-warning" id="maLogout" type="button"#}
-{#                                    onclick="window.location.href='{% url "logout" %}'"><i#}
-{#                                    class="fas fa-sign-out-alt"></i></button>#}
-                        </li>
-                    {% else %}
-                        <li class="nav-item">
-{#                            <button class="btn btn-outline-primary" id="maLogin" type="button">Login</button>#}
-                        </li>
-                        <li class="nav-item">
-{#                            <button class="btn btn-outline-primary" id="maLogin" type="button"#}
-{#                                    onclick="window.location.href='{% url "login" %}'">Login#}
-{#                            </button>#}
-                        </li>
-                    {% endif %}
-                </ul>
-            {% endblock userControl %}
-        </div>
-    </nav>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'create_profile' %}">Create Profile <span class="sr-only">(current)</span></a>
+      </li>
+
+{#      <li class="nav-item">#}
+{#        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>#}
+{#      </li>#}
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+{#      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">#}
+{#        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i#}
+{#                                    class="fas fa-sign-out-alt"></i>Logout</button>#}
+       <button class="btn btn-outline-warning" id="maLogout" type="button"
+                                    onclick="window.location.href='{% url "logout" %}'"><i
+                                    class="fas fa-sign-out-alt"></i></button>
+    </form>
+  </div>
+</nav>
 </header>
 
 <main role="main" class="col-sm-12">
+    <div class="row"></div>
+<div class="row"></div>
+<div class="row"></div>
+
     {% block topBody %}{% endblock topBody %}
     {% block middleBody %}{% endblock middleBody %}
     {% block lowerBody %}{% endblock lowerBody %}

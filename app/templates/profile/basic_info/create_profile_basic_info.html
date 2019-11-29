@@ -1,0 +1,25 @@
+
+{% extends "generic/layout.html" %}
+{% load static %}
+{% block styles %}
+
+{% endblock styles %}
+{% block topBody %}
+
+
+        <h1>Create Profile</h1>
+
+        <form action='' method="post">
+            {% csrf_token %}
+                    {{ form }}
+
+            <input id="submit" type="submit" value="Create Profile" class="btn btn-outline-primary"/>
+        </form>
+
+
+
+{% endblock %}
+
+{% block lowerBody %}{% endblock lowerBody %}
+
+{% block scripts %}{% endblock scripts %}
