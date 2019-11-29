@@ -7,14 +7,37 @@ import datetime
 class UpdateEducationOccupation(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
+        profile_id = kwargs.pop('profile_id', None)
         super(UpdateEducationOccupation, self).__init__(*args, **kwargs)
+        try:
+            edu_occ_info_object = ProfileEducationOccupation.objects.get(profile_id=profile_id)
+            self.fields['degree_or_diploma'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=edu_occ_info_object.degree_or_diploma)
+            self.fields['pg_degree_or_diploma'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=edu_occ_info_object.pg_degree_or_diploma)
+            self.fields['occupation'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=edu_occ_info_object.occupation)
+            self.fields['working_since'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=edu_occ_info_object.working_since)
+            self.fields['place_of_occupation'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=edu_occ_info_object.place_of_occupation)
+            self.fields['average_monthly_income'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=edu_occ_info_object.average_monthly_income)
 
-    degree_or_diploma = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
-    pg_degree_or_diploma = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
-    occupation = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
-    working_since = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
-    place_of_occupation = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
-    average_monthly_income = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+        except Exception as ex:
+
+            degree_or_diploma = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
+            pg_degree_or_diploma = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
+            occupation = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
+            working_since = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
+            place_of_occupation = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
+            average_monthly_income = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
 
     class Meta:
         model = ProfileEducationOccupation
@@ -39,8 +62,18 @@ class UpdateEducationOccupation(forms.ModelForm):
         place_of_occupation = self.cleaned_data.get('place_of_occupation')
         average_monthly_income = self.cleaned_data.get('average_monthly_income')
 
-
         try:
+            print(profile_id)
+            p = ProfileEducationOccupation.objects.get(profile_id=profile_id)
+            p.degree_or_diploma = degree_or_diploma
+            p.occupation = occupation
+            p.working_since = working_since
+            p.place_of_occupation = place_of_occupation
+            p.average_monthly_income = average_monthly_income
+            p.save()
+            return p
+
+        except Exception as ex:
 
             new_education_occupation_object = ProfileEducationOccupation.objects.create(
                 degree_or_diploma = degree_or_diploma,
@@ -54,10 +87,6 @@ class UpdateEducationOccupation(forms.ModelForm):
 
             )
             return new_education_occupation_object
-
-        except Exception as ex:
-            print("Profile Education/Occupation Info cannot be updated  because {}".format(ex))
-            return False
 
 
 class ViewEducationOccupation(forms.ModelForm):

@@ -37,7 +37,7 @@ urlpatterns = [
     path('update_physical_features/<int:id>', profile_basic_info.update_physical_features, name='update_physical_features'),
     path('update_education_occupation/<int:id>', profile_basic_info.update_education_occupation, name='update_education_occupation'),
     path('update_habbits/<int:id>', profile_basic_info.update_habbits, name='update_habbits'),
-    path('astrological/<int:id>', profile_basic_info.update_astrological_info, name='astrological'),
+    path('update_astrological_info/<int:id>', profile_basic_info.update_astrological_info, name='update_astrological_info'),
     path('update_family_details/<int:id>', profile_basic_info.update_family_details, name='update_family_details'),
     path('update_expectations/<int:id>', profile_basic_info.update_expectations, name='update_expectations'),
 

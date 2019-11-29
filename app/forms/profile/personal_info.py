@@ -6,24 +6,75 @@ import datetime
 
 class UpdateProfilePersonalInfo(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        profile_id = kwargs.pop('profile_id', None)
         super(UpdateProfilePersonalInfo, self).__init__(*args, **kwargs)
+        try:
+            personal_info_object = ProfilePersonalInfo.objects.get(profile_id=profile_id)
+            self.fields['fathers_name'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=personal_info_object.fathers_name)
 
-    fathers_name = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
-    mothers_name = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
-    guardians_name = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
-    resident_of_country = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-    resident_of_state = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-    resident_of_city_or_village = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-    mother_toungue = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-    community = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-    caste = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-    sub_caste = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-    native_place = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-    residential_address = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-    contact_number = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-    additional_info = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-    email = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            self.fields['mothers_name'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=personal_info_object.mothers_name)
 
+            self.fields['guardians_name'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=personal_info_object.guardians_name)
+            self.fields['resident_of_country'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=personal_info_object.resident_of_country)
+            self.fields['resident_of_state'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=personal_info_object.resident_of_state)
+            self.fields['resident_of_city_or_village'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=personal_info_object.resident_of_city_or_village)
+            self.fields['mother_toungue'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=personal_info_object.mother_toungue)
+            self.fields['community'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True,}),
+                initial=personal_info_object.community)
+            self.fields['caste'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
+                                                   initial=personal_info_object.caste)
+            self.fields['sub_caste'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True}),
+                initial=personal_info_object.sub_caste)
+            self.fields['native_place'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True}),
+                initial=personal_info_object.native_place)
+
+            self.fields['residential_address'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True}),
+                initial=personal_info_object.residential_address)
+
+            self.fields['contact_number'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True}),
+                initial=personal_info_object.contact_number)
+
+            self.fields['additional_info'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True}),
+                initial=personal_info_object.additional_info)
+
+            self.fields['email'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
+                                                   initial=personal_info_object.email)
+        except Exception as e:
+            fathers_name = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
+            mothers_name = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
+            guardians_name = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
+            resident_of_country = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            resident_of_state = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            resident_of_city_or_village = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            mother_toungue = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            community = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            caste = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            sub_caste = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            native_place = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            residential_address = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            contact_number = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            additional_info = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            email = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
 
     class Meta:
         model = ProfilePersonalInfo
@@ -66,31 +117,51 @@ class UpdateProfilePersonalInfo(forms.ModelForm):
         email = self.cleaned_data.get('email')
 
 
-
         try:
+            if ProfilePersonalInfo.objects.get(profile_id=profile_id):
+                p = ProfilePersonalInfo.objects.get(profile_id=profile_id)
+                p.fathers_name=fathers_name
+                p.mothers_name=mothers_name
+                p.guardians_name=guardians_name
+                p.resident_of_country=resident_of_country
+                p.resident_of_state=self.cleaned_data.get('resident_of_state')
+                p.resident_of_city_or_village=resident_of_city_or_village
+                p.mother_toungue=self.cleaned_data.get('mother_toungue')
+                p.community=community
+                p.caste=caste
+                p.sub_caste=sub_caste
+                p.native_place=native_place
+                p.residential_address=residential_address
+                p.contact_number=contact_number
+                p.additional_info=additional_info
+                p.email=email
+                p.save()
+                return p
+
+
+        except Exception as ex:
             new_personal_info_object = ProfilePersonalInfo.objects.create(
-                fathers_name = fathers_name,
-                mothers_name = mothers_name,
-                guardians_name = guardians_name,
-                resident_of_country = resident_of_country,
-                resident_of_state = self.cleaned_data.get('resident_of_state'),
-                resident_of_city_or_village = resident_of_city_or_village,
-                mother_toungue = self.cleaned_data.get('mother_toungue'),
-                community = community,
-                caste = caste,
-                sub_caste = sub_caste,
-                native_place = native_place,
-                residential_address = residential_address,
-                contact_number = contact_number,
-                additional_info = additional_info,
-                email = email,
+                fathers_name=fathers_name,
+                mothers_name=mothers_name,
+                guardians_name=guardians_name,
+                resident_of_country=resident_of_country,
+                resident_of_state=self.cleaned_data.get('resident_of_state'),
+                resident_of_city_or_village=resident_of_city_or_village,
+                mother_toungue=self.cleaned_data.get('mother_toungue'),
+                community=community,
+                caste=caste,
+                sub_caste=sub_caste,
+                native_place=native_place,
+                residential_address=residential_address,
+                contact_number=contact_number,
+                additional_info=additional_info,
+                email=email,
                 profile=ProfileBasicInfo.objects.get(id=profile_id)
             )
             return new_personal_info_object
 
-        except Exception as ex:
-            print("Profile personal Info cannot be updated  because {}".format(ex))
-            return False
+        print("Profile physical features information Info cannot be updated  because {}".format(ex))
+        return False
 
 class ViewProfilePersonalInfo(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -103,38 +174,38 @@ class ViewProfilePersonalInfo(forms.ModelForm):
                                                 initial=personal_info_object.fathers_name)
 
         self.fields['mothers_name'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                  initial=personal_info_object.fathers_name)
+                                                  initial=personal_info_object.mothers_name)
 
         self.fields['guardians_name'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                      initial=personal_info_object.fathers_name)
+                                                      initial=personal_info_object.guardians_name)
         self.fields['resident_of_country'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                      initial=personal_info_object.fathers_name)
+                                                      initial=personal_info_object.resident_of_country)
         self.fields['resident_of_state'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                      initial=personal_info_object.fathers_name)
+                                                      initial=personal_info_object.resident_of_state)
         self.fields['resident_of_city_or_village'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                      initial=personal_info_object.fathers_name)
+                                                      initial=personal_info_object.resident_of_city_or_village)
         self.fields['mother_toungue'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                                     initial=personal_info_object.fathers_name)
+                                                                     initial=personal_info_object.mother_toungue)
         self.fields['community'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                                     initial=personal_info_object.fathers_name)
+                                                                     initial=personal_info_object.community)
         self.fields['caste'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                                     initial=personal_info_object.fathers_name)
+                                                                     initial=personal_info_object.caste)
         self.fields['sub_caste'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                                     initial=personal_info_object.fathers_name)
+                                                                     initial=personal_info_object.sub_caste)
         self.fields['native_place'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                                     initial=personal_info_object.fathers_name)
+                                                                     initial=personal_info_object.native_place)
 
         self.fields['residential_address'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                      initial=personal_info_object.fathers_name)
+                                                      initial=personal_info_object.residential_address)
 
         self.fields['contact_number'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                  initial=personal_info_object.fathers_name)
+                                                  initial=personal_info_object.contact_number)
 
         self.fields['additional_info'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                  initial=personal_info_object.fathers_name)
+                                                  initial=personal_info_object.additional_info)
 
         self.fields['email'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                  initial=personal_info_object.fathers_name)
+                                                  initial=personal_info_object.email)
 
 
     class Meta:

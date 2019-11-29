@@ -81,12 +81,19 @@ class CreateProfileEdit(forms.ModelForm):
         profile_object = kwargs.pop('instance', None)
         super(CreateProfileEdit, self).__init__(*args, **kwargs)
         GENDER_CHOICES = [('Male', 'Male'), ('Female', 'Female')]
-        profile_object = ProfileBasicInfo.objects.get(id=profile_object.id)
+        try:
+            profile_object = ProfileBasicInfo.objects.get(id=profile_object.id)
+        except Exception as ex:
+            profile_object.first_name=""
+            profile_object.last_name=""
+            profile_object.dob=""
+            profile_object.gender=""
+            profile_object.phone_number=""
 
         self.fields['first_name'] = forms.CharField(widget=forms.TextInput(attrs={'required': True}), initial=profile_object.first_name)
         self.fields['last_name'] = forms.CharField(widget=forms.TextInput(attrs={'required': True}),initial=profile_object.last_name)
         self.fields['dob'] = forms.DateField(label='dob', widget=forms.SelectDateWidget(attrs={'required':True}, years=range(1980,datetime.datetime.now().year)),initial=profile_object.dob)
-        self.fields['gender'] = forms.CharField(label='gender', widget=forms.Select(choices=GENDER_CHOICES), initial=profile_object.dob)
+        self.fields['gender'] = forms.CharField(label='gender', widget=forms.Select(choices=GENDER_CHOICES), initial=profile_object.gender)
         self.fields['phone_number'] = forms.CharField(widget=forms.TextInput(attrs={'minlength':10, 'type': 'number', 'required': True}), initial=profile_object.phone_number)
 
 
