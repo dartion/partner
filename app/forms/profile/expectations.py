@@ -5,11 +5,21 @@ import datetime
 
 
 class UpdateExpectations(forms.ModelForm):
-
+    data_exists =False
     def __init__(self, *args, **kwargs):
+        profile_id = kwargs.pop('profile_id', None)
         super(UpdateExpectations, self).__init__(*args, **kwargs)
+        try:
+            expectations_object = ProfileExpectation.objects.get(profile_id=profile_id)
+            self.fields['expectations'] = forms.CharField(
+            widget=forms.Textarea(attrs={'required': True,'class':'form-control form-control-lg'}),
+            initial=expectations_object.expectations)
+            data_exists= True
+        except Exception as ex:
+            print (ex)
 
-    expectations = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+    expectations = forms.CharField(
+                widget=forms.Textarea(attrs={'required': True, 'class': 'form-control form-control-lg'}))
 
     class Meta:
         model = ProfileExpectation
@@ -24,16 +34,16 @@ class UpdateExpectations(forms.ModelForm):
         expectations = self.cleaned_data.get('expectations')
 
         try:
-
+            p = ProfileExpectation.objects.get(profile_id=profile_id)
+            p.expectations = expectations
+            p.save()
+            return p
+        except Exception as Ex:
             new_expectations_object = ProfileExpectation.objects.create(
                 expectations = expectations,
                 profile=ProfileBasicInfo.objects.get(id=profile_id)
             )
             return new_expectations_object
-
-        except Exception as ex:
-            print("Profile Education/Occupation Info cannot be updated  because {}".format(ex))
-            return False
 
 
 class ViewExpectations(forms.ModelForm):
@@ -45,7 +55,6 @@ class ViewExpectations(forms.ModelForm):
         self.fields['expectations'] = forms.CharField(
             widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
             initial=expectations_object.expectations)
-
 
     class Meta:
         model = ProfileExpectation

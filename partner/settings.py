@@ -95,7 +95,8 @@ TEMPLATES = [
     },
 ]
 
-MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+# MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
+MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
 
 
 WSGI_APPLICATION = 'partner.wsgi.application'

@@ -25,6 +25,7 @@ class ProfileBasicInfo(models.Model):
     gender = models.CharField(max_length=40, null=False, blank=False)
     dob = models.DateField(auto_now=False, null=False, blank=False)
     phone_number = models.BigIntegerField(null=False, blank=False, unique=False)
+    profile_created_by = models.CharField(max_length=40, null=False, blank=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):

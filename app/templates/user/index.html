@@ -5,13 +5,6 @@
 
 {% endblock styles %}
 {% block topBody %}
-{#    {% for i in profile_list %}#}
-{#        {{ i.first_name }}#}
-{#        {{ i.last_name }}#}
-{#        {{ i.dob }}#}
-{##}
-{#    {% endfor %}#}
-
 
 {% endblock %}
 
@@ -20,6 +13,32 @@
         <div class="row">
             <div class="col-sm-12">
                 <div class="row">&nbsp;</div>
+
+                 {% for message in messages %}
+                        {% if message.tags == "success" %}
+                            <div class="alert alert-success">
+                                {{ message|safe }}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger">
+                                {{ message|safe }}
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+                {% if form.errors.items %}
+                        <div class="alert alert-danger ">
+
+                            {% for field, error in form.errors.items %}
+                                {% if field != '__all__' %}{{ field }}{% endif %}
+                                {{ error | striptags }}
+                            {% endfor %}
+
+                        </div>
+                    {% endif %}
+
+
+
                 <table id="profile-list" class="table table-striped" style="width: 100%">
                     <thead></thead>
                     <tbody></tbody>
@@ -88,7 +107,7 @@
                         html = ''
                         edit_profile_url = "{% url 'edit_profile' id=111 %}".replace(/111/, id);
                         view_profile_url = "{% url 'view_profile' id=111 %}".replace(/111/, id);
-                        html += "<a href=\'"+ edit_profile_url +"\'>Edit</a>"+ "  " +"<a href=\'"+ view_profile_url +"\'>View</a>"
+                        html += "<a href=\'"+ edit_profile_url +"\'>Edit / Update Profile</a>"
                         return html
                         }},
                 ],

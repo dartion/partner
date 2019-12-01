@@ -128,3 +128,7 @@ table.dataTable > thead > tr > th {
     color: white;
 }
 
+
+.update-cancel-buttons{
+    text-align: right;
+}

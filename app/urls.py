@@ -31,13 +31,19 @@ urlpatterns = [
     path ('forgot_password',index.forgot_password, name='forgot_password'),
     path ('reset_password/<int:id>/<int:reset_number>',index.reset_password, name='reset_password'),
 
+    # path ('home_page',index.home_page, name='home_page'),
+    path ('about_us',index.about_us, name='about_us'),
+    path ('how_to_start',index.how_to_start, name='how_to_start'),
+    path ('search_profiles',index.search_profiles, name='search_profiles'),
+    path ('contact_us',index.contact_us, name='contact_us'),
+
     # Add Profile
     path('create_profile', profile_basic_info.create_profile, name='create_profile'),
     path('update_personal_info/<int:id>', profile_basic_info.update_personal_info, name='update_personal_info'),
     path('update_physical_features/<int:id>', profile_basic_info.update_physical_features, name='update_physical_features'),
     path('update_education_occupation/<int:id>', profile_basic_info.update_education_occupation, name='update_education_occupation'),
     path('update_habbits/<int:id>', profile_basic_info.update_habbits, name='update_habbits'),
-    path('astrological/<int:id>', profile_basic_info.update_astrological_info, name='astrological'),
+    path('update_astrological_info/<int:id>', profile_basic_info.update_astrological_info, name='update_astrological_info'),
     path('update_family_details/<int:id>', profile_basic_info.update_family_details, name='update_family_details'),
     path('update_expectations/<int:id>', profile_basic_info.update_expectations, name='update_expectations'),
 
