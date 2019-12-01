@@ -5,6 +5,7 @@ import datetime
 
 
 class UpdateFamilyDetails(forms.ModelForm):
+    data_exists = False
 
     def __init__(self, *args, **kwargs):
         profile_id = kwargs.pop('profile_id', None)
@@ -18,34 +19,35 @@ class UpdateFamilyDetails(forms.ModelForm):
                                      ('Liberal', 'Liberal')]
             MARRIED_CHOICES = [('Unmarried', 'Unmarried'), ('Divorcee', 'Divorcee')]
 
-            self.fields['family_class'] = forms.CharField(label='Family Class', widget=forms.Select(choices=FAMILY_CLASS_CHOICES),initial=family_info_object.family_class)
+            self.fields['family_class'] = forms.CharField(label='Family Class', widget=forms.Select(choices=FAMILY_CLASS_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.family_class)
 
-            self.fields['family_type'] = forms.CharField(label='Family Type', widget=forms.Select(choices=FAMILY_TYPE_CHOICES),initial=family_info_object.family_type)
+            self.fields['family_type'] = forms.CharField(label='Family Type', widget=forms.Select(choices=FAMILY_TYPE_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.family_type)
 
-            self.fields['family_values'] = forms.CharField(label='Family Values', widget=forms.Select(choices=FAMILY_TYPE_CHOICES),initial=family_info_object.family_values)
+            self.fields['family_values'] = forms.CharField(label='Family Values', widget=forms.Select(choices=FAMILY_TYPE_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.family_values)
 
 
             self.fields['no_of_brothers'] = forms.CharField(
-                widget=forms.TextInput(attrs={'required': True,}),
+                widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}),
                 initial=family_info_object.no_of_brothers)
 
             self.fields['no_of_sisters'] = forms.CharField(
-                widget=forms.TextInput(attrs={'required': True,}),
+                widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}),
                 initial=family_info_object.no_of_sisters)
-            self.fields['married'] = forms.CharField(label='Married', widget=forms.Select(choices=FAMILY_TYPE_CHOICES),initial=family_info_object.married)
+            self.fields['married'] = forms.CharField(label='Married', widget=forms.Select(choices=FAMILY_TYPE_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.married)
+            data_exists = True
         except Exception as ex:
+            print(ex)
+    FAMILY_CLASS_CHOICES = [('Upper Middle Class', 'Upper Middle Class'),('Middle class','Middle class'), ('Lower Middle Class','Lower Middle Class')]
+    FAMILY_TYPE_CHOICES = [('Joint Family', 'Joint Family'),('Nuclear Family','Nuclear Family')]
+    FAMILY_VALUES_CHOICES = [('Orthodox','Orthodox'),('Traditional', 'Traditional'), ('Moderate','Moderate'), ('Liberal','Liberal')]
+    MARRIED_CHOICES = [('Unmarried','Unmarried'), ('Divorcee','Divorcee')]
 
-            FAMILY_CLASS_CHOICES = [('Upper Middle Class', 'Upper Middle Class'),('Middle class','Middle class'), ('Lower Middle Class','Lower Middle Class')]
-            FAMILY_TYPE_CHOICES = [('Joint Family', 'Joint Family'),('Nuclear Family','Nuclear Family')]
-            FAMILY_VALUES_CHOICES = [('Orthodox','Orthodox'),('Traditional', 'Traditional'), ('Moderate','Moderate'), ('Liberal','Liberal')]
-            MARRIED_CHOICES = [('Unmarried','Unmarried'), ('Divorcee','Divorcee')]
-
-            family_class = forms.CharField(label='Family Class', widget=forms.Select(choices=FAMILY_CLASS_CHOICES))
-            family_type = forms.CharField(label='Family Type', widget=forms.Select(choices=FAMILY_TYPE_CHOICES))
-            family_values = forms.CharField(label='Family Values', widget=forms.Select(choices=FAMILY_VALUES_CHOICES))
-            no_of_brothers = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-            no_of_sisters = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-            married = forms.CharField(label='Married Status', widget=forms.Select(choices=MARRIED_CHOICES))
+    family_class = forms.CharField(label='Family Class', widget=forms.Select(choices=FAMILY_CLASS_CHOICES,attrs={'class':'form-control form-control-lg'}))
+    family_type = forms.CharField(label='Family Type', widget=forms.Select(choices=FAMILY_TYPE_CHOICES,attrs={'class':'form-control form-control-lg'}))
+    family_values = forms.CharField(label='Family Values', widget=forms.Select(choices=FAMILY_VALUES_CHOICES,attrs={'class':'form-control form-control-lg'}))
+    no_of_brothers = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}))
+    no_of_sisters = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}))
+    married = forms.CharField(label='Married Status', widget=forms.Select(choices=MARRIED_CHOICES,attrs={'class':'form-control form-control-lg'}))
 
     class Meta:
         model = ProfileFamilyDetails

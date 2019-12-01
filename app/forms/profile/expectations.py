@@ -5,17 +5,21 @@ import datetime
 
 
 class UpdateExpectations(forms.ModelForm):
-
+    data_exists =False
     def __init__(self, *args, **kwargs):
         profile_id = kwargs.pop('profile_id', None)
         super(UpdateExpectations, self).__init__(*args, **kwargs)
         try:
-            expectations_object = UpdateExpectations.objects.get(profile_id=profile_id)
+            expectations_object = ProfileExpectation.objects.get(profile_id=profile_id)
             self.fields['expectations'] = forms.CharField(
-            widget=forms.TextInput(attrs={'required': True}),
+            widget=forms.Textarea(attrs={'required': True,'class':'form-control form-control-lg'}),
             initial=expectations_object.expectations)
+            data_exists= True
         except Exception as ex:
-            expectations = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+            print (ex)
+
+    expectations = forms.CharField(
+                widget=forms.Textarea(attrs={'required': True, 'class': 'form-control form-control-lg'}))
 
     class Meta:
         model = ProfileExpectation
@@ -41,6 +45,7 @@ class UpdateExpectations(forms.ModelForm):
             )
             return new_expectations_object
 
+
 class ViewExpectations(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         profile_object = kwargs.pop('instance', None)
@@ -50,7 +55,6 @@ class ViewExpectations(forms.ModelForm):
         self.fields['expectations'] = forms.CharField(
             widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
             initial=expectations_object.expectations)
-
 
     class Meta:
         model = ProfileExpectation

@@ -5,32 +5,43 @@ import datetime
 
 
 class UpdateHabbits(forms.ModelForm):
-
+    data_exists = False
     def __init__(self, *args, **kwargs):
         profile_id = kwargs.pop('profile_id', None)
         super(UpdateHabbits, self).__init__(*args, **kwargs)
+
         try:
-            habbits_object = ProfileHabbits.objects.get(profile_id=profile_id)
 
             FOOD_CHOICES = [('Vegetarian', 'Vegetarian'),('Non-Vegetarian','Non-Vegetarian'), ('Eggetarian','Eggetarian')]
             SMOKING_CHOICES = [('Yes', 'Yes'),('No','No'), ('Occasionally','Occasionally')]
             ACHOHOLIC_DRINKS_CHOICES = [('Yes', 'Yes'),('No','No'), ('Occasionally','Occasionally')]
 
+            habbits_object = ProfileHabbits.objects.get(profile_id=profile_id)
 
-            self.fields['food'] = forms.CharField(label='Food ', widget=forms.Select(choices=FOOD_CHOICES),initial=habbits_object.food)
-            self.fields['smoking'] = forms.CharField(label='Smoking ', widget=forms.Select(choices=SMOKING_CHOICES),initial=habbits_object.smoking)
-            self.fields['alcholic_drinks'] = forms.CharField(label='Alchoholic Drinks ', widget=forms.Select(choices=ACHOHOLIC_DRINKS_CHOICES),initial=habbits_object.alcholic_drinks)
+            self.fields['food'] = forms.CharField(label='Food', widget=forms.Select(
+                choices=FOOD_CHOICES, attrs={'class':'form-control form-control-lg'}),initial=habbits_object.food,
+                )
+            self.fields['smoking'] = forms.CharField(label='Smoking', widget=forms.Select(
+                choices=SMOKING_CHOICES,attrs={'class':'form-control form-control-lg'}), initial=habbits_object.smoking
+                                                  )
+            self.fields['alcholic_drinks'] = forms.CharField(label='Alchoholic Drinks', widget=forms.Select(
+                choices=ACHOHOLIC_DRINKS_CHOICES,attrs={'class':'form-control form-control-lg'}), initial=habbits_object.alcholic_drinks
+                                                  )
 
+            data_exists=True
 
         except Exception as ex:
-            FOOD_CHOICES = [('Vegetarian', 'Vegetarian'), ('Non-Vegetarian', 'Non-Vegetarian'),
-                            ('Eggetarian', 'Eggetarian')]
-            SMOKING_CHOICES = [('Yes', 'Yes'), ('No', 'No'), ('Occasionally', 'Occasionally')]
-            ACHOHOLIC_DRINKS_CHOICES = [('Yes', 'Yes'), ('No', 'No'), ('Occasionally', 'Occasionally')]
+            print (ex)
 
-            food = forms.CharField(label='Food ', widget=forms.Select(choices=FOOD_CHOICES))
-            smoking = forms.CharField(label='Smoking', widget=forms.Select(choices=SMOKING_CHOICES))
-            alcholic_drinks = forms.CharField(label='Alcoholic Drinks', widget=forms.Select(choices=ACHOHOLIC_DRINKS_CHOICES))
+    if data_exists == False:
+        FOOD_CHOICES = [('Vegetarian', 'Vegetarian'), ('Non-Vegetarian', 'Non-Vegetarian'),
+                        ('Eggetarian', 'Eggetarian')]
+        SMOKING_CHOICES = [('Yes', 'Yes'), ('No', 'No'), ('Occasionally', 'Occasionally')]
+        ACHOHOLIC_DRINKS_CHOICES = [('Yes', 'Yes'), ('No', 'No'), ('Occasionally', 'Occasionally')]
+
+        food = forms.CharField(label='Food ', widget=forms.Select(choices=FOOD_CHOICES,attrs={'class':'form-control form-control-lg'}))
+        smoking = forms.CharField(label='Smoking', widget=forms.Select(choices=SMOKING_CHOICES,attrs={'class':'form-control form-control-lg'}))
+        alcholic_drinks = forms.CharField(label='Alcoholic Drinks', widget=forms.Select(choices=ACHOHOLIC_DRINKS_CHOICES,attrs={'class':'form-control form-control-lg'}))
 
 
 

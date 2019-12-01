@@ -17,7 +17,7 @@ def create_profile(request):
         if form.save(request.user.id):
             return HttpResponse("Profile created successfully")
 
-    return render(request, "profile/basic_info/create_profile_basic_info.html", {"form":form})
+    return render(request, "profile/basic_info/create_profile_basic_info.html", {"form":form, 'profileID':None})
 
 
 @login_required
@@ -31,7 +31,9 @@ def edit_profile(request, id):
 
         if form.is_valid():
             if form.save(id):
-                return HttpResponse("Profile updated successfully")
+                messages.add_message(request, messages.SUCCESS,
+                                     "Profile {} updated successfully.".format(profile_object.first_name))
+                return redirect('/')
 
     else:
         profile_edit_list = []
@@ -52,14 +54,15 @@ def edit_profile(request, id):
             messages.add_message(request, messages.ERROR,
                                  "You are not allowed to edit someone else's profile.")
             return redirect('/')
-    return render(request, "profile/basic_info/edit_profile_basic_info.html", {"form":form})
+    return render(request, "profile/basic_info/edit_profile_basic_info.html", {"form":form, "profileID":profile_object.id})
 
 
 @login_required
 def view_profile(request, id):
     profile_object = ProfileBasicInfo.objects.get(id=id)
     form = create_profile_form.CreateProfileView(request.POST or None)
-    return render(request, "profile/basic_info/view_ profile_basic_info.html", {"form":form})
+    return render(request, "profile/basic_info/view_ profile_basic_info.html", {"form":form, "profileID":profile_object.id})
+
 
 def update_personal_info_request(request, profile_object):
     form = personal_info.UpdateProfilePersonalInfo(request.POST or None, profile_id=profile_object.id)
@@ -67,7 +70,7 @@ def update_personal_info_request(request, profile_object):
         if form.is_valid():
             if form.save(profile_object.id):
                 messages.add_message(request, messages.SUCCESS,
-                                     "Profile creted successfully.")
+                                     "Profile updated successfully.")
             return HttpResponse("Profile Personal info updated successfully")
         print(form.errors)
     except Exception as ex:
@@ -94,7 +97,7 @@ def update_personal_info(request, id=None):
             messages.add_message(request, messages.ERROR,
                                  "You are not allowed to edit someone else's profile.")
             return redirect('/')
-    return render(request, "profile/personal_info/personal_info.html", {"form":form, 'id': profile_object.id})
+    return render(request, "profile/personal_info/personal_info.html", {"form":form, 'profileID': profile_object.id})
 
 
 
@@ -105,7 +108,7 @@ def view_personal_info(request, id):
         form = personal_info.ViewProfilePersonalInfo(request.POST or None, instance=profile_object)
     except Exception as ex:
         return redirect('/')
-    return render(request, "profile/basic_info/view_ profile_basic_info.html", {"form":form})
+    return render(request, "profile/basic_info/view_ profile_basic_info.html", {"form":form, "profileID":profile_object.id})
 
 
 def update_physical_features_request(request, profile_object):
@@ -114,10 +117,15 @@ def update_physical_features_request(request, profile_object):
         if form.is_valid():
             if form.save(profile_object.id):
                 messages.add_message(request, messages.SUCCESS,
-                                     "Profile created successfully.")
+                                     "Profile updated successfully.")
             return HttpResponse("Profile Personal info updated successfully")
-        print(form.errors)
+
+        else:
+            return render(request, "profile/physical_info/physical_features.html",
+                          {"form": form, 'profileID': profile_object.id})
+
     except Exception as ex:
+        print(profile_object.id)
         print(ex)
 
 @login_required
@@ -141,7 +149,7 @@ def update_physical_features(request, id=None):
             messages.add_message(request, messages.ERROR,
                                  "You are not allowed to edit someone else's profile.")
             return redirect('/')
-    return render(request, "profile/physical_info/physical_features.html", {"form": form, 'id': profile_object.id})
+    return render(request, "profile/physical_info/physical_features.html", {"form": form, 'profileID': profile_object.id})
 
 @login_required
 def view_physical_info(request, id):
@@ -150,7 +158,7 @@ def view_physical_info(request, id):
         form = physical_features.ViewPhysicalFeatures(request.POST or None, instance=profile_object)
     except Exception as ex:
         return redirect('/')
-    return render(request, "profile/physical_info/view_physical_features.html", {"form":form})
+    return render(request, "profile/physical_info/view_physical_features.html", {"form":form, "profileID":profile_object.id})
 
 
 def update_edu_occ_request(request, profile_object):
@@ -159,7 +167,7 @@ def update_edu_occ_request(request, profile_object):
         if form.is_valid():
             if form.save(profile_object.id):
                 messages.add_message(request, messages.SUCCESS,
-                                     "Profile created successfully.")
+                                     "Profile updated successfully.")
             return HttpResponse("Profile Education and Occupation info updated successfully")
         print(form.errors)
     except Exception as ex:
@@ -186,7 +194,7 @@ def update_education_occupation(request, id=None):
             messages.add_message(request, messages.ERROR,
                                  "You are not allowed to edit someone else's profile.")
             return redirect('/')
-    return render(request, "profile/education_occupation/education_occupation.html", {"form": form, 'id': profile_object.id})
+    return render(request, "profile/education_occupation/education_occupation.html", {"form": form, 'profileID': profile_object.id})
 
 
 @login_required
@@ -196,7 +204,7 @@ def view_edu_occ_info(request, id):
         form = education_occupation.ViewEducationOccupation(request.POST or None, instance=profile_object)
     except Exception as ex:
         return redirect('/')
-    return render(request, "profile/physical_info/view_physical_features.html", {"form":form})
+    return render(request, "profile/physical_info/view_physical_features.html", {"form":form, "profileID":profile_object.id})
 
 def update_habbits_request(request, profile_object):
     form = habbits.UpdateHabbits(request.POST or None, profile_id=profile_object.id)
@@ -204,7 +212,7 @@ def update_habbits_request(request, profile_object):
         if form.is_valid():
             if form.save(profile_object.id):
                 messages.add_message(request, messages.SUCCESS,
-                                     "Profile created successfully.")
+                                     "Profile updated successfully.")
             return HttpResponse("Profile Habbits info updated successfully")
         print(form.errors)
     except Exception as ex:
@@ -232,7 +240,7 @@ def update_habbits(request, id=None):
                                  "You are not allowed to edit someone else's profile.")
             return redirect('/')
     return render(request, "profile/habbits/habbits.html",
-                  {"form": form, 'id': profile_object.id})
+                  {"form": form, 'profileID': profile_object.id})
 
 
 @login_required
@@ -242,7 +250,7 @@ def view_habbits(request, id):
         form = habbits.ViewHabbits(request.POST or None, instance=profile_object)
     except Exception as ex:
         return redirect('/')
-    return render(request, "profile/habbits/view_habbits.html", {"form":form})
+    return render(request, "profile/habbits/view_habbits.html", {"form":form, "profileID":profile_object.id})
 
 
 def update_astrological_info_request(request, profile_object):
@@ -251,7 +259,7 @@ def update_astrological_info_request(request, profile_object):
         if form.is_valid():
             if form.save(profile_object.id):
                 messages.add_message(request, messages.SUCCESS,
-                                     "Profile created successfully.")
+                                     "Profile updated successfully.")
             return HttpResponse("Profile astrological info updated successfully")
         print(form.errors)
     except Exception as ex:
@@ -278,7 +286,7 @@ def update_astrological_info(request, id=None):
             messages.add_message(request, messages.ERROR,
                                  "You are not allowed to edit someone else's profile.")
             return redirect('/')
-    return render(request, "profile/astrological_info/astrological.html", {"form":form, 'id': profile_object.id})
+    return render(request, "profile/astrological_info/astrological.html", {"form":form, 'profileID': profile_object.id})
 
 @login_required
 def view_astrological(request, id):
@@ -296,7 +304,7 @@ def update_family_details_request(request, profile_object):
         if form.is_valid():
             if form.save(profile_object.id):
                 messages.add_message(request, messages.SUCCESS,
-                                     "Profile created successfully.")
+                                     "Profile updated successfully.")
             return HttpResponse("Profile family info updated successfully")
         print(form.errors)
     except Exception as ex:
@@ -323,7 +331,7 @@ def update_family_details(request, id=None):
             messages.add_message(request, messages.ERROR,
                                  "You are not allowed to edit someone else's profile.")
             return redirect('/')
-    return render(request, "profile/family_details/family_details.html", {"form": form, 'id': profile_object.id})
+    return render(request, "profile/family_details/family_details.html", {"form": form, 'profileID': profile_object.id})
 
 
 @login_required
@@ -342,7 +350,7 @@ def update_expectations_request(request, profile_object):
         if form.is_valid():
             if form.save(profile_object.id):
                 messages.add_message(request, messages.SUCCESS,
-                                     "Profile created successfully.")
+                                     "Profile updated successfully.")
             return HttpResponse("Profile expectations info updated successfully")
         print(form.errors)
     except Exception as ex:
@@ -370,7 +378,7 @@ def update_expectations(request, id=None):
             messages.add_message(request, messages.ERROR,
                                  "You are not allowed to edit someone else's profile.")
             return redirect('/')
-    return render(request, "profile/expectations/expectations.html", {"form": form, 'id': profile_object.id})
+    return render(request, "profile/expectations/expectations.html", {"form": form, 'profileID': profile_object.id})
 
 
 @login_required
@@ -381,4 +389,4 @@ def view_expectations(request, id):
 
     except Exception as ex:
         return redirect('/')
-    return render(request, "profile/expectations/view_expectations.html", {"form":form})
+    return render(request, "profile/expectations/view_expectations.html", {"form":form, "profileID":profile_object.id})

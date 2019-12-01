@@ -168,3 +168,22 @@ def ajax_get_profile_list(request,user_id):
     retVal = {"data": profile_list}
     print(retVal)
     return HttpResponse(json.dumps(retVal), content_type="application/json")
+
+
+def about_us(request):
+    return render(request, "menu_content/about_us.html")
+
+
+def how_to_start(request):
+    return render(request, "menu_content/how_to_start.html")
+
+
+# def home_page(request):
+#     return render(request, "menu_content/home_page.html")
+
+
+def search_profiles(request):
+    return render(request, "menu_content/search_profiles.html")
+
+def contact_us(request):
+    return render(request, "menu_content/contact_us.html")

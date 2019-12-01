@@ -5,32 +5,34 @@ import datetime
 
 
 class UpdateAstrologicalInfo(forms.ModelForm):
-
+    data_exists = False
     def __init__(self, *args, **kwargs):
         profile_id = kwargs.pop('profile_id', None)
         super(UpdateAstrologicalInfo, self).__init__(*args, **kwargs)
         try:
             astrological_info_object = ProfileAstrologicalInfo.objects.get(profile_id=profile_id)
-            self.fields['gothra'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,}),
+            self.fields['gothra'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}),
                                                     initial=astrological_info_object.gothra)
-            self.fields['pravara'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, }),
+            self.fields['pravara'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg' }),
                                                      initial=astrological_info_object.pravara)
             self.fields['nakshatra'] = forms.CharField(
-                widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
+                widget=forms.TextInput(attrs={'required': True, 'class':'form-control form-control-lg'}),
                 initial=astrological_info_object.nakshatra)
-            self.fields['rashi'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, }),
+            self.fields['rashi'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg' }),
                                                    initial=astrological_info_object.rashi)
             self.fields['horoscope_matching'] = forms.CharField(
-                widget=forms.TextInput(attrs={'required': True, }),
+                widget=forms.TextInput(attrs={'required': True, 'class':'form-control form-control-lg'}),
                 initial=astrological_info_object.horoscope_matching)
 
-        except Exception as ex:
+            data_exists = True
 
-            gothra = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
-            pravara = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
-            nakshatra = forms.CharField(widget=forms.TextInput(attrs={'required': False}))
-            rashi = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
-            horoscope_matching = forms.CharField(widget=forms.TextInput(attrs={'required': True}))
+        except Exception as ex:
+            print(ex)
+    gothra = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}))
+    pravara = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}))
+    nakshatra = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}))
+    rashi = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}))
+    horoscope_matching = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}))
 
 
     class Meta:
