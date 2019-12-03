@@ -110,6 +110,26 @@
                         html += "<a href=\'"+ edit_profile_url +"\'>Edit / Update Profile</a>"
                         return html
                         }},
+                    {% if admin_user %}
+                          {"data":function (data){return data;}, "title": "User Status", defaultContent: "", render:function (data) {
+                                  html = ""
+                                  activate_user_url = "{% url 'activate_user' profileID=111 %}".replace(/111/, data.id);
+                                  deactivate_user_url = "{% url 'deactivate_user' profileID=111 %}".replace(/111/, data.id);
+                                    console.log(data.is_active)
+                                  if (data.is_active == false){
+                                      html += "<a href="+ activate_user_url +">Activate</a> "
+                                   }
+                                  else{
+                                      html += "<a href="+ deactivate_user_url +">Deactivate</a> "
+                                   }
+
+                                  return html;
+                              }
+                           },
+
+                    {% endif %}
+
+
                 ],
 
 

@@ -37,7 +37,7 @@
                 <div class="row">&nbsp;</div>
                 <div class="row">&nbsp;</div>
 
-                <form method="POST" id="" class="">
+                <form method="POST" id="" class=""enctype="multipart/form-data">
                     {% csrf_token %}
 
                     {% for field in form %}
@@ -54,6 +54,7 @@
                         </div>
                     </div>
                     {% endfor %}
+                    {{ formset.as_table }}
 
 
                     <div class="">

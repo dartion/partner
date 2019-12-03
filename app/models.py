@@ -26,6 +26,7 @@ class ProfileBasicInfo(models.Model):
     dob = models.DateField(auto_now=False, null=False, blank=False)
     phone_number = models.BigIntegerField(null=False, blank=False, unique=False)
     profile_created_by = models.CharField(max_length=40, null=False, blank=False)
+    is_active = models.BooleanField(null=True, blank=True,default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -34,7 +35,7 @@ class ProfileBasicInfo(models.Model):
 
 
 class ProfilePersonalInfo(models.Model):
-    fathers_name = models.CharField(max_length=40, null=False, blank=False)
+    fathers_name = models.CharField(max_length=40, null=    False, blank=False)
     mothers_name = models.CharField(max_length=40, null=False, blank=False)
     guardians_name= models.CharField(max_length=40, null=False, blank=False)
     resident_of_country= models.CharField(max_length=40, null=False, blank=False)
@@ -146,3 +147,13 @@ class ResetPassword(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         return super(ResetPassword, self).save(*args, **kwargs)
+
+
+
+class ProfileImages(models.Model):
+    title = models.TextField()
+    profile_image = models.ImageField(upload_to='media/profile', null=True, blank=True)
+    jataka_image = models.ImageField(upload_to='media/jataka', null=True, blank=True)
+
+    def __str__(self):
+        return self.title

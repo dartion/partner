@@ -3,19 +3,23 @@ from django.http import HttpResponse
 
 from django.contrib.auth.decorators import login_required
 from app.forms.profile import create_profile_form, personal_info, physical_features, education_occupation, habbits,\
-    astrological_info, family_details, expectations
+    astrological_info, family_details, expectations, upload_images
 from app.models import ProfileBasicInfo
 from django.contrib import messages
 from django.shortcuts import render, redirect
-
+from django.forms import modelformset_factory
+from app.models import ProfileImages
+from django.urls import reverse_lazy
 
 @login_required
 def create_profile(request):
     form = create_profile_form.CreateProfile(request.POST or None)
 
     if form.is_valid():
-        if form.save(request.user.id):
-            return HttpResponse("Profile created successfully")
+        post = form.save(request.user.id)
+        return HttpResponse("Profile created successfully")
+
+
 
     return render(request, "profile/basic_info/create_profile_basic_info.html", {"form":form, 'profileID':None})
 
@@ -390,3 +394,52 @@ def view_expectations(request, id):
     except Exception as ex:
         return redirect('/')
     return render(request, "profile/expectations/view_expectations.html", {"form":form, "profileID":profile_object.id})
+
+
+@login_required()
+def activate_user(request, profileID):
+    if request.user.is_superuser:
+        profile_object = ProfileBasicInfo.objects.get(id=profileID)
+        profile_object.is_active = True
+        profile_object.save()
+        return redirect('/')
+
+    else:
+        messages.add_message(request, messages.ERROR,
+                             "You are not allowed Activate/Deactivate users")
+        return redirect('/')
+
+
+@login_required()
+def deactivate_user(request, profileID):
+    if request.user.is_superuser:
+        profile_object = ProfileBasicInfo.objects.get(id=profileID)
+        profile_object.is_active = False
+        profile_object.save()
+        return redirect('/')
+    else:
+        messages.add_message(request, messages.ERROR,
+                             "You are not allowed Activate/Deactivate users")
+        return redirect('/')
+
+@login_required()
+def upload_image(request, profileID):
+    model = ProfileImages
+    p_image = ProfileImages
+    try:
+        form = upload_images.UploadProfileImage(request.POST or None, request.FILES)
+        # form.is_valid()
+        if form.is_valid():
+            print("All good")
+            form.save()
+            return HttpResponse("OK")
+
+
+    except Exception as e:
+        print (e)
+    template_name = 'profile/profile_images/upload_profile_image.html'
+    success_url = reverse_lazy('home')
+
+    return render(request, "profile/profile_images/upload_profile_image.html", {"form": form})
+
+

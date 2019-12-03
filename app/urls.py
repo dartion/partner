@@ -46,6 +46,7 @@ urlpatterns = [
     path('update_astrological_info/<int:id>', profile_basic_info.update_astrological_info, name='update_astrological_info'),
     path('update_family_details/<int:id>', profile_basic_info.update_family_details, name='update_family_details'),
     path('update_expectations/<int:id>', profile_basic_info.update_expectations, name='update_expectations'),
+    path('upload_image/<int:profileID>', profile_basic_info.upload_image, name='upload_image'),
 
     # Edit Profile
     path('edit_profile/<int:id>', profile_basic_info.edit_profile, name='edit_profile'),
@@ -64,5 +65,8 @@ urlpatterns = [
 
     # Ajax paths
     path('ajax_get_profile_list/<int:user_id>',index.ajax_get_profile_list, name="ajax_get_profile_list"),
+    path('activate_user/<int:profileID>',profile_basic_info.activate_user, name="activate_user"),
+    path('deactivate_user/<int:profileID>',profile_basic_info.deactivate_user, name="deactivate_user"),
+
 
 ]

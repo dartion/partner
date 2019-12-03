@@ -23,7 +23,7 @@ class UpdateFamilyDetails(forms.ModelForm):
 
             self.fields['family_type'] = forms.CharField(label='Family Type', widget=forms.Select(choices=FAMILY_TYPE_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.family_type)
 
-            self.fields['family_values'] = forms.CharField(label='Family Values', widget=forms.Select(choices=FAMILY_TYPE_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.family_values)
+            self.fields['family_values'] = forms.CharField(label='Family Values', widget=forms.Select(choices=FAMILY_VALUES_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.family_values)
 
 
             self.fields['no_of_brothers'] = forms.CharField(
