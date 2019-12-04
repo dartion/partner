@@ -7,9 +7,9 @@ from app.forms.profile import create_profile_form, personal_info, physical_featu
 from app.models import ProfileBasicInfo
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from django.forms import modelformset_factory
 from app.models import ProfileImages
-from django.urls import reverse_lazy
+from partner.settings import ALLOWED_HOSTS
+
 
 @login_required
 def create_profile(request):
@@ -422,24 +422,53 @@ def deactivate_user(request, profileID):
                              "You are not allowed Activate/Deactivate users")
         return redirect('/')
 
+def update_images_request(request, profile_object):
+    form = upload_images.UploadProfileImage(request.POST or None, request.FILES)
+    try:
+        if form.is_valid():
+            if form.save(profile_object):
+                messages.add_message(request, messages.SUCCESS,
+                                     "Profile image updated successfully.")
+            return HttpResponse("Profile expectations info updated successfully")
+        print(form.errors)
+    except Exception as ex:
+        print(ex)
+
 @login_required()
 def upload_image(request, profileID):
-    model = ProfileImages
-    p_image = ProfileImages
+    form = upload_images.UploadProfileImage(request.POST or None, request.FILES)
+
+    profile_edit_list = []
     try:
-        form = upload_images.UploadProfileImage(request.POST or None, request.FILES)
-        # form.is_valid()
-        if form.is_valid():
-            print("All good")
-            form.save()
-            return HttpResponse("OK")
+        profile_object = ProfileBasicInfo.objects.get(id=profileID)
+        list = ProfileBasicInfo.objects.filter(user_id=request.user.id)
+    except Exception as ex:
+        return redirect('/')
+    try:
+        for i in list:
+            profile_edit_list.append(i.id)
+
+        if request.user.is_superuser:
+            update_images_request(request, profile_object)
+        else:
+            if id in profile_edit_list:
+                update_images_request(request, profile_object)
+            else:
+                messages.add_message(request, messages.ERROR,
+                                     "You are not allowed to edit someone else's profile.")
+                return redirect('/')
+    except Exception as ex:
+        print(ex)
+    url = ''
+    try:
+        image_object = ProfileImages.objects.get(profile_id=profile_object.id)
+        if image_object.url is not None:
+            url = "/"+image_object.url
+    except Exception as ex:
+        print(ex)
+    if len(url) <= 0:
+        url = '/media/profile/default_pp.png'
 
 
-    except Exception as e:
-        print (e)
-    template_name = 'profile/profile_images/upload_profile_image.html'
-    success_url = reverse_lazy('home')
-
-    return render(request, "profile/profile_images/upload_profile_image.html", {"form": form})
-
+    return render(request, "profile/profile_images/upload_profile_image.html", {"form": form, 'profileID': profile_object.id, 'url':url})
 
