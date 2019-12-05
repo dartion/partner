@@ -110,22 +110,23 @@ class ViewPhysicalFeatures(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         profile_object = kwargs.pop('instance', None)
         super(ViewPhysicalFeatures, self).__init__(*args, **kwargs)
-        physical_info_object = ProfilePhysicalFeatures.objects.get(profile_id=profile_object.id)
-
-
+        try:
+            physical_info_object = ProfilePhysicalFeatures.objects.get(profile_id=profile_object.id)
+        except Exception as ex:
+            print(ex)
         BODY_TYPE_CHOICES = [('Athletic','Athletic'),('Heavy', 'Heavy'), ('Normal', 'Normal'), ('Average', 'Average')]
         COMPLEXION_CHOICES = [('Very Fair','Very Fair'),('Fair','Fair'),('Wheatish','Wheatish'), ('Brown', 'Brown'), ('Dark', 'Dark')]
         PHYSICAL_STATUS_CHOICES = [('Normal','Normal'),('Physically Handicapped', 'Physically Handicapped')]
 
-        self.fields['height'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
+        self.fields['height'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True,'class': 'form-control form-control-lg'}),
                                                     initial=physical_info_object.height)
-        self.fields['body_type'] = forms.CharField(widget=forms.Select(choices=BODY_TYPE_CHOICES, attrs={'disabled':'disabled'}),
+        self.fields['body_type'] = forms.CharField(widget=forms.Select(choices=BODY_TYPE_CHOICES, attrs={'disabled':'disabled','class': 'form-control form-control-lg'}),
                                                     initial=physical_info_object.body_type)
-        self.fields['complexion'] = forms.CharField(widget=forms.Select(choices=COMPLEXION_CHOICES, attrs={'disabled':'disabled'}),
+        self.fields['complexion'] = forms.CharField(widget=forms.Select(choices=COMPLEXION_CHOICES, attrs={'disabled':'disabled','class': 'form-control form-control-lg'}),
                                                     initial=physical_info_object.complexion)
-        self.fields['physical_status'] = forms.CharField(widget=forms.Select(choices=PHYSICAL_STATUS_CHOICES,attrs={'disabled':'disabled'}),
+        self.fields['physical_status'] = forms.CharField(widget=forms.Select(choices=PHYSICAL_STATUS_CHOICES,attrs={'disabled':'disabled','class': 'form-control form-control-lg'}),
                                                     initial=physical_info_object.physical_status)
-        self.fields['blood_group'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
+        self.fields['blood_group'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True,'class': 'form-control form-control-lg'}),
                                                     initial=physical_info_object.blood_group)
 
 

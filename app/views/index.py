@@ -91,14 +91,16 @@ def logout_view(request):
 @login_required
 def home(request):
     profile_list = []
+    admin = False
     if request.user.is_superuser:
         profile_list = ProfileBasicInfo.objects.all()
         context = {'profile_list': profile_list, 'userID': int(request.user.id)}
     else:
         profile_list = ProfileBasicInfo.objects.filter(user_id=request.user.id)
         context = {'profile_list': profile_list, 'userID': int(request.user.id)}
-
-    context = {'profile_list': profile_list, 'userID': int(request.user.id)}
+    if request.user.is_superuser:
+        admin = True
+    context = {'profile_list': profile_list, 'userID': int(request.user.id), "admin_user":admin}
     return render(request, "user/index.html", context=context)
 
 
@@ -161,7 +163,8 @@ def ajax_get_profile_list(request,user_id):
         profile_list_dict['dob'] = str(i.dob)
         profile_list_dict['phone_number'] = i.phone_number
         profile_list_dict['id'] = i.id
-
+        if request.user.is_superuser:
+            profile_list_dict['is_active'] = i.is_active
 
         profile_list.append(profile_list_dict)
 
@@ -183,6 +186,8 @@ def how_to_start(request):
 
 
 def search_profiles(request):
+
+
     return render(request, "menu_content/search_profiles.html")
 
 def contact_us(request):

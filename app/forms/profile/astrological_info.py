@@ -85,17 +85,21 @@ class ViewAstrologicalInfo(forms.ModelForm):
         super(ViewAstrologicalInfo, self).__init__(*args, **kwargs)
         astrological_object = ProfileAstrologicalInfo.objects.get(profile_id=profile_object.id)
 
-        self.fields['gothra'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                                    initial=astrological_object.gothra)
-        self.fields['pravara'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                                    initial=astrological_object.pravara)
-        self.fields['nakshatra'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                                    initial=astrological_object.nakshatra)
-        self.fields['rashi'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                                    initial=astrological_object.rashi)
-        self.fields['horoscope_matching'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                                    initial=astrological_object.horoscope_matching)
-
+        self.fields['gothra'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=astrological_object.gothra)
+        self.fields['pravara'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=astrological_object.pravara)
+        self.fields['nakshatra'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=astrological_object.nakshatra)
+        self.fields['rashi'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=astrological_object.rashi)
+        self.fields['horoscope_matching'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=astrological_object.horoscope_matching)
 
     class Meta:
         model = ProfileAstrologicalInfo

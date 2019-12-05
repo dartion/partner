@@ -23,7 +23,7 @@ class UpdateFamilyDetails(forms.ModelForm):
 
             self.fields['family_type'] = forms.CharField(label='Family Type', widget=forms.Select(choices=FAMILY_TYPE_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.family_type)
 
-            self.fields['family_values'] = forms.CharField(label='Family Values', widget=forms.Select(choices=FAMILY_TYPE_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.family_values)
+            self.fields['family_values'] = forms.CharField(label='Family Values', widget=forms.Select(choices=FAMILY_VALUES_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.family_values)
 
 
             self.fields['no_of_brothers'] = forms.CharField(
@@ -33,7 +33,7 @@ class UpdateFamilyDetails(forms.ModelForm):
             self.fields['no_of_sisters'] = forms.CharField(
                 widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}),
                 initial=family_info_object.no_of_sisters)
-            self.fields['married'] = forms.CharField(label='Married', widget=forms.Select(choices=FAMILY_TYPE_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.married)
+            self.fields['married'] = forms.CharField(label='Married', widget=forms.Select(choices=MARRIED_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.married)
             data_exists = True
         except Exception as ex:
             print(ex)
@@ -108,21 +108,36 @@ class ViewFamilyDetails(forms.ModelForm):
         FAMILY_VALUES_CHOICES = [('Orthodox','Orthodox'),('Traditional', 'Traditional'), ('Moderate','Moderate'), ('Liberal','Liberal')]
         MARRIED_CHOICES = [('Unmarried','Unmarried'), ('Divorcee','Divorcee')]
 
-        self.fields['family_class'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                              initial=family_deets_object.family_class)
-        self.fields['family_type'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                              initial=family_deets_object.family_type)
-        self.fields['family_values'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                              initial=family_deets_object.family_values)
-        self.fields['no_of_brothers'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                              initial=family_deets_object.no_of_brothers)
+        self.fields['family_class'] = forms.CharField(widget=forms.Select(choices=FAMILY_CLASS_CHOICES,
+                                                                        attrs={'disabled': 'disabled',
+                                                                               'class': 'form-control form-control-lg'}),
+                                                    initial=family_deets_object.family_class)
 
-        self.fields['no_of_sisters'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                                     initial=family_deets_object.no_of_sisters)
-        self.fields['married'] = forms.CharField(
-            widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-            initial=family_deets_object.married)
+        self.fields['family_type'] = forms.CharField(widget=forms.Select(choices=FAMILY_TYPE_CHOICES,
+                                                                          attrs={'disabled': 'disabled',
+                                                                                 'class': 'form-control form-control-lg'}),
+                                                      initial=family_deets_object.family_type)
+        self.fields['family_values'] = forms.CharField(widget=forms.Select(choices=FAMILY_VALUES_CHOICES,
+                                                                          attrs={'disabled': 'disabled',
+                                                                                 'class': 'form-control form-control-lg'}),
+                                                      initial=family_deets_object.family_values)
 
+        self.fields['no_of_brothers'] = forms.CharField(widget=forms.Select(choices=FAMILY_VALUES_CHOICES,
+                                                                          attrs={'disabled': 'disabled',
+                                                                                 'class': 'form-control form-control-lg'}),
+                                                      initial=family_deets_object.no_of_brothers)
+        self.fields['no_of_brothers'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=family_deets_object.no_of_brothers)
+
+        self.fields['no_of_sisters'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=family_deets_object.no_of_sisters)
+
+        self.fields['married'] = forms.CharField(widget=forms.Select(choices=FAMILY_VALUES_CHOICES,
+                                                                            attrs={'disabled': 'disabled',
+                                                                                   'class': 'form-control form-control-lg'}),
+                                                        initial=family_deets_object.married)
 
     class Meta:
         model = ProfileFamilyDetails

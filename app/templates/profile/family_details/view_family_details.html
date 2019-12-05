@@ -1,4 +1,3 @@
-
 {% extends "generic/layout.html" %}
 {% load static %}
 {% block styles %}
@@ -6,15 +5,70 @@
 {% endblock styles %}
 {% block topBody %}
 
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
 
-        <h1>View Family Details </h1>
+                {% include "generic/view_side_bar.html" %}
+            </div>
+            <div class="col-sm-8" align="center">
+                <h2>View Family Details</h2>
+                {% for message in messages %}
+                    {% if message.tags == "success" %}
+                        <div class="alert alert-success">
+                            {{ message|safe }}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-danger">
+                            {{ message|safe }}
+                        </div>
+                    {% endif %}
 
-        <form action='' method="post">
-            {% csrf_token %}
-                    {{ form }}
+                {% endfor %}
+                {% if form.errors.items %}
+                    <div class="alert alert-danger ">
 
-            <input id="submit" type="submit" value="Update Family Details" class="btn btn-outline-primary"/>
-        </form>
+                        {% for field, error in form.errors.items %}
+                            {% if field != '__all__' %}{{ field }}{% endif %}
+                            {{ error | striptags }}
+                        {% endfor %}
+
+                    </div>
+                {% endif %}
+                <div class="row">&nbsp;</div>
+                <div class="row">&nbsp;</div>
+
+                <form method="POST"  class="">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-3" >
+                                <label class="control-label" style="float:left;margin-top: 1em;">
+                                    {{ field.label }}</label>
+                            </div>
+                            <div class="col-sm-9 ">
+                                {{ field }}
+                            </div>
+
+                        </div>
+                    </div>
+                    {% endfor %}
+
+
+
+                </form>
+
+
+            </div>
+            <div class="col-sm-3">
+
+            </div>
+        </div>
+    </div>
+
+
 
 
 

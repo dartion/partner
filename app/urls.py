@@ -17,7 +17,7 @@ from django.urls import path
 
 from app.views import index
 
-from app.views.Profile import profile_basic_info
+from app.views.Profile import profile
 
 urlpatterns = [
     # pathj(r'^login/$', index.login, name='login'),
@@ -34,35 +34,44 @@ urlpatterns = [
     # path ('home_page',index.home_page, name='home_page'),
     path ('about_us',index.about_us, name='about_us'),
     path ('how_to_start',index.how_to_start, name='how_to_start'),
-    path ('search_profiles',index.search_profiles, name='search_profiles'),
+    path ('search_profiles', profile.search_profiles, name='search_profiles'),
     path ('contact_us',index.contact_us, name='contact_us'),
 
     # Add Profile
-    path('create_profile', profile_basic_info.create_profile, name='create_profile'),
-    path('update_personal_info/<int:id>', profile_basic_info.update_personal_info, name='update_personal_info'),
-    path('update_physical_features/<int:id>', profile_basic_info.update_physical_features, name='update_physical_features'),
-    path('update_education_occupation/<int:id>', profile_basic_info.update_education_occupation, name='update_education_occupation'),
-    path('update_habbits/<int:id>', profile_basic_info.update_habbits, name='update_habbits'),
-    path('update_astrological_info/<int:id>', profile_basic_info.update_astrological_info, name='update_astrological_info'),
-    path('update_family_details/<int:id>', profile_basic_info.update_family_details, name='update_family_details'),
-    path('update_expectations/<int:id>', profile_basic_info.update_expectations, name='update_expectations'),
+    path('create_profile', profile.create_profile, name='create_profile'),
+    path('update_personal_info/<int:id>', profile.update_personal_info, name='update_personal_info'),
+    path('update_physical_features/<int:id>', profile.update_physical_features, name='update_physical_features'),
+    path('update_education_occupation/<int:id>', profile.update_education_occupation, name='update_education_occupation'),
+    path('update_habbits/<int:id>', profile.update_habbits, name='update_habbits'),
+    path('update_astrological_info/<int:id>', profile.update_astrological_info, name='update_astrological_info'),
+    path('update_family_details/<int:id>', profile.update_family_details, name='update_family_details'),
+    path('update_expectations/<int:id>', profile.update_expectations, name='update_expectations'),
+    path('upload_image/<int:profileID>', profile.upload_image, name='upload_image'),
+    path('upload_jataka_image/<int:profileID>', profile.upload_jataka_image, name='upload_jataka_image'),
+    path('view_profile_image/<int:id>', profile.view_profile_image, name='view_profile_image'),
+    path('view_jataka_image/<int:id>', profile.view_jataka_image, name='view_jataka_image'),
 
     # Edit Profile
-    path('edit_profile/<int:id>', profile_basic_info.edit_profile, name='edit_profile'),
+    path('edit_profile/<int:id>', profile.edit_profile, name='edit_profile'),
 
     # View Profile
-    path('view_profile/<int:id>', profile_basic_info.view_profile, name='view_profile'),
-    path('view_personal_info/<int:id>', profile_basic_info.view_personal_info, name='view_personal_info'),
-    path('view_physical_info/<int:id>', profile_basic_info.view_physical_info, name='view_physical_info'),
-    path('view_edu_occ_info/<int:id>', profile_basic_info.view_edu_occ_info, name='view_edu_occ_info'),
-    path('view_habbits/<int:id>', profile_basic_info.view_habbits, name='view_habbits'),
-    path('view_astrological/<int:id>', profile_basic_info.view_astrological, name='view_astrological'),
-    path('view_family_details/<int:id>', profile_basic_info.view_family_details, name='view_family_details'),
-    path('view_family_details/<int:id>', profile_basic_info.view_family_details, name='view_family_details'),
-    path('view_expectations/<int:id>', profile_basic_info.view_expectations, name='view_expectations'),
+    path('view_profile/<int:id>', profile.view_profile, name='view_profile'),
+    path('view_personal_info/<int:id>', profile.view_personal_info, name='view_personal_info'),
+    path('view_physical_info/<int:id>', profile.view_physical_info, name='view_physical_info'),
+    path('view_edu_occ_info/<int:id>', profile.view_edu_occ_info, name='view_edu_occ_info'),
+    path('view_habbits/<int:id>', profile.view_habbits, name='view_habbits'),
+    path('view_astrological/<int:id>', profile.view_astrological, name='view_astrological'),
+    path('view_family_details/<int:id>', profile.view_family_details, name='view_family_details'),
+    path('view_family_details/<int:id>', profile.view_family_details, name='view_family_details'),
+    path('view_expectations/<int:id>', profile.view_expectations, name='view_expectations'),
 
 
     # Ajax paths
     path('ajax_get_profile_list/<int:user_id>',index.ajax_get_profile_list, name="ajax_get_profile_list"),
+    path('activate_user/<int:profileID>', profile.activate_user, name="activate_user"),
+    path('deactivate_user/<int:profileID>', profile.deactivate_user, name="deactivate_user"),
+    path('ajax_get_all_profile_list', profile.ajax_get_all_profile_list, name="ajax_get_all_profile_list"),
+
+
 
 ]

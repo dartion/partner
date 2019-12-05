@@ -26,6 +26,7 @@ class ProfileBasicInfo(models.Model):
     dob = models.DateField(auto_now=False, null=False, blank=False)
     phone_number = models.BigIntegerField(null=False, blank=False, unique=False)
     profile_created_by = models.CharField(max_length=40, null=False, blank=False)
+    is_active = models.BooleanField(null=True, blank=True,default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -34,7 +35,7 @@ class ProfileBasicInfo(models.Model):
 
 
 class ProfilePersonalInfo(models.Model):
-    fathers_name = models.CharField(max_length=40, null=False, blank=False)
+    fathers_name = models.CharField(max_length=40, null=    False, blank=False)
     mothers_name = models.CharField(max_length=40, null=False, blank=False)
     guardians_name= models.CharField(max_length=40, null=False, blank=False)
     resident_of_country= models.CharField(max_length=40, null=False, blank=False)
@@ -49,7 +50,7 @@ class ProfilePersonalInfo(models.Model):
     contact_number = models.BigIntegerField(null=False, blank=False, unique=True)
     additional_info = models.CharField(max_length=40, null=False, blank=False)
     email = models.EmailField( max_length=100, unique=False)
-    profile = models.ForeignKey(ProfileBasicInfo, on_delete=models.CASCADE, unique=True, null=True, blank=True)
+    profile = models.ForeignKey(ProfileBasicInfo,unique=True, on_delete=models.CASCADE, null=True, blank=True)
 
     # ToDo: Profile pictures
 
@@ -64,7 +65,7 @@ class ProfilePhysicalFeatures(models.Model):
     complexion=models.CharField(max_length=100, null=False, blank=False)
     physical_status= models.CharField(max_length=100, null=False, blank=False)
     blood_group = models.CharField(max_length=100, null=False, blank=False)
-    profile = models.ForeignKey(ProfileBasicInfo, on_delete=models.CASCADE, unique=True, null=True, blank=True)
+    profile = models.ForeignKey(ProfileBasicInfo, unique=True,on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -78,7 +79,7 @@ class ProfileEducationOccupation(models.Model):
     working_since = models.CharField(max_length=100, null=True, blank=True)
     place_of_occupation = models.CharField(max_length=100, null=True, blank=True)
     average_monthly_income = models.BigIntegerField(null=False, blank=False, unique=True)
-    profile = models.ForeignKey(ProfileBasicInfo, on_delete=models.CASCADE, unique=True, null=True, blank=True)
+    profile = models.ForeignKey(ProfileBasicInfo,unique=True, on_delete=models.CASCADE, null=True, blank=True)
 
 
     def save(self, *args, **kwargs):
@@ -91,7 +92,7 @@ class ProfileHabbits(models.Model):
     food=  models.CharField(max_length=100, null=True, blank=True)
     smoking= models.CharField(max_length=100, null=True, blank=True)
     alcholic_drinks=  models.CharField(max_length=100, null=True, blank=True)
-    profile = models.ForeignKey(ProfileBasicInfo, on_delete=models.CASCADE, unique=True, null=True, blank=True)
+    profile = models.ForeignKey(ProfileBasicInfo,unique=True, on_delete=models.CASCADE, null=True, blank=True)
 
 
     def save(self, *args, **kwargs):
@@ -105,7 +106,7 @@ class ProfileAstrologicalInfo(models.Model):
     nakshatra = models.CharField(max_length=100, null=True, blank=True)
     rashi = models.CharField(max_length=100, null=True, blank=True)
     horoscope_matching = models.CharField(max_length=100, null=True, blank=True)
-    profile = models.ForeignKey(ProfileBasicInfo, on_delete=models.CASCADE, unique=True, null=True, blank=True)
+    profile = models.ForeignKey(ProfileBasicInfo, unique=True,on_delete=models.CASCADE, null=True, blank=True)
     #ToDo: Horoscope upload
 
 
@@ -121,7 +122,7 @@ class ProfileFamilyDetails(models.Model):
     no_of_brothers = models.CharField(max_length=100, null=True, blank=True)
     no_of_sisters = models.CharField(max_length=100, null=True, blank=True)
     married = models.CharField(max_length=100, null=True, blank=True)
-    profile = models.ForeignKey(ProfileBasicInfo, on_delete=models.CASCADE, unique=True, null=True, blank=True)
+    profile = models.ForeignKey(ProfileBasicInfo, unique=True,on_delete=models.CASCADE,  null=True, blank=True)
 
 
 
@@ -132,7 +133,7 @@ class ProfileFamilyDetails(models.Model):
 
 class ProfileExpectation(models.Model):
     expectations = models.CharField(max_length=10000, null=True, blank=True)
-    profile = models.ForeignKey(ProfileBasicInfo, on_delete=models.CASCADE, unique=True, null=True, blank=True)
+    profile = models.ForeignKey(ProfileBasicInfo, unique=True,on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -141,8 +142,29 @@ class ProfileExpectation(models.Model):
 
 class ResetPassword(models.Model):
     reset_password_number = models.BigIntegerField(null=False, blank=False, unique=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True ,null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.full_clean()
         return super(ResetPassword, self).save(*args, **kwargs)
+
+
+class ProfileImages(models.Model):
+    profile_image = models.ImageField(upload_to='media/profile', null=True, blank=True)
+    jataka_image = models.ImageField(upload_to='media/jataka', null=True, blank=True)
+    url = models.CharField(max_length=100, null=True, blank=True)
+    profile = models.ForeignKey(ProfileBasicInfo, on_delete=models.CASCADE, unique=True, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super(ProfileImages, self).save(*args, **kwargs)
+
+
+class JatakaImages(models.Model):
+    jataka_image = models.ImageField(upload_to='media/jataka', null=True, blank=True)
+    url = models.CharField(max_length=100, null=True, blank=True)
+    profile = models.ForeignKey(ProfileBasicInfo, on_delete=models.CASCADE, unique=True, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super(JatakaImages, self).save(*args, **kwargs)

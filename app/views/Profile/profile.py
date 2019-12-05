@@ -3,19 +3,23 @@ from django.http import HttpResponse
 
 from django.contrib.auth.decorators import login_required
 from app.forms.profile import create_profile_form, personal_info, physical_features, education_occupation, habbits,\
-    astrological_info, family_details, expectations
-from app.models import ProfileBasicInfo
+    astrological_info, family_details, expectations, upload_images
+from app.models import *
 from django.contrib import messages
 from django.shortcuts import render, redirect
-
+from app.models import ProfileImages, JatakaImages
+from partner.settings import ALLOWED_HOSTS
+import json
 
 @login_required
 def create_profile(request):
     form = create_profile_form.CreateProfile(request.POST or None)
 
     if form.is_valid():
-        if form.save(request.user.id):
-            return HttpResponse("Profile created successfully")
+        post = form.save(request.user.id)
+        return HttpResponse("Profile created successfully")
+
+
 
     return render(request, "profile/basic_info/create_profile_basic_info.html", {"form":form, 'profileID':None})
 
@@ -60,7 +64,7 @@ def edit_profile(request, id):
 @login_required
 def view_profile(request, id):
     profile_object = ProfileBasicInfo.objects.get(id=id)
-    form = create_profile_form.CreateProfileView(request.POST or None)
+    form = create_profile_form.CreateProfileView(request.POST or None, instance=profile_object)
     return render(request, "profile/basic_info/view_ profile_basic_info.html", {"form":form, "profileID":profile_object.id})
 
 
@@ -107,8 +111,10 @@ def view_personal_info(request, id):
     try:
         form = personal_info.ViewProfilePersonalInfo(request.POST or None, instance=profile_object)
     except Exception as ex:
-        return redirect('/')
-    return render(request, "profile/basic_info/view_ profile_basic_info.html", {"form":form, "profileID":profile_object.id})
+        messages.add_message(request, messages.ERROR,
+                             "Profile's Personal information has not been updated yet.")
+        return redirect('/view_profile/{}'.format(id))
+    return render(request, "profile/personal_info/view_personal_info.html", {"form":form, "profileID":profile_object.id})
 
 
 def update_physical_features_request(request, profile_object):
@@ -157,7 +163,9 @@ def view_physical_info(request, id):
     try:
         form = physical_features.ViewPhysicalFeatures(request.POST or None, instance=profile_object)
     except Exception as ex:
-        return redirect('/')
+        messages.add_message(request, messages.ERROR,
+                             "Profile's Physical information has not been updated yet.")
+        return redirect('/view_profile/{}'.format(id))
     return render(request, "profile/physical_info/view_physical_features.html", {"form":form, "profileID":profile_object.id})
 
 
@@ -203,8 +211,10 @@ def view_edu_occ_info(request, id):
     try:
         form = education_occupation.ViewEducationOccupation(request.POST or None, instance=profile_object)
     except Exception as ex:
-        return redirect('/')
-    return render(request, "profile/physical_info/view_physical_features.html", {"form":form, "profileID":profile_object.id})
+        messages.add_message(request, messages.ERROR,
+                             "Profile's Education and Occupation information has not been updated yet.")
+        return redirect('/view_profile/{}'.format(id))
+    return render(request, "profile/education_occupation/view_education_occupation.html", {"form":form, "profileID":profile_object.id})
 
 def update_habbits_request(request, profile_object):
     form = habbits.UpdateHabbits(request.POST or None, profile_id=profile_object.id)
@@ -249,7 +259,9 @@ def view_habbits(request, id):
     try:
         form = habbits.ViewHabbits(request.POST or None, instance=profile_object)
     except Exception as ex:
-        return redirect('/')
+        messages.add_message(request, messages.ERROR,
+                             "Profile's habbits information has not been updated yet.")
+        return redirect('/view_profile/{}'.format(id))
     return render(request, "profile/habbits/view_habbits.html", {"form":form, "profileID":profile_object.id})
 
 
@@ -285,7 +297,6 @@ def update_astrological_info(request, id=None):
         else:
             messages.add_message(request, messages.ERROR,
                                  "You are not allowed to edit someone else's profile.")
-            return redirect('/')
     return render(request, "profile/astrological_info/astrological.html", {"form":form, 'profileID': profile_object.id})
 
 @login_required
@@ -294,8 +305,10 @@ def view_astrological(request, id):
     try:
         form = astrological_info.ViewAstrologicalInfo(request.POST or None, instance=profile_object)
     except Exception as ex:
-        return redirect('/')
-    return render(request, "profile/astrological_info/view_astrological.html", {"form":form})
+        messages.add_message(request, messages.ERROR,
+                             "Profile's Astrological information has not been updated yet.")
+        return redirect('/view_profile/{}'.format(id))
+    return render(request, "profile/astrological_info/view_astrological.html", {"form":form, "profileID":profile_object.id})
 
 
 def update_family_details_request(request, profile_object):
@@ -340,8 +353,10 @@ def view_family_details(request, id):
     try:
         form = family_details.ViewFamilyDetails(request.POST or None, instance=profile_object)
     except Exception as ex:
-        return redirect('/')
-    return render(request, "profile/family_details/view_family_details.html", {"form":form})
+        messages.add_message(request, messages.ERROR,
+                             "Profile's Family Details information has not been updated yet.")
+        return redirect('/view_profile/{}'.format(id))
+    return render(request, "profile/family_details/view_family_details.html", {"form":form, "profileID":profile_object.id})
 
 
 def update_expectations_request(request, profile_object):
@@ -388,5 +403,215 @@ def view_expectations(request, id):
         form = expectations.ViewExpectations(request.POST or None, instance=profile_object)
 
     except Exception as ex:
-        return redirect('/')
+        messages.add_message(request, messages.ERROR,
+                             "Profile's Expectation information has not been updated yet.")
+        return redirect('/view_profile/{}'.format(id))
     return render(request, "profile/expectations/view_expectations.html", {"form":form, "profileID":profile_object.id})
+
+
+@login_required()
+def activate_user(request, profileID):
+    if request.user.is_superuser:
+        profile_object = ProfileBasicInfo.objects.get(id=profileID)
+        profile_object.is_active = True
+        profile_object.save()
+        return redirect('/')
+
+    else:
+        messages.add_message(request, messages.ERROR,
+                             "You are not allowed Activate/Deactivate users")
+        return redirect('/')
+
+
+@login_required()
+def deactivate_user(request, profileID):
+    if request.user.is_superuser:
+        profile_object = ProfileBasicInfo.objects.get(id=profileID)
+        profile_object.is_active = False
+        profile_object.save()
+        return redirect('/')
+    else:
+        messages.add_message(request, messages.ERROR,
+                             "You are not allowed Activate/Deactivate users")
+        return redirect('/')
+
+def update_images_request(request, profile_object):
+    form = upload_images.UploadProfileImage(request.POST or None, request.FILES)
+    try:
+        if form.is_valid():
+            if form.save(profile_object):
+                messages.add_message(request, messages.SUCCESS,
+                                     "Profile image updated successfully.")
+            return HttpResponse("Profile expectations info updated successfully")
+        print(form.errors)
+    except Exception as ex:
+        print(ex)
+
+@login_required()
+def upload_image(request, profileID):
+    form = upload_images.UploadProfileImage(request.POST or None, request.FILES)
+
+    profile_edit_list = []
+    try:
+        profile_object = ProfileBasicInfo.objects.get(id=profileID)
+        list = ProfileBasicInfo.objects.filter(user_id=request.user.id)
+    except Exception as ex:
+        return redirect('/')
+    try:
+        for i in list:
+            profile_edit_list.append(i.id)
+
+        if request.user.is_superuser:
+            update_images_request(request, profile_object)
+        else:
+            if profileID in profile_edit_list:
+                update_images_request(request, profile_object)
+            else:
+                messages.add_message(request, messages.ERROR,
+                                     "You are not allowed to edit someone else's profile.")
+                return redirect('/')
+    except Exception as ex:
+        print(ex)
+    url = ''
+    try:
+        image_object = ProfileImages.objects.get(profile_id=profile_object.id)
+        if image_object.url is not None:
+            url = "/"+image_object.url
+    except Exception as ex:
+        print(ex)
+    if len(url) <= 0:
+        url = '/media/profile/default_pp.png'
+
+
+    return render(request, "profile/profile_images/upload_profile_image.html", {"form": form, 'profileID': profile_object.id, 'url':url})
+
+
+def update_jataka_images_request(request, profile_object):
+    form = upload_images.UploadJatakaImage(request.POST or None, request.FILES)
+    try:
+        if form.is_valid():
+            if form.save(profile_object):
+                messages.add_message(request, messages.SUCCESS,
+                                     "Jataka image updated successfully.")
+            return HttpResponse("Jataka info updated successfully")
+        print(form.errors)
+    except Exception as ex:
+        print(ex)
+
+@login_required()
+def upload_jataka_image(request, profileID):
+    form = upload_images.UploadJatakaImage(request.POST or None, request.FILES)
+
+    profile_edit_list = []
+    try:
+        profile_object = ProfileBasicInfo.objects.get(id=profileID)
+        list = ProfileBasicInfo.objects.filter(user_id=request.user.id)
+    except Exception as ex:
+        return redirect('/')
+    try:
+        for i in list:
+            profile_edit_list.append(i.id)
+
+        if request.user.is_superuser:
+            update_jataka_images_request(request, profile_object)
+        else:
+            if profileID in profile_edit_list:
+                update_jataka_images_request(request, profile_object)
+            else:
+                messages.add_message(request, messages.ERROR,
+                                     "You are not allowed to edit someone else's profile.")
+                return redirect('/')
+    except Exception as ex:
+        print(ex)
+    url = ''
+    try:
+        image_object = JatakaImages.objects.get(profile_id=profile_object.id)
+        if image_object.url is not None:
+            url = "/"+image_object.url
+    except Exception as ex:
+        print(ex)
+    if len(url) <= 0:
+        url = '/media/profile/default_pp.png'
+
+
+    return render(request, "profile/profile_images/upload_profile_jataka.html", {"form": form, 'profileID': profile_object.id, 'url':url})
+
+
+def search_profiles(request):
+    try:
+        if request.user.is_active:
+            return render(request, "menu_content/search_profiles.html")
+    except Exception as ex:
+        messages.add_message(request, messages.WARNING,
+                             "Your profile must first be active to view profiles. Please contanct administrator")
+        return redirect('/')
+
+
+@login_required
+def view_profile_image(request, id):
+    profile_object = ProfileBasicInfo.objects.get(id=id)
+    try:
+        url = "/"+ProfileImages.objects.get(profile_id=profile_object.id).url
+    except:
+        url = '/media/profile/default_pp.png'
+
+    return render(request, "profile/profile_images/view_profile_image.html",
+                  {"url": url, "profileID": profile_object.id})
+
+
+@login_required
+def view_jataka_image(request, id):
+    profile_object = ProfileBasicInfo.objects.get(id=id)
+    try:
+        url = "/"+JatakaImages.objects.get(profile_id=profile_object.id).url
+    except:
+        url = '/media/profile/default_pp.png'
+
+    return render(request, "profile/profile_images/view_jataka_image.html",
+                  {"url": url, "profileID": profile_object.id})
+
+@login_required
+def ajax_get_all_profile_list(request):
+    profile_list = []
+
+    profile_basic_info_object = ProfileBasicInfo.objects.filter(is_active=True)
+
+    try:
+        for each_profile in profile_basic_info_object:
+            profile_list_dict = {}
+
+            profile_list_dict['dob'] = str(each_profile.dob)
+            profile_list_dict['name'] = each_profile.first_name + " " + each_profile.last_name
+            profile_list_dict['id'] = each_profile.id
+            try:
+                profile_list_dict['profile_image'] = "/" + str(ProfileImages.objects.get(profile_id=each_profile.id).url)
+            except Exception as ex:
+                profile_list_dict['profile_image'] = "/media/profile/default_pp.png"
+
+            try:
+                physical_features_object = ProfilePhysicalFeatures.objects.get(profile_id=each_profile.id)
+                profile_list_dict['height'] = str(physical_features_object.height)
+            except Exception as e:
+                profile_list_dict['height'] = "Information not updated by the user"
+
+            try:
+                profile_personal_info_object = ProfilePersonalInfo.objects.get(profile_id=each_profile.id)
+                profile_list_dict['caste'] = profile_personal_info_object.caste
+                profile_list_dict['sub_caste'] = profile_personal_info_object.sub_caste
+                profile_list_dict['resident_of_country'] = profile_personal_info_object.resident_of_country
+
+            except Exception as ex:
+                profile_list_dict['caste'] = "Information not updated by the user"
+                profile_list_dict['sub_caste'] = "Information not updated by the user"
+                profile_list_dict['resident_of_country'] = "Information not updated by the user"
+
+
+            profile_list.append(profile_list_dict)
+
+    except Exception as ex:
+        print(ex)
+
+    retVal = {"data": profile_list}
+    return HttpResponse(json.dumps(retVal), content_type="application/json")
+
+

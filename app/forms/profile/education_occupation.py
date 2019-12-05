@@ -96,18 +96,24 @@ class ViewEducationOccupation(forms.ModelForm):
         super(ViewEducationOccupation, self).__init__(*args, **kwargs)
         edu_occ_object = ProfileEducationOccupation.objects.get(profile_id=profile_object.id)
 
-        self.fields['degree_or_diploma'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                                initial=edu_occ_object.degree_or_diploma)
-        self.fields['pg_degree_or_diploma'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                                initial=edu_occ_object.pg_degree_or_diploma)
-        self.fields['occupation'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                                initial=edu_occ_object.occupation)
-        self.fields['working_since'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                                initial=edu_occ_object.working_since)
-        self.fields['place_of_occupation'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                                initial=edu_occ_object.place_of_occupation)
-        self.fields['average_monthly_income'] = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
-                                                        initial=edu_occ_object.average_monthly_income)
+        self.fields['degree_or_diploma'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=edu_occ_object.degree_or_diploma)
+        self.fields['pg_degree_or_diploma'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=edu_occ_object.pg_degree_or_diploma)
+        self.fields['occupation'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=edu_occ_object.occupation)
+        self.fields['working_since'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=edu_occ_object.working_since)
+        self.fields['place_of_occupation'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=edu_occ_object.place_of_occupation)
+        self.fields['average_monthly_income'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=edu_occ_object.average_monthly_income)
 
 
 

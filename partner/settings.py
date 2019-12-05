@@ -169,6 +169,8 @@ STATICFILES_DIRS = (
 
 LOGIN_URL = 'login'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Has to be a valid domain name
 EMAIL_SENDER = "noreply@dartion.com.au"
@@ -178,3 +180,4 @@ EMAIL_HOST = "mail.tpg.com.au"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 25
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+

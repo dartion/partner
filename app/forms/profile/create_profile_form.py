@@ -16,12 +16,12 @@ class CreateProfile(forms.ModelForm):
     dob = forms.DateField(label='Date of Birth', widget=forms.SelectDateWidget(attrs={'required':True,'class':''}, years=range(1980,datetime.datetime.now().year)))
     phone_number = forms.CharField(label="Phone NUmber", widget=forms.NumberInput(
         attrs={'minlength':10, 'type': 'number', 'required': True, 'class':'form-control form-control-lg'}))
-    profile_created_by = forms.CharField(label="Profile Created By", widget=forms.Select(attrs={'class': 'form-control form-control-lg'},
-                                                                 choices=GENDER_CHOICES))
+    profile_created_by = forms.CharField(label="Profile Created By",  widget=forms.TextInput(attrs={'required': True, 'class':'form-control form-control-lg'}))
 
+    image = forms.ImageField(label="Upload a profile picture", )
     class Meta:
         model = ProfileBasicInfo
-        fields = ('first_name', 'last_name', 'gender', 'dob', 'profile_created_by')
+        fields = ('first_name', 'last_name', 'gender', 'dob', 'profile_created_by', 'image')
 
     def clean(self, *args, **kwargs):
         #ToDo: Add validation rule for the following if necessary or remove the code
@@ -30,7 +30,7 @@ class CreateProfile(forms.ModelForm):
         gender = self.cleaned_data.get('gender')
         phone_number = self.cleaned_data['phone_number']
         profile_created_by = self.cleaned_data['profile_created_by']
-
+        # image = self.cleaned_data['image']
         if len(str(phone_number)) != 10:
             raise forms.ValidationError("Please enter the correct 10 digit phone number")
 
@@ -59,6 +59,7 @@ class CreateProfile(forms.ModelForm):
         dob = self.cleaned_data['rate'] = self.cleaned_data.get('dob')
         phone_number = self.cleaned_data['phone_number'] = self.cleaned_data.get('phone_number')
         profile_created_by = self.cleaned_data.get('profile_created_by')
+        image = self.cleaned_data.get('image')
         try:
 
             new_profile_object = ProfileBasicInfo.objects.create(
@@ -68,6 +69,7 @@ class CreateProfile(forms.ModelForm):
                 dob=dob,
                 phone_number=phone_number,
                 profile_created_by=profile_created_by,
+                image=image,
                 user=user,
 
             )
