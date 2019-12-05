@@ -186,6 +186,8 @@ def how_to_start(request):
 
 
 def search_profiles(request):
+
+
     return render(request, "menu_content/search_profiles.html")
 
 def contact_us(request):

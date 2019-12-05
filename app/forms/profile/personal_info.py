@@ -178,42 +178,57 @@ class ViewProfilePersonalInfo(forms.ModelForm):
 
         personal_info_object = ProfilePersonalInfo.objects.get(profile_id=profile_object.id)
 
-        self.fields['fathers_name'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                initial=personal_info_object.fathers_name)
+        self.fields['fathers_name'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.fathers_name)
 
-        self.fields['mothers_name'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                  initial=personal_info_object.mothers_name)
+        self.fields['mothers_name'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.mothers_name)
 
-        self.fields['guardians_name'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                      initial=personal_info_object.guardians_name)
-        self.fields['resident_of_country'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                      initial=personal_info_object.resident_of_country)
-        self.fields['resident_of_state'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                      initial=personal_info_object.resident_of_state)
-        self.fields['resident_of_city_or_village'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                      initial=personal_info_object.resident_of_city_or_village)
-        self.fields['mother_toungue'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                                     initial=personal_info_object.mother_toungue)
-        self.fields['community'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                                     initial=personal_info_object.community)
-        self.fields['caste'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                                     initial=personal_info_object.caste)
-        self.fields['sub_caste'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                                     initial=personal_info_object.sub_caste)
-        self.fields['native_place'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                                     initial=personal_info_object.native_place)
+        self.fields['guardians_name'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.guardians_name)
+        self.fields['resident_of_country'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.resident_of_country)
+        self.fields['resident_of_state'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.resident_of_state)
+        self.fields['resident_of_city_or_village'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.resident_of_city_or_village)
+        self.fields['mother_toungue'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.mother_toungue)
+        self.fields['community'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.community)
+        self.fields['caste'] = forms.CharField(widget=forms.TextInput(attrs={'readOnly': True,
+                                                                             'class': 'form-control form-control-lg'}),
+                                               initial=personal_info_object.caste)
+        self.fields['sub_caste'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.sub_caste)
+        self.fields['native_place'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.native_place)
 
-        self.fields['residential_address'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                      initial=personal_info_object.residential_address)
+        self.fields['residential_address'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.residential_address)
 
-        self.fields['contact_number'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                  initial=personal_info_object.contact_number)
+        self.fields['contact_number'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.contact_number)
 
-        self.fields['additional_info'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                  initial=personal_info_object.additional_info)
+        self.fields['additional_info'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.additional_info)
 
-        self.fields['email'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'readOnly': True}),
-                                                  initial=personal_info_object.email)
+        self.fields['email'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=personal_info_object.email)
 
 
     class Meta:

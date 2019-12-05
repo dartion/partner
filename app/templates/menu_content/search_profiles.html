@@ -5,12 +5,125 @@
 
 {% endblock styles %}
 {% block topBody %}
-    <h1>Search profiles</h1>
-    <p>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
-"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</p>
 
 {% endblock %}
 
-{% block lowerBody %}{% endblock lowerBody %}
+{% block lowerBody %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">&nbsp;</div>
 
-{% block scripts %}{% endblock scripts %}
+                 {% for message in messages %}
+                        {% if message.tags == "success" %}
+                            <div class="alert alert-success">
+                                {{ message|safe }}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger">
+                                {{ message|safe }}
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+                {% if form.errors.items %}
+                        <div class="alert alert-danger ">
+
+                            {% for field, error in form.errors.items %}
+                                {% if field != '__all__' %}{{ field }}{% endif %}
+                                {{ error | striptags }}
+                            {% endfor %}
+
+                        </div>
+                    {% endif %}
+
+
+
+                <table id="profile-list" class="table table-striped" style="width: 100%">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+    </div>
+
+{% endblock lowerBody %}
+
+{% block scripts %}
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link src="//cdn.datatables.net/1.10.19/css/jquery.dataTables.css" rel="stylesheet">
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" class="init">
+
+
+        var groupTable;
+        $(document).ready(function () {
+            {#var open_round_url = "{% url '' id=111 %}".replace(/111/, id);#}
+
+            groupTable = $('#profile-list').DataTable({
+                "processing": true,
+                "deferRender": true,
+                "scrollX": true,
+                "rowId": 'batchID',
+                "bStateSave": true,
+                "filter": true,
+                {#"status": true,#}
+                "paging": true,
+                "bAutoWidth": false,
+                {#"bInfo": true,#}
+                "bSort": true,
+                "overflow-y": scroll,
+                "scrollCollapse": true,
+                "lengthMenu": [[20, 25, 50, -1], [20, 25, 50, "All"]],
+                "order": [0, "desc"],
+                "responsive": false,
+                "language": {
+                    "search": "Filter : ",
+                    "info": "",
+                    "infoEmpty": "",
+                    "infoFiltered": "_TOTAL_ of _MAX_ groups",
+                    "zeroRecords": "No Profiles created in the system.",
+                    "loadingRecords": "Loading  ..."
+                },
+                {#"sDom": '<"top"if>rt<"bottom"><"clear">',#}
+                "ajax": {
+                    "processing": true,
+                    "url": "{% url 'ajax_get_all_profile_list' %}",
+                    dataSrc: function (json) {
+                        {#console.log(json)#}
+                        {#json = JSON.parse(json['content']);#}
+                        return json.data;
+                    },
+                 },
+                "columns": [
+                    {"data": "profile_image", "title": "Photo", defaultContent: "", "render":function (profile_image) {
+                            html = ""
+                            html = "<img src='"+ profile_image + "'height='200' width='200'>"
+                            return html
+                        }},
+                    {"data": "name", "title": "Name", defaultContent: ""},
+                    {"data": "height", "title": "Height", defaultContent: ""},
+                    {"data": "dob", "title": "Date of Birth", defaultContent: "", },
+                    {"data": "caste", "title": "Caste", defaultContent: "", },
+                    {"data": "sub_caste", "title": "Caste", defaultContent: "", },
+                    {"data": "resident_of_country", "title": "Living in Country", defaultContent: "", },
+                    {"data": "id", "title": "View full profile    ", defaultContent: "", render: function(id){
+                            var view_profile_url = "{% url 'view_profile' id=111 %}".replace(/111/, id);
+                            html = ""
+                            html = "<a href='"+view_profile_url+"'>View Profile</a>"
+                            return html;
+                        } },
+
+                ],
+            });
+
+
+        });
+
+
+    </script>
+
+
+{% endblock scripts %}

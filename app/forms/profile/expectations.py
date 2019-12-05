@@ -53,7 +53,7 @@ class ViewExpectations(forms.ModelForm):
         expectations_object = ProfileExpectation.objects.get(profile_id=profile_object.id)
 
         self.fields['expectations'] = forms.CharField(
-            widget=forms.TextInput(attrs={'required': True, 'readOnly': True}),
+            widget=forms.Textarea(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
             initial=expectations_object.expectations)
 
     class Meta:
