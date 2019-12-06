@@ -19,8 +19,6 @@ def create_profile(request):
         post = form.save(request.user.id)
         return HttpResponse("Profile created successfully")
 
-
-
     return render(request, "profile/basic_info/create_profile_basic_info.html", {"form":form, 'profileID':None})
 
 
@@ -37,7 +35,8 @@ def edit_profile(request, id):
             if form.save(id):
                 messages.add_message(request, messages.SUCCESS,
                                      "Profile {} updated successfully.".format(profile_object.first_name))
-                return redirect('/')
+                return render(request, "profile/basic_info/edit_profile_basic_info.html",
+                              {"form": form, "profileID": profile_object.id})
 
     else:
         profile_edit_list = []
@@ -536,7 +535,7 @@ def upload_jataka_image(request, profileID):
 
     return render(request, "profile/profile_images/upload_profile_jataka.html", {"form": form, 'profileID': profile_object.id, 'url':url})
 
-
+@login_required
 def search_profiles(request):
     try:
         if request.user.is_active:

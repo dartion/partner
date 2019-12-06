@@ -19,7 +19,7 @@ from django.contrib.auth.models import BaseUserManager, AbstractUser, User
 from django.core.validators import MaxValueValidator
 
 
-class ProfileBasicInfo(models.Model):
+class   ProfileBasicInfo(models.Model):
     first_name = models.CharField(max_length=40, null=False, blank=False)
     last_name = models.CharField(max_length=40, null=False, blank=False)
     gender = models.CharField(max_length=40, null=False, blank=False)
