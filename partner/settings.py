@@ -101,7 +101,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
 
 WSGI_APPLICATION = 'partner.wsgi.application'
 
-ALLOWED_HOSTS = ["web.local"]
+ALLOWED_HOSTS = ["darshan.intersect.org.au"]
 APP_NAME = config['DEFAULT']['APP_NAME']
 # Database
 # https://docs.djangoproject.cs     om/en/2.1/ref/settings/#databases
