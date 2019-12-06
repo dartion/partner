@@ -18,10 +18,9 @@ class CreateProfile(forms.ModelForm):
         attrs={'minlength':10, 'type': 'number', 'required': True, 'class':'form-control form-control-lg'}))
     profile_created_by = forms.CharField(label="Profile Created By",  widget=forms.TextInput(attrs={'required': True, 'class':'form-control form-control-lg'}))
 
-    image = forms.ImageField(label="Upload a profile picture", )
     class Meta:
         model = ProfileBasicInfo
-        fields = ('first_name', 'last_name', 'gender', 'dob', 'profile_created_by', 'image')
+        fields = ('first_name', 'last_name', 'gender', 'dob', 'profile_created_by')
 
     def clean(self, *args, **kwargs):
         #ToDo: Add validation rule for the following if necessary or remove the code
@@ -59,7 +58,7 @@ class CreateProfile(forms.ModelForm):
         dob = self.cleaned_data['rate'] = self.cleaned_data.get('dob')
         phone_number = self.cleaned_data['phone_number'] = self.cleaned_data.get('phone_number')
         profile_created_by = self.cleaned_data.get('profile_created_by')
-        image = self.cleaned_data.get('image')
+
         try:
 
             new_profile_object = ProfileBasicInfo.objects.create(
@@ -69,7 +68,6 @@ class CreateProfile(forms.ModelForm):
                 dob=dob,
                 phone_number=phone_number,
                 profile_created_by=profile_created_by,
-                image=image,
                 user=user,
 
             )
