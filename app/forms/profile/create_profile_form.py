@@ -69,10 +69,10 @@ class CreateProfile(forms.ModelForm):
             phone_number_1 = None
         if phone_number_2 == '':
             phone_number_2 = None
-        if phone_number_1 is not None and len(phone_number_1) < 10:
-            raise forms.ValidationError("Please enter the correct 10 digit phone number for Additional Phone Number 1")
-        if phone_number_2 is not None and len(phone_number_2) < 10:
-            raise forms.ValidationError("Please enter the correct 10 digit phone number for Additional Phone Number 2")
+        # if phone_number_1 is not None:
+        #     raise forms.ValidationError("Please enter the correct 10 digit phone number for Additional Phone Number 1")
+        # if phone_number_2 is not None and len(phone_number_2) < 10:
+        #     raise forms.ValidationError("Please enter the correct 10 digit phone number for Additional Phone Number 2")
         profile_created_by = self.cleaned_data.get('profile_created_by')
 
         try:
@@ -143,10 +143,10 @@ class CreateProfileEdit(forms.ModelForm):
         if phone_number_2 == '':
             phone_number_2 = None
 
-        if phone_number_1 is not None and len(phone_number_1) < 10:
-            raise forms.ValidationError("Please enter the correct 10 digit phone number for Additional Phone Number 1")
-        if phone_number_2 is not None and len(phone_number_2) < 10:
-            raise forms.ValidationError("Please enter the correct 10 digit phone number for Additional Phone Number 2")
+        # if phone_number_1 is not None and len(phone_number_1) < 10:
+        #     raise forms.ValidationError("Please enter the correct 10 digit phone number for Additional Phone Number 1")
+        # if phone_number_2 is not None and len(phone_number_2) < 10:
+        #     raise forms.ValidationError("Please enter the correct 10 digit phone number for Additional Phone Number 2")
         profile_created_by = self.cleaned_data['profile_created_by']
 
 
