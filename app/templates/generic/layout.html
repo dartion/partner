@@ -26,7 +26,7 @@
 {% endblock bodyTag %}
 <header>
     <!--  fixed-top -->
-{#    <nav class="navbar navbar-expand-md fixed-top bg-sydWhite sydDark">#}
+{#    <nav class="navbar navbar-expand-md fixed-top bg-sydWhite appTitle">#}
 {#    </nav>#}
     <nav class="navbar navbar-expand-lg fixed-top navbar-light bg-sydWhite nav-tab-text-color">
   <a class="navbar-brand" href="{% url 'index' %}"><i class="fas fa-home"></i></a>
@@ -40,27 +40,27 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'about_us' %}">About <span class="sr-only">(current)</span></a>
+        <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'about_us' %}">About <span class="sr-only">(current)</span></a>
       </li>
         <li class="nav-item active">
-        <a class="nav-link" href="{% url 'search_profiles' %}">Search profiles <span class="sr-only">(current)</span></a>
+        <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'search_profiles' %}">Search profiles <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'how_to_start' %}">How to start? <span class="sr-only">(current)</span></a>
+        <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'how_to_start' %}">How to start? <span class="sr-only">(current)</span></a>
       </li>
 
       <li class="nav-item active">
-        <a class="nav-link" href="{% url 'create_profile' %}">Create Profile <span class="sr-only">(current)</span></a>
+        <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'create_profile' %}">Create Profile <span class="sr-only">(current)</span></a>
       </li>
         <li class="nav-item active">
-        <a class="nav-link" href="{% url 'contact_us' %}">Contact Us <span class="sr-only">(current)</span></a>
+        <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'contact_us' %}">Contact Us <span class="sr-only">(current)</span></a>
       </li>
 
 {#      <li class="nav-item">#}
 {#        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>#}
 {#      </li>#}
     </ul>
-  <div class="mx-auto order-0 w-100 nav-title sydDark">{{ APP_NAME }}</div>
+
     <form class="form-inline my-2 my-lg-0">
 {#      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">#}
 {#        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i#}
@@ -83,6 +83,15 @@
 
 <div class="row"></div>
 <div class="row"></div>
+<div class="row">
+    <div class="col-sm-2">&nbsp;</div>
+{#    <div class="mx-auto order-0 w-100 nav-title appTitle">{{ APP_NAME }}</div>#}
+    <div class="col-sm-8">
+    <div class="appTitle">{{ APP_NAME }}</div>
+    </div>
+    <div class="col-sm-2">&nbsp;</div>
+
+</div>
 <main role="main" class="col-sm-12">
     <div class="row"></div>
 <div class="row">&nbsp;</div>

@@ -14,8 +14,12 @@ class CreateProfile(forms.ModelForm):
     last_name = forms.CharField(label="Last Name", widget=forms.TextInput(attrs={'required': True, 'class':'form-control form-control-lg'}))
     gender = forms.CharField(label="Gender", widget=forms.Select(attrs={'class':'form-control form-control-lg'},choices=GENDER_CHOICES))
     dob = forms.DateField(label='Date of Birth', widget=forms.SelectDateWidget(attrs={'required':True,'class':''}, years=range(1980,datetime.datetime.now().year)))
-    phone_number = forms.CharField(label="Phone NUmber", widget=forms.NumberInput(
+    phone_number = forms.CharField(label="Phone Number", widget=forms.NumberInput(
         attrs={'minlength':10, 'type': 'number', 'required': True, 'class':'form-control form-control-lg'}))
+    phone_number_1 = forms.CharField(label="Additional Phone Number", widget=forms.NumberInput(
+        attrs={'minlength': 10, 'type': 'number', 'class': 'form-control form-control-lg'}),required=False)
+    phone_number_2 = forms.CharField(label="Additional Phone Number", widget=forms.NumberInput(
+        attrs={'minlength': 10, 'type': 'number', 'class': 'form-control form-control-lg'}),required=False)
     profile_created_by = forms.CharField(label="Profile Created By",  widget=forms.TextInput(attrs={'required': True, 'class':'form-control form-control-lg'}))
 
     class Meta:
@@ -28,6 +32,8 @@ class CreateProfile(forms.ModelForm):
         last_name = self.cleaned_data.get('last_name')
         gender = self.cleaned_data.get('gender')
         phone_number = self.cleaned_data['phone_number']
+        phone_number_1 = self.cleaned_data['phone_number_1']
+        phone_number_2 = self.cleaned_data['phone_number_2']
         profile_created_by = self.cleaned_data['profile_created_by']
         # image = self.cleaned_data['image']
         if len(str(phone_number)) != 10:
@@ -57,6 +63,16 @@ class CreateProfile(forms.ModelForm):
         gender = self.cleaned_data.get('gender')
         dob = self.cleaned_data['rate'] = self.cleaned_data.get('dob')
         phone_number = self.cleaned_data['phone_number'] = self.cleaned_data.get('phone_number')
+        phone_number_1 = self.cleaned_data['phone_number_1'] = self.cleaned_data.get('phone_number_1')
+        phone_number_2 = self.cleaned_data['phone_number_2'] = self.cleaned_data.get('phone_number_2')
+        if phone_number_1 == '':
+            phone_number_1 = None
+        if phone_number_2 == '':
+            phone_number_2 = None
+        if phone_number_1 is not None and len(phone_number_1) < 10:
+            raise forms.ValidationError("Please enter the correct 10 digit phone number for Additional Phone Number 1")
+        if phone_number_2 is not None and len(phone_number_2) < 10:
+            raise forms.ValidationError("Please enter the correct 10 digit phone number for Additional Phone Number 2")
         profile_created_by = self.cleaned_data.get('profile_created_by')
 
         try:
@@ -67,6 +83,8 @@ class CreateProfile(forms.ModelForm):
                 gender=gender,
                 dob=dob,
                 phone_number=phone_number,
+                phone_number_1=phone_number_1,
+                phone_number_2=phone_number_2,
                 profile_created_by=profile_created_by,
                 user=user,
 
@@ -92,6 +110,8 @@ class CreateProfileEdit(forms.ModelForm):
             profile_object.dob=""
             profile_object.gender=""
             profile_object.phone_number=""
+            profile_object.phone_number_1=""
+            profile_object.phone_number_2=""
             profile_object.profile_created_by=""
 
         self.fields['first_name'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}), initial=profile_object.first_name)
@@ -99,6 +119,8 @@ class CreateProfileEdit(forms.ModelForm):
         self.fields['dob'] = forms.DateField(label='Date of Birth', widget=forms.SelectDateWidget(attrs={'required':True,}, years=range(1980,datetime.datetime.now().year)),initial=profile_object.dob)
         self.fields['gender'] = forms.CharField(label='Gender', widget=forms.Select(attrs={'class':'form-control form-control-lg'},choices=GENDER_CHOICES), initial=profile_object.gender)
         self.fields['phone_number'] = forms.CharField(label='Phone Number',widget=forms.TextInput(attrs={'class':'form-control form-control-lg','minlength':10, 'type': 'number', 'required': True}), initial=profile_object.phone_number)
+        self.fields['phone_number_1'] = forms.CharField(label='Additional Phone Number',widget=forms.TextInput(attrs={'class':'form-control form-control-lg','minlength':10, 'type': 'number',}), initial=profile_object.phone_number_1,required=False)
+        self.fields['phone_number_2'] = forms.CharField(label='Additional Phone Number',widget=forms.TextInput(attrs={'class':'form-control form-control-lg','minlength':10, 'type': 'number',}), initial=profile_object.phone_number_2,required=False)
         self.fields['profile_created_by'] = forms.CharField(
             widget=forms.TextInput(attrs={'required': True, 'class': 'form-control form-control-lg'}),
             initial=profile_object.profile_created_by)
@@ -106,7 +128,7 @@ class CreateProfileEdit(forms.ModelForm):
 
     class Meta:
         model = ProfileBasicInfo
-        fields = ('first_name', 'last_name', 'gender', 'dob','profile_created_by')
+        fields = ('first_name', 'last_name', 'gender', 'dob', 'profile_created_by')
 
     def clean(self, *args, **kwargs):
         #ToDo: Add validation rule for the following if necessary or remove the code
@@ -114,6 +136,17 @@ class CreateProfileEdit(forms.ModelForm):
         last_name = self.cleaned_data.get('last_name')
         gender = self.cleaned_data.get('gender')
         phone_number = self.cleaned_data['phone_number']
+        phone_number_1 = self.cleaned_data['phone_number_1']
+        phone_number_2 = self.cleaned_data['phone_number_2']
+        if phone_number_1 == '':
+            phone_number_1 = None
+        if phone_number_2 == '':
+            phone_number_2 = None
+
+        if phone_number_1 is not None and len(phone_number_1) < 10:
+            raise forms.ValidationError("Please enter the correct 10 digit phone number for Additional Phone Number 1")
+        if phone_number_2 is not None and len(phone_number_2) < 10:
+            raise forms.ValidationError("Please enter the correct 10 digit phone number for Additional Phone Number 2")
         profile_created_by = self.cleaned_data['profile_created_by']
 
 
@@ -144,6 +177,8 @@ class CreateProfileEdit(forms.ModelForm):
         gender = self.cleaned_data.get('gender')
         dob = self.cleaned_data['rate'] = self.cleaned_data.get('dob')
         phone_number = self.cleaned_data['phone_number']
+        phone_number_1 = self.cleaned_data['phone_number_1']
+        phone_number_2 = self.cleaned_data['phone_number_2']
         profile_created_by = self.cleaned_data['profile_created_by']
 
         try:
@@ -154,6 +189,8 @@ class CreateProfileEdit(forms.ModelForm):
             new_profile_object.gender=gender
             new_profile_object.dob=dob
             new_profile_object.phone_number=phone_number
+            new_profile_object.phone_number_1=phone_number_1
+            new_profile_object.phone_number_2=phone_number_2
             new_profile_object.profile_created_by=profile_created_by
 
             new_profile_object.save()
@@ -176,6 +213,9 @@ class CreateProfileView(forms.ModelForm):
         self.fields['dob'] = forms.CharField(label='Date of Birth', widget=forms.SelectDateWidget(attrs={'disabled':'disabled', 'readOnly': True}, years=range(1980,datetime.datetime.now().year)),initial=profile_object.dob)
         self.fields['gender'] = forms.CharField(label='Gender', widget=forms.Select(attrs={'class':'form-control form-control-lg', 'disabled':'disabled'},choices=GENDER_CHOICES), initial=profile_object.dob)
         self.fields['phone_number'] = forms.CharField(label='Phone Number', widget=forms.TextInput(attrs={'class':'form-control form-control-lg', 'minlength':10, 'type': 'number', 'readOnly': True,'required': True}), initial=profile_object.phone_number)
+        self.fields['phone_number_1'] = forms.CharField(label='Additional Phone Number', widget=forms.TextInput(attrs={'class':'form-control form-control-lg', 'minlength':10, 'type': 'number', 'readOnly': True,'required': True}), initial=profile_object.phone_number_1)
+        self.fields['phone_number_2'] = forms.CharField(label='Additional Phone Number', widget=forms.TextInput(attrs={'class':'form-control form-control-lg', 'minlength':10, 'type': 'number', 'readOnly': True,'required': True}), initial=profile_object.phone_number_2)
+
         self.fields['profile_created_by'] = forms.CharField(label='Last Name', widget=forms.TextInput(
             attrs={'class': 'form-control form-control-lg', 'required': True, 'readOnly': True}),
                                                    initial=profile_object.profile_created_by)
@@ -190,6 +230,8 @@ class CreateProfileView(forms.ModelForm):
         last_name = self.cleaned_data.get('last_name')
         gender = self.cleaned_data.get('gender')
         phone_number = self.cleaned_data['phone_number']
+        phone_number_1 = self.cleaned_data['phone_number_1']
+        phone_number_2 = self.cleaned_data['phone_number_2']
         profile_created_by = self.cleaned_data['profile_created_by']
 
 
