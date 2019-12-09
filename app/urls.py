@@ -18,6 +18,8 @@ from django.urls import path
 from app.views import index
 
 from app.views.Profile import profile
+from django.contrib import admin
+
 
 urlpatterns = [
     # pathj(r'^login/$', index.login, name='login'),
@@ -72,7 +74,6 @@ urlpatterns = [
     path('deactivate_user/<int:profileID>', profile.deactivate_user, name="deactivate_user"),
     path('delete_profile/<int:profileID>', profile.delete_profile, name="delete_profile"),
     path('ajax_get_all_profile_list', profile.ajax_get_all_profile_list, name="ajax_get_all_profile_list"),
-
 
 
 ]
