@@ -42,14 +42,14 @@ urlpatterns = [
     path('update_personal_info/<int:id>', profile.update_personal_info, name='update_personal_info'),
     path('update_physical_features/<int:id>', profile.update_physical_features, name='update_physical_features'),
     path('update_education_occupation/<int:id>', profile.update_education_occupation, name='update_education_occupation'),
-    path('update_habbits/<int:id>', profile.update_habbits, name='update_habbits'),
+    path('update_habits/<int:id>', profile.update_habits, name='update_habits'),
     path('update_astrological_info/<int:id>', profile.update_astrological_info, name='update_astrological_info'),
     path('update_family_details/<int:id>', profile.update_family_details, name='update_family_details'),
     path('update_expectations/<int:id>', profile.update_expectations, name='update_expectations'),
     path('upload_image/<int:profileID>', profile.upload_image, name='upload_image'),
-    path('upload_jataka_image/<int:profileID>', profile.upload_jataka_image, name='upload_jataka_image'),
+    path('upload_horoscope_image/<int:profileID>', profile.upload_horoscope_image, name='upload_horoscope_image'),
     path('view_profile_image/<int:id>', profile.view_profile_image, name='view_profile_image'),
-    path('view_jataka_image/<int:id>', profile.view_jataka_image, name='view_jataka_image'),
+    path('view_horoscope_image/<int:id>', profile.view_horoscope_image, name='view_horoscope_image'),
 
     # Edit Profile
     path('edit_profile/<int:id>', profile.edit_profile, name='edit_profile'),
@@ -59,7 +59,7 @@ urlpatterns = [
     path('view_personal_info/<int:id>', profile.view_personal_info, name='view_personal_info'),
     path('view_physical_info/<int:id>', profile.view_physical_info, name='view_physical_info'),
     path('view_edu_occ_info/<int:id>', profile.view_edu_occ_info, name='view_edu_occ_info'),
-    path('view_habbits/<int:id>', profile.view_habbits, name='view_habbits'),
+    path('view_habits/<int:id>', profile.view_habits, name='view_habits'),
     path('view_astrological/<int:id>', profile.view_astrological, name='view_astrological'),
     path('view_family_details/<int:id>', profile.view_family_details, name='view_family_details'),
     path('view_family_details/<int:id>', profile.view_family_details, name='view_family_details'),
@@ -70,6 +70,7 @@ urlpatterns = [
     path('ajax_get_profile_list/<int:user_id>',index.ajax_get_profile_list, name="ajax_get_profile_list"),
     path('activate_user/<int:profileID>', profile.activate_user, name="activate_user"),
     path('deactivate_user/<int:profileID>', profile.deactivate_user, name="deactivate_user"),
+    path('delete_profile/<int:profileID>', profile.delete_profile, name="delete_profile"),
     path('ajax_get_all_profile_list', profile.ajax_get_all_profile_list, name="ajax_get_all_profile_list"),
 
 

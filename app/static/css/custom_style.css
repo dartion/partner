@@ -19,3 +19,13 @@
     }
 }
 
+.edit-view-delete-buttons{
+    font-size:small;
+    width: 9em;
+    color:#000000;
+    margin-top: 0.5em;
+}
+.activate-deactivate-button{
+    font-size: small;
+    width: 6.5em;
+}

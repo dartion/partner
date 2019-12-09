@@ -19,12 +19,14 @@ from django.contrib.auth.models import BaseUserManager, AbstractUser, User
 from django.core.validators import MaxValueValidator
 
 
-class   ProfileBasicInfo(models.Model):
+class ProfileBasicInfo(models.Model):
     first_name = models.CharField(max_length=40, null=False, blank=False)
     last_name = models.CharField(max_length=40, null=False, blank=False)
     gender = models.CharField(max_length=40, null=False, blank=False)
     dob = models.DateField(auto_now=False, null=False, blank=False)
     phone_number = models.BigIntegerField(null=False, blank=False, unique=False)
+    phone_number_1 = models.CharField(max_length=40, null=True, blank=True)
+    phone_number_2 = models.CharField(max_length=40, null=True, blank=True)
     profile_created_by = models.CharField(max_length=40, null=False, blank=False)
     is_active = models.BooleanField(null=True, blank=True,default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -38,13 +40,15 @@ class ProfilePersonalInfo(models.Model):
     fathers_name = models.CharField(max_length=40, null=    False, blank=False)
     mothers_name = models.CharField(max_length=40, null=False, blank=False)
     guardians_name= models.CharField(max_length=40, null=False, blank=False)
+    fathers_occupation =models.CharField(max_length=40, null=True, blank=True)
+    mothers_occupation =models.CharField(max_length=40, null=True, blank=True)
+    guardians_occupation = models.CharField(max_length=40, null=True, blank=True)
     resident_of_country= models.CharField(max_length=40, null=False, blank=False)
     resident_of_state = models.CharField(max_length=40, null=False, blank=False)
     resident_of_city_or_village = models.CharField(max_length=40, null=False, blank=False)
-    mother_toungue= models.CharField(max_length=40, null=False, blank=False)
+    mother_tongue= models.CharField(max_length=40, null=False, blank=False)
     community = models.CharField(max_length=40, null=False, blank=False)
     caste = models.CharField(max_length=40, null=False, blank=False)
-    sub_caste = models.CharField(max_length=40, null=False, blank=False)
     native_place = models.CharField(max_length=40, null=False, blank=False)
     residential_address = models.CharField(max_length=40, null=False, blank=False)
     contact_number = models.BigIntegerField(null=False, blank=False, unique=True)
@@ -88,7 +92,7 @@ class ProfileEducationOccupation(models.Model):
 
 
 
-class ProfileHabbits(models.Model):
+class ProfileHabits(models.Model):
     food=  models.CharField(max_length=100, null=True, blank=True)
     smoking= models.CharField(max_length=100, null=True, blank=True)
     alcholic_drinks=  models.CharField(max_length=100, null=True, blank=True)
@@ -97,7 +101,7 @@ class ProfileHabbits(models.Model):
 
     def save(self, *args, **kwargs):
         self.full_clean()
-        return super(ProfileHabbits, self).save(*args, **kwargs)
+        return super(ProfileHabits, self).save(*args, **kwargs)
 
 
 class ProfileAstrologicalInfo(models.Model):
@@ -151,7 +155,7 @@ class ResetPassword(models.Model):
 
 class ProfileImages(models.Model):
     profile_image = models.ImageField(upload_to='media/profile', null=True, blank=True)
-    jataka_image = models.ImageField(upload_to='media/jataka', null=True, blank=True)
+    horoscope_image = models.ImageField(upload_to='media/horoscope', null=True, blank=True)
     url = models.CharField(max_length=100, null=True, blank=True)
     profile = models.ForeignKey(ProfileBasicInfo, on_delete=models.CASCADE, unique=True, null=True, blank=True)
 
@@ -160,11 +164,11 @@ class ProfileImages(models.Model):
         return super(ProfileImages, self).save(*args, **kwargs)
 
 
-class JatakaImages(models.Model):
-    jataka_image = models.ImageField(upload_to='media/jataka', null=True, blank=True)
+class HoroscopeImages(models.Model):
+    horoscope_image = models.ImageField(upload_to='media/horoscope', null=True, blank=True)
     url = models.CharField(max_length=100, null=True, blank=True)
     profile = models.ForeignKey(ProfileBasicInfo, on_delete=models.CASCADE, unique=True, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.full_clean()
-        return super(JatakaImages, self).save(*args, **kwargs)
+        return super(HoroscopeImages, self).save(*args, **kwargs)

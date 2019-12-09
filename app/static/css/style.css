@@ -34,12 +34,16 @@ h1, h2, h3, h4, h5, h6, .text-heading {
     height: 3em;
 }
 
-.sydDark {
+.appTitle {
     color: #333333;
+    text-align: center;
+    font-size: -webkit-xxx-large;
+    font-family: cursive;
+    font-weight: bolder;
 }
 
 .nav-title {
-    width: 100%;
+    width: 55% !important;
     text-align: center;
     font-size: 2em;
     font-weight: 900;
@@ -144,4 +148,9 @@ table.dataTable > thead > tr > th {
 .navbar-light .navbar-nav .nav-link:focus, .navbar-light .navbar-nav .nav-link:hover {
 
     color: azure !important;
+}
+
+.nav-button{
+    margin-left: 0.3em;
+    margin-top: 0.3em;
 }

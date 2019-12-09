@@ -13,8 +13,8 @@ class UpdateAstrologicalInfo(forms.ModelForm):
             astrological_info_object = ProfileAstrologicalInfo.objects.get(profile_id=profile_id)
             self.fields['gothra'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}),
                                                     initial=astrological_info_object.gothra)
-            self.fields['pravara'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg' }),
-                                                     initial=astrological_info_object.pravara)
+            self.fields['pravara'] = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-lg' }),
+                                                     initial=astrological_info_object.pravara,required=False,)
             self.fields['nakshatra'] = forms.CharField(
                 widget=forms.TextInput(attrs={'required': True, 'class':'form-control form-control-lg'}),
                 initial=astrological_info_object.nakshatra)
@@ -38,7 +38,7 @@ class UpdateAstrologicalInfo(forms.ModelForm):
     class Meta:
         model = ProfileAstrologicalInfo
         fields = ('gothra',
-                  'pravara',
+                  # 'pravara',
                   'nakshatra',
                   'rashi',
                   'horoscope_matching'
@@ -104,7 +104,7 @@ class ViewAstrologicalInfo(forms.ModelForm):
     class Meta:
         model = ProfileAstrologicalInfo
         fields = ('gothra',
-                  'pravara',
+                  # 'pravara',
                   'nakshatra',
                   'rashi',
                   'horoscope_matching'

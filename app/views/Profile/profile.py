@@ -2,12 +2,12 @@
 from django.http import HttpResponse
 
 from django.contrib.auth.decorators import login_required
-from app.forms.profile import create_profile_form, personal_info, physical_features, education_occupation, habbits,\
+from app.forms.profile import create_profile_form, personal_info, physical_features, education_occupation, habits,\
     astrological_info, family_details, expectations, upload_images
 from app.models import *
 from django.contrib import messages
 from django.shortcuts import render, redirect
-from app.models import ProfileImages, JatakaImages
+from app.models import ProfileImages, HoroscopeImages
 from partner.settings import ALLOWED_HOSTS
 import json
 
@@ -217,21 +217,21 @@ def view_edu_occ_info(request, id):
         return redirect('/view_profile/{}'.format(id))
     return render(request, "profile/education_occupation/view_education_occupation.html", {"form":form, "profileID":profile_object.id})
 
-def update_habbits_request(request, profile_object):
-    form = habbits.UpdateHabbits(request.POST or None, profile_id=profile_object.id)
+def update_habits_request(request, profile_object):
+    form = habits.UpdateHabits(request.POST or None, profile_id=profile_object.id)
     try:
         if form.is_valid():
             if form.save(profile_object.id):
                 messages.add_message(request, messages.SUCCESS,
                                      "Profile updated successfully.")
-            return HttpResponse("Profile Habbits info updated successfully")
+            return HttpResponse("Profile Habits info updated successfully")
         print(form.errors)
     except Exception as ex:
         print(ex)
 
 @login_required
-def update_habbits(request, id=None):
-    form = habbits.UpdateHabbits(request.POST or None, profile_id=id)
+def update_habits(request, id=None):
+    form = habits.UpdateHabits(request.POST or None, profile_id=id)
     profile_edit_list = []
     try:
         profile_object = ProfileBasicInfo.objects.get(id=id)
@@ -242,28 +242,28 @@ def update_habbits(request, id=None):
         profile_edit_list.append(i.id)
 
     if request.user.is_superuser:
-        update_habbits_request(request, profile_object)
+        update_habits_request(request, profile_object)
     else:
         if id in profile_edit_list:
-            update_habbits_request(request, profile_object)
+            update_habits_request(request, profile_object)
         else:
             messages.add_message(request, messages.ERROR,
                                  "You are not allowed to edit someone else's profile.")
             return redirect('/')
-    return render(request, "profile/habbits/habbits.html",
+    return render(request, "profile/habits/habits.html",
                   {"form": form, 'profileID': profile_object.id})
 
 
 @login_required
-def view_habbits(request, id):
+def view_habits(request, id):
     profile_object = ProfileBasicInfo.objects.get(id=id)
     try:
-        form = habbits.ViewHabbits(request.POST or None, instance=profile_object)
+        form = habits.ViewHabits(request.POST or None, instance=profile_object)
     except Exception as ex:
         messages.add_message(request, messages.ERROR,
-                             "Profile's habbits information has not been updated yet.")
+                             "Profile's habits information has not been updated yet.")
         return redirect('/view_profile/{}'.format(id))
-    return render(request, "profile/habbits/view_habbits.html", {"form":form, "profileID":profile_object.id})
+    return render(request, "profile/habits/view_habits.html", {"form":form, "profileID":profile_object.id})
 
 
 def update_astrological_info_request(request, profile_object):
@@ -416,6 +416,9 @@ def activate_user(request, profileID):
         profile_object = ProfileBasicInfo.objects.get(id=profileID)
         profile_object.is_active = True
         profile_object.save()
+        messages.add_message(request, messages.SUCCESS,
+                             "Profile {} has been activated.".format(
+                                 profile_object.first_name + " " + profile_object.last_name))
         return redirect('/')
 
     else:
@@ -430,12 +433,29 @@ def deactivate_user(request, profileID):
         profile_object = ProfileBasicInfo.objects.get(id=profileID)
         profile_object.is_active = False
         profile_object.save()
+        messages.add_message(request, messages.WARNING,
+                             "Profile {} has been deactivated.".format(profile_object.first_name +" "+ profile_object.last_name))
         return redirect('/')
     else:
         messages.add_message(request, messages.ERROR,
                              "You are not allowed Activate/Deactivate users")
         return redirect('/')
 
+@login_required()
+def delete_profile(request, profileID):
+    if request.user.is_superuser:
+        profile_object = ProfileBasicInfo.objects.get(id=profileID)
+        name = profile_object.first_name+ " " + profile_object.last_name
+        profile_object.delete()
+        messages.add_message(request, messages.WARNING,
+                             "Profile {} has been deleted from the system.".format(
+                                 profile_object.first_name + " " + profile_object.last_name))
+        return redirect('/')
+
+    else:
+        messages.add_message(request, messages.ERROR,
+                             "You are not allowed Activate/Deactivate users")
+        return redirect('/')
 def update_images_request(request, profile_object):
     form = upload_images.UploadProfileImage(request.POST or None, request.FILES)
     try:
@@ -487,21 +507,21 @@ def upload_image(request, profileID):
     return render(request, "profile/profile_images/upload_profile_image.html", {"form": form, 'profileID': profile_object.id, 'url':url})
 
 
-def update_jataka_images_request(request, profile_object):
-    form = upload_images.UploadJatakaImage(request.POST or None, request.FILES)
+def update_horoscope_images_request(request, profile_object):
+    form = upload_images.UploadHoroscopeImage(request.POST or None, request.FILES)
     try:
         if form.is_valid():
             if form.save(profile_object):
                 messages.add_message(request, messages.SUCCESS,
-                                     "Jataka image updated successfully.")
-            return HttpResponse("Jataka info updated successfully")
+                                     "Horoscope image updated successfully.")
+            return HttpResponse("Horoscope info updated successfully")
         print(form.errors)
     except Exception as ex:
         print(ex)
 
 @login_required()
-def upload_jataka_image(request, profileID):
-    form = upload_images.UploadJatakaImage(request.POST or None, request.FILES)
+def upload_horoscope_image(request, profileID):
+    form = upload_images.UploadHoroscopeImage(request.POST or None, request.FILES)
 
     profile_edit_list = []
     try:
@@ -514,10 +534,10 @@ def upload_jataka_image(request, profileID):
             profile_edit_list.append(i.id)
 
         if request.user.is_superuser:
-            update_jataka_images_request(request, profile_object)
+            update_horoscope_images_request(request, profile_object)
         else:
             if profileID in profile_edit_list:
-                update_jataka_images_request(request, profile_object)
+                update_horoscope_images_request(request, profile_object)
             else:
                 messages.add_message(request, messages.ERROR,
                                      "You are not allowed to edit someone else's profile.")
@@ -526,7 +546,7 @@ def upload_jataka_image(request, profileID):
         print(ex)
     url = ''
     try:
-        image_object = JatakaImages.objects.get(profile_id=profile_object.id)
+        image_object = HoroscopeImages.objects.get(profile_id=profile_object.id)
         if image_object.url is not None:
             url = "/"+image_object.url
     except Exception as ex:
@@ -535,7 +555,7 @@ def upload_jataka_image(request, profileID):
         url = '/media/profile/default_pp.png'
 
 
-    return render(request, "profile/profile_images/upload_profile_jataka.html", {"form": form, 'profileID': profile_object.id, 'url':url})
+    return render(request, "profile/profile_images/upload_profile_horoscope.html", {"form": form, 'profileID': profile_object.id, 'url':url})
 
 @login_required
 def search_profiles(request):
@@ -561,14 +581,14 @@ def view_profile_image(request, id):
 
 
 @login_required
-def view_jataka_image(request, id):
+def view_horoscope_image(request, id):
     profile_object = ProfileBasicInfo.objects.get(id=id)
     try:
-        url = "/"+JatakaImages.objects.get(profile_id=profile_object.id).url
+        url = "/"+HoroscopeImages.objects.get(profile_id=profile_object.id).url
     except:
         url = '/media/profile/default_pp.png'
 
-    return render(request, "profile/profile_images/view_jataka_image.html",
+    return render(request, "profile/profile_images/view_horoscope_image.html",
                   {"url": url, "profileID": profile_object.id})
 
 @login_required
@@ -598,12 +618,10 @@ def ajax_get_all_profile_list(request):
             try:
                 profile_personal_info_object = ProfilePersonalInfo.objects.get(profile_id=each_profile.id)
                 profile_list_dict['caste'] = profile_personal_info_object.caste
-                profile_list_dict['sub_caste'] = profile_personal_info_object.sub_caste
                 profile_list_dict['resident_of_country'] = profile_personal_info_object.resident_of_country
 
             except Exception as ex:
                 profile_list_dict['caste'] = "Information not updated by the user"
-                profile_list_dict['sub_caste'] = "Information not updated by the user"
                 profile_list_dict['resident_of_country'] = "Information not updated by the user"
 
 
