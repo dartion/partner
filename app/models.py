@@ -53,7 +53,7 @@ class ProfilePersonalInfo(models.Model):
     residential_address = models.CharField(max_length=200, null=False, blank=False)
     contact_number = models.BigIntegerField(null=False, blank=False, unique=True)
     additional_info = models.CharField(max_length=40, null=False, blank=False)
-    email = models.EmailField( max_length=100, unique=False)
+    email = models.EmailField( max_length=100, unique=False, null=True, blank=True)
     profile = models.ForeignKey(ProfileBasicInfo,unique=True, on_delete=models.CASCADE, null=True, blank=True)
 
     # ToDo: Profile pictures

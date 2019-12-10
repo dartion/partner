@@ -19,7 +19,8 @@ def create_profile(request):
         post = form.save(request.user.id)
         messages.add_message(request, messages.SUCCESS,
                              "Profile created successfully.")
-        return redirect('/')
+
+        return redirect('/update_personal_info/{}'.format(post.id))
 
     return render(request, "profile/basic_info/create_profile_basic_info.html", {"form":form, 'profileID':None})
 
