@@ -29,7 +29,7 @@ class UpdateAstrologicalInfo(forms.ModelForm):
         except Exception as ex:
             print(ex)
     gothra = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}))
-    pravara = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}))
+    pravara = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}),required=False)
     nakshatra = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}))
     rashi = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}))
     horoscope_matching = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}))
