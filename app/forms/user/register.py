@@ -111,8 +111,3 @@ class UserRegisterForm(forms.ModelForm):
             raise forms.ValidationError("This email is already registered")
 
         return super(UserRegisterForm, self).clean(*args, **kwargs)
-
-    @receiver(pre_save, sender=User)
-    def set_new_user_inactive(sender, instance, **kwargs):
-        if instance._state.adding is True:
-            instance.is_active = False

@@ -12,7 +12,7 @@ class UpdateProfilePersonalInfo(forms.ModelForm):
         try:
             personal_info_object = ProfilePersonalInfo.objects.get(profile_id=profile_id)
             self.fields['fathers_name'] = forms.CharField(label="Father's Name",
-                widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}),
+                widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg '}),
                 initial=personal_info_object.fathers_name)
 
             self.fields['mothers_name'] = forms.CharField(label="Mother's Occupation",
