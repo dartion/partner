@@ -50,7 +50,7 @@ class ProfilePersonalInfo(models.Model):
     community = models.CharField(max_length=40, null=False, blank=False)
     caste = models.CharField(max_length=40, null=False, blank=False)
     native_place = models.CharField(max_length=40, null=False, blank=False)
-    residential_address = models.CharField(max_length=40, null=False, blank=False)
+    residential_address = models.CharField(max_length=200, null=False, blank=False)
     contact_number = models.BigIntegerField(null=False, blank=False, unique=True)
     additional_info = models.CharField(max_length=40, null=False, blank=False)
     email = models.EmailField( max_length=100, unique=False)
