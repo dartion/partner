@@ -69,6 +69,30 @@
 
         }
 
+       function confirmSubmit(id) {
+            confirmSubmit = confirm("Are you sure you want to submit the application? You cannot make any changes to the application once you click on Ok.")
+            if (confirmSubmit) {
+                var submit_profile_url = "{% url 'submit_application' id=111 %}".replace(/111/, id);
+                window.location.href = submit_profile_url
+
+            } else {
+                location.reload();
+            }
+
+        }
+
+     function confirmRevoke(id) {
+            confirmRevoke = confirm("Are you sure you want to revoke the application? Doing this will let the user to edit and resubmit the application.")
+            if (confirmRevoke) {
+                var revoke_profile_url = "{% url 'revoke_application' id=111 %}".replace(/111/, id);
+                window.location.href = revoke_profile_url
+
+            } else {
+                location.reload();
+            }
+
+        }
+
 
 
         var groupTable;
@@ -114,20 +138,45 @@
                     {"data": "first_name", "title": "Name", defaultContent: ""},
                     {"data": "dob", "title": "DOB", defaultContent: ""},
                     {"data": "phone_number", "title": "Phone number", defaultContent: ""},
-                    {"data": "id", "title": "Actions", defaultContent: "", render:function (id) {
+                    {"data": function(data){return data;}, "title": "Actions", defaultContent: "", render:function (data) {
                         html = ''
-                        edit_profile_url = "{% url 'edit_profile' id=111 %}".replace(/111/, id);
-                        view_profile_url = "{% url 'view_profile' id=111 %}".replace(/111/, id);
-                        html += "<a class='btn btn-outline-warning edit-view-delete-buttons' href=\'"+ edit_profile_url +"\'>Edit Profile</a>"
+                        edit_profile_url = "{% url 'edit_profile' id=111 %}".replace(/111/, data.id);
+                        view_profile_url = "{% url 'view_profile' id=111 %}".replace(/111/, data.id);
+                        if (data.submit == false){
+                            html += "<a class='btn btn-outline-warning edit-view-delete-buttons' href=\'"+ edit_profile_url +"\'>Edit Profile</a>"
+                        }
+
+
+
                         html += "   "
                         html += "<a class='btn btn-outline-primary edit-view-delete-buttons' href=\'"+ view_profile_url +"\'>View Profile</a>"
                         html += "   "
                         {% if admin_user %}
                         html += "<ahref class='btn btn-outline-danger edit-view-delete-buttons' style='font-size:small; width: 9em;'" +
-                            " href='#' onClick='confirmDelete("+ id+ ")'>Delete Profile</ahref>"
+                            " href='#' onClick='confirmDelete("+ data.id+ ")'>Delete Profile</ahref>"
                         {% endif %}
                         return html
                         }},
+                        {"data": function(data){return data;}, "title": "Submit Application", defaultContent: "", render: function(data){
+                            html =""
+
+                                if (data.submit == true){
+                                    html += ""
+                                    {% if admin_user %}
+                                        html += "<ahref class='btn btn-outline-danger activate-deactivate-button 'style='font-size:small; width: 9em;'" +
+                            " href='#' onClick='confirmRevoke("+ data.id+ ")'>Revoke Profile</ahref>"
+                                    {% endif %}
+                                }
+                                else if ( data.submit == false){
+
+                                    html += "<ahref class='btn btn-outline-success activate-deactivate-button 'style='font-size:small; width: 9em;'" +
+                            " href='#' onClick='confirmSubmit("+ data.id+ ")'>Submit Profile</ahref>"
+
+                                }
+
+                                return html;
+                            }},
+
                     {% if admin_user %}
                           {"data":function (data){return data;}, "title": "User Status", defaultContent: "", render:function (data) {
                                   html = ""
