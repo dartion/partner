@@ -130,11 +130,7 @@ def view_personal_info(request, id):
 
 
 def update_physical_features_request(request, profile_object):
-    profile = ProfileBasicInfo.objects.get(id=profile_object)
-    if profile.submit == True:
-        messages.add_message(request, messages.WARNING,
-                             "Profile application has been submitted. Please contact administrator to revoke the application.")
-        return redirect('/')
+
     form = physical_features.UpdatePhysicalFeatures(request.POST or None, profile_id=profile_object.id)
     try:
         if form.is_valid():
@@ -158,6 +154,14 @@ def update_physical_features(request, id=None):
         messages.add_message(request, messages.WARNING,
                              "Profile application has been submitted. Please contact administrator to revoke the application.")
         return redirect('/')
+    try:
+        profile = ProfileBasicInfo.objects.get(id=id)
+        if profile.submit == True:
+            messages.add_message(request, messages.WARNING,
+                                 "Profile application has been submitted. Please contact administrator to revoke the application.")
+            return redirect('/')
+    except Exception as ex:
+        print(ex)
     form = physical_features.UpdatePhysicalFeatures(request.POST or None, profile_id=id)
     profile_edit_list = []
     try:
