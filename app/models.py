@@ -29,6 +29,7 @@ class ProfileBasicInfo(models.Model):
     phone_number_2 = models.CharField(max_length=40, null=True, blank=True)
     profile_created_by = models.CharField(max_length=40, null=False, blank=False)
     is_active = models.BooleanField(null=True, blank=True,default=False)
+    submit = models.BooleanField(null=False, blank=False,default=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):

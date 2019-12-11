@@ -27,6 +27,11 @@ def create_profile(request):
 
 @login_required
 def edit_profile(request, id):
+    profile = ProfileBasicInfo.objects.get(id=id)
+    if profile.submit == True:
+        messages.add_message(request, messages.WARNING,
+                             "Profile application has been submitted. Please contact administrator to revoke the application.")
+        return redirect('/')
     if request.user.is_superuser:
         try:
             profile_object = ProfileBasicInfo.objects.get(id=id)
@@ -84,6 +89,11 @@ def update_personal_info_request(request, profile_object):
 
 @login_required
 def update_personal_info(request, id=None):
+    profile = ProfileBasicInfo.objects.get(id=id)
+    if profile.submit == True:
+        messages.add_message(request, messages.WARNING,
+                             "Profile application has been submitted. Please contact administrator to revoke the application.")
+        return redirect('/')
     form = personal_info.UpdateProfilePersonalInfo(request.POST or None, profile_id = id)
     profile_edit_list = []
     try:
@@ -120,6 +130,11 @@ def view_personal_info(request, id):
 
 
 def update_physical_features_request(request, profile_object):
+    profile = ProfileBasicInfo.objects.get(id=profile_object)
+    if profile.submit == True:
+        messages.add_message(request, messages.WARNING,
+                             "Profile application has been submitted. Please contact administrator to revoke the application.")
+        return redirect('/')
     form = physical_features.UpdatePhysicalFeatures(request.POST or None, profile_id=profile_object.id)
     try:
         if form.is_valid():
@@ -138,6 +153,11 @@ def update_physical_features_request(request, profile_object):
 
 @login_required
 def update_physical_features(request, id=None):
+    profile = ProfileBasicInfo.objects.get(id=id)
+    if profile.submit == True:
+        messages.add_message(request, messages.WARNING,
+                             "Profile application has been submitted. Please contact administrator to revoke the application.")
+        return redirect('/')
     form = physical_features.UpdatePhysicalFeatures(request.POST or None, profile_id=id)
     profile_edit_list = []
     try:
@@ -172,6 +192,7 @@ def view_physical_info(request, id):
 
 
 def update_edu_occ_request(request, profile_object):
+
     form = education_occupation.UpdateEducationOccupation(request.POST or None, profile_id=profile_object.id)
     try:
         if form.is_valid():
@@ -185,6 +206,11 @@ def update_edu_occ_request(request, profile_object):
 
 @login_required
 def update_education_occupation(request, id=None):
+    profile = ProfileBasicInfo.objects.get(id=id)
+    if profile.submit == True:
+        messages.add_message(request, messages.WARNING,
+                             "Profile application has been submitted. Please contact administrator to revoke the application.")
+        return redirect('/')
     form = education_occupation.UpdateEducationOccupation(request.POST or None, profile_id=id)
     profile_edit_list = []
     try:
@@ -232,6 +258,11 @@ def update_habits_request(request, profile_object):
 
 @login_required
 def update_habits(request, id=None):
+    profile = ProfileBasicInfo.objects.get(id=id)
+    if profile.submit == True:
+        messages.add_message(request, messages.WARNING,
+                             "Profile application has been submitted. Please contact administrator to revoke the application.")
+        return redirect('/')
     form = habits.UpdateHabits(request.POST or None, profile_id=id)
     profile_edit_list = []
     try:
@@ -281,6 +312,11 @@ def update_astrological_info_request(request, profile_object):
 
 @login_required
 def update_astrological_info(request, id=None):
+    profile = ProfileBasicInfo.objects.get(id=id)
+    if profile.submit == True:
+        messages.add_message(request, messages.WARNING,
+                             "Profile application has been submitted. Please contact administrator to revoke the application.")
+        return redirect('/')
     form = astrological_info.UpdateAstrologicalInfo(request.POST or None, profile_id = id)
     profile_edit_list = []
     try:
@@ -327,6 +363,11 @@ def update_family_details_request(request, profile_object):
 
 @login_required
 def update_family_details(request, id=None):
+    profile = ProfileBasicInfo.objects.get(id=id)
+    if profile.submit == True:
+        messages.add_message(request, messages.WARNING,
+                             "Profile application has been submitted. Please contact administrator to revoke the application.")
+        return redirect('/')
     form = family_details.UpdateFamilyDetails(request.POST or None, profile_id=id)
     profile_edit_list = []
     try:
@@ -376,6 +417,11 @@ def update_expectations_request(request, profile_object):
 
 @login_required
 def update_expectations(request, id=None):
+    profile = ProfileBasicInfo.objects.get(id=id)
+    if profile.submit == True:
+        messages.add_message(request, messages.WARNING,
+                             "Profile application has been submitted. Please contact administrator to revoke the application.")
+        return redirect('/')
     form = expectations.UpdateExpectations(request.POST or None, profile_id=id)
     profile_edit_list = []
     try:
@@ -634,4 +680,45 @@ def ajax_get_all_profile_list(request):
     retVal = {"data": profile_list}
     return HttpResponse(json.dumps(retVal), content_type="application/json")
 
+@login_required
+def submit_application(request,id):
+    same_user = False
+    try:
+        profile_objects = ProfileBasicInfo.objects.filter(user_id=request.user.id)
+        for i in profile_objects:
+            if i.id == id:
+                same_user = True
 
+    except Exception as ex:
+        pass
+
+
+
+    try:
+        if request.user.is_superuser or same_user:
+            user = ProfileBasicInfo.objects.get(id=id)
+            user.submit = True
+            user.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "Your application has been Submitted successfully. Please contact administrator "
+                                 "to update your profile")
+            return redirect('/')
+    except Exception as ex:
+        messages.add_message(request, messages.WARNING,
+                             "Your profile must first be active to view profiles. Please contanct administrator")
+        return redirect('/')
+
+@login_required
+def revoke_application(request,id):
+    try:
+        if request.user.is_superuser:
+            user = ProfileBasicInfo.objects.get(id=id)
+            user.submit = False
+            user.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "User {} application has been revoked. ".format(user.first_name + " " + user.last_name ))
+            return redirect('/')
+    except Exception as ex:
+        messages.add_message(request, messages.WARNING,
+                             "Your profile must first be active to view profiles. Please contanct administrator")
+        return redirect('/')

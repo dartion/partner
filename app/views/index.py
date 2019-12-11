@@ -163,7 +163,9 @@ def ajax_get_profile_list(request,user_id):
         profile_list_dict['dob'] = str(i.dob)
         profile_list_dict['phone_number'] = i.phone_number
         profile_list_dict['id'] = i.id
+        profile_list_dict['submit'] = i.submit
         if request.user.is_superuser:
+
             profile_list_dict['is_active'] = i.is_active
 
         profile_list.append(profile_list_dict)
