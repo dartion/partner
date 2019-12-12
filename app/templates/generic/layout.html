@@ -71,13 +71,10 @@
 {#        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i#}
 {#                                    class="fas fa-sign-out-alt"></i>Logout</button>#}
          {% if user.is_authenticated %}
+              <span class=""co style="color:white;margin-right: 1em;" href="#"> Logged in as: {{ user }} <span class="sr-only">(current)</span></span>
              {% if user.is_superuser %}
-
-
                 <a class="btn btn-outline-secondary" style="margin-right: 1em;" href="{% url 'admin:index' %}"> Super Admin<span class="sr-only">(current)</span></a>
-
-
-        {% endif %}
+            {% endif %}
                 <button class="btn btn-outline-warning" id="maLogout" type="button"
                                     onclick="window.location.href='{% url "logout" %}'"><i
                                     class="fas fa-sign-out-alt"></i>Logout</button>
