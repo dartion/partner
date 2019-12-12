@@ -57,7 +57,7 @@
         {% if user.is_superuser %}
             </li>
                 <li class="nav-item active">
-                <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'admin:index' %}"> Manage Users<span class="sr-only">(current)</span></a>
+                <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'user_list' %}"> Manage Users<span class="sr-only">(current)</span></a>
                 </li>
         {% endif %}
 
@@ -71,6 +71,13 @@
 {#        <button class="btn btn-outline-success my-2 my-sm-0" type="submit"><i#}
 {#                                    class="fas fa-sign-out-alt"></i>Logout</button>#}
          {% if user.is_authenticated %}
+             {% if user.is_superuser %}
+
+
+                <a class="btn btn-outline-secondary" style="margin-right: 1em;" href="{% url 'admin:index' %}"> Super Admin<span class="sr-only">(current)</span></a>
+
+
+        {% endif %}
                 <button class="btn btn-outline-warning" id="maLogout" type="button"
                                     onclick="window.location.href='{% url "logout" %}'"><i
                                     class="fas fa-sign-out-alt"></i>Logout</button>

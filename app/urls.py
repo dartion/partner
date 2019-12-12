@@ -71,6 +71,7 @@ urlpatterns = [
     # Ajax paths
     path('ajax_get_profile_list/<int:user_id>',index.ajax_get_profile_list, name="ajax_get_profile_list"),
     path('ajax_get_all_profile_list', profile.ajax_get_all_profile_list, name="ajax_get_all_profile_list"),
+    path('ajax_get_user_list',index.ajax_get_user_list, name="ajax_get_user_list"),
 
     # Features
     path('activate_user/<int:profileID>', profile.activate_user, name="activate_user"),
@@ -79,5 +80,10 @@ urlpatterns = [
 
     path('submit_application/<int:id>', profile.submit_application, name="submit_application"),
     path('revoke_application/<int:id>', profile.revoke_application, name="revoke_application"),
+
+    # User management
+    path('user_list', index.user_list, name="user_list"),
+    path('activate_profile_owner/<int:id>', index.activate_profile_owner, name="activate_profile_owner"),
+    path('deactivate_profile_owner/<int:id>', index.deactivate_profile_owner, name="deactivate_profile_owner"),
 
 ]
