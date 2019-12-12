@@ -42,20 +42,25 @@
       <li class="nav-item active">
         <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'about_us' %}">About <span class="sr-only">(current)</span></a>
       </li>
-        <li class="nav-item active">
-        <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'search_profiles' %}">Search profiles <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item active">
-        <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'how_to_start' %}">How to use? <span class="sr-only">(current)</span></a>
-      </li>
+    </li>
         <li class="nav-item active">
         <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'contact_us' %}">Contact Us <span class="sr-only">(current)</span></a>
       </li>
     <li class="nav-item active">
+        <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'how_to_start' %}">How to use? <span class="sr-only">(current)</span></a>
+
+        </li>
+    <li class="nav-item active">
         <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'create_profile' %}">Create Profile <span class="sr-only">(current)</span></a>
       </li>
+
+
+        <li class="nav-item active">
+        <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'search_profiles' %}">Search profiles <span class="sr-only">(current)</span></a>
+      </li>
+
         {% if user.is_superuser %}
-            </li>
+
                 <li class="nav-item active">
                 <a class="btn btn-outline-secondary nav-button nav-link" href="{% url 'user_list' %}"> Manage Users<span class="sr-only">(current)</span></a>
                 </li>
