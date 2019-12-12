@@ -8,6 +8,9 @@ from app.models import *
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from app.models import ProfileImages, HoroscopeImages
+from django.contrib.auth import (
+    authenticate,
+)
 from partner.settings import ALLOWED_HOSTS
 import json
 
@@ -726,3 +729,4 @@ def revoke_application(request,id):
         messages.add_message(request, messages.WARNING,
                              "Your profile must first be active to view profiles. Please contanct administrator")
         return redirect('/')
+

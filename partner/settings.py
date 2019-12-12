@@ -49,7 +49,7 @@ SECRET_KEY = 'e9%vz^fmqzaq2&x%xii#li8z#=#&lq(--8jbmcfkcg@gr-1a4('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["web.local"]
 
 
 # Application definition
@@ -101,7 +101,7 @@ MESSAGE_STORAGE = 'django.contrib.messages.storage.fallback.FallbackStorage'
 
 WSGI_APPLICATION = 'partner.wsgi.application'
 
-ALLOWED_HOSTS = ["darshan.intersect.org.au"]
+ALLOWED_HOSTS = ["web.local"]
 APP_NAME = config['DEFAULT']['APP_NAME']
 # Database
 # https://docs.djangoproject.cs     om/en/2.1/ref/settings/#databases
@@ -163,9 +163,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, 'app/static'),
-# )
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'app/static'),
+)
+
 
 LOGIN_URL = 'login'
 

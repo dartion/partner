@@ -1,0 +1,164 @@
+
+{% extends "generic/layout.html" %}
+{% load static %}
+{% block styles %}
+<link href="static/css/custom_style.css" rel="stylesheet">
+{% endblock styles %}
+{% block topBody %}
+
+{% endblock %}
+
+{% block lowerBody %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="row">&nbsp;</div>
+
+                 {% for message in messages %}
+                        {% if message.tags == "success" %}
+                            <div class="alert alert-success">
+                                {{ message|safe }}
+                            </div>
+                        {% else %}
+                            <div class="alert alert-danger">
+                                {{ message|safe }}
+                            </div>
+                        {% endif %}
+
+                    {% endfor %}
+                {% if form.errors.items %}
+                        <div class="alert alert-danger ">
+
+                            {% for field, error in form.errors.items %}
+                                {% if field != '__all__' %}{{ field }}{% endif %}
+                                {{ error | striptags }}
+                            {% endfor %}
+
+                        </div>
+                    {% endif %}
+
+                <h3>User Management</h3>
+
+                <table id="user-list" class="table table-striped" style="width: 100%">
+                    <thead></thead>
+                    <tbody></tbody>
+                </table>
+
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+    </div>
+
+{% endblock lowerBody %}
+
+{% block scripts %}
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link src="//cdn.datatables.net/1.10.19/css/jquery.dataTables.css" rel="stylesheet">
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" language="javascript" class="init">
+
+     function confirmDeactivate(id) {
+            confirmDeactivate = confirm("Are you sure you want to deactivate the user?")
+            if (confirmDeactivate) {
+                var deactivate_user_url = "{% url 'deactivate_profile_owner' id=111 %}".replace(/111/, id);
+                window.location.href = deactivate_user_url
+
+            } else {
+                location.reload();
+            }
+
+        }
+
+     function confirmActivate(id) {
+            confirmActivate = confirm("Are you sure you want to activate the user?")
+            if (confirmActivate) {
+                var activate_user_url = "{% url 'activate_profile_owner' id=111 %}".replace(/111/, id);
+                window.location.href = activate_user_url
+
+            } else {
+                location.reload();
+            }
+
+        }
+        var groupTable;
+        $(document).ready(function () {
+            {#var open_round_url = "{% url '' id=111 %}".replace(/111/, id);#}
+
+            groupTable = $('#user-list').DataTable({
+                "processing": true,
+                "deferRender": true,
+                "scrollX": true,
+                "rowId": 'batchID',
+                "bStateSave": true,
+                "filter": true,
+                {#"status": true,#}
+                "paging": true,
+                "bAutoWidth": false,
+                {#"bInfo": true,#}
+                "bSort": true,
+                "overflow-y": scroll,
+                "scrollCollapse": true,
+                "lengthMenu": [[20, 25, 50, -1], [20, 25, 50, "All"]],
+                "order": [4, "desc"],
+                "responsive": false,
+                "language": {
+                    "search": "Filter : ",
+                    "info": "",
+                    "infoEmpty": "",
+                    "infoFiltered": "_TOTAL_ of _MAX_ groups",
+                    "zeroRecords": "No Profiles created in the system.",
+                    "loadingRecords": "Loading  ..."
+                },
+                {#"sDom": '<"top"if>rt<"bottom"><"clear">',#}
+                "ajax": {
+                    {#"processing": true,#}
+                    "url": "{% url 'ajax_get_user_list' %}",
+                    dataSrc: function (json) {
+                        console.log(json)
+                        {#json = JSON.parse(json['content']);#}
+                        return json.data;
+                    },
+                },
+
+                "columns": [
+                    {"data": "name", "title": "Name", defaultContent: ""},
+                    {"data": "username", "title": "Username", defaultContent: ""},
+                    {"data": "email", "title": "Email", defaultContent: ""},
+                    {"data": "is_active", "title": "Is Active?", defaultContent: "", render: function (is_active) {
+                        html = ""
+                            if (is_active == true){
+                                html += "<button class='btn btn-primary' style='font-size:small;width:5.5em;'> Active </button>"
+                            }
+                            else{
+                                html += "<button class='btn btn-danger' style='font-size:small;width:5.5em;'> Inactive </button>"
+                            }
+                            return html;
+                        }},
+                    {"data": function (data) {return data;}, "title": "Actions", defaultContent: "", render:function (data) {
+                            html = ""
+                        if (data.is_active == true){
+
+
+                                html += "<ahref class='btn btn-outline-danger' style='font-size:small;width:7.5em;'"+
+                                " href='#' onClick='confirmDeactivate("+ data.id+ ")'>Deactivate User</ahref>"
+                            }
+                            else if (data.is_active == false){
+                                 html += "<ahref class='btn btn-outline-primary' style='font-size:small;width:7.5em;'"+
+                                " href='#' onClick='confirmActivate("+ data.id+ ")'>Activate User</ahref>"
+                            }
+                            return html;
+                        }},
+
+                ],
+
+
+            });
+
+
+        });
+
+
+    </script>
+
+
+{% endblock scripts %}

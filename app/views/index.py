@@ -194,3 +194,70 @@ def search_profiles(request):
 
 def contact_us(request):
     return render(request, "menu_content/contact_us.html")
+
+
+@login_required
+def activate_profile_owner(request, id):
+    try:
+        if request.user.is_superuser:
+            user = User.objects.get(id=id)
+            user.is_active = True
+            user.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "User has been activated successfully.")
+            return redirect('/user_list')
+
+    except Exception as ex:
+
+        messages.add_message(request, messages.ERROR,
+                             "You are not allowed to activate a user.")
+        return redirect('/')
+
+
+@login_required
+def deactivate_profile_owner(request, id):
+    try:
+        if request.user.is_superuser:
+            user = User.objects.get(id=id)
+            user.is_active = False
+            user.save()
+            messages.add_message(request, messages.SUCCESS,
+                                 "User has been deactivated successfully.")
+            return redirect('/user_list')
+
+    except Exception as ex:
+
+        messages.add_message(request, messages.ERROR,
+                             "You are not allowed to activate a user.")
+        return redirect('/')
+
+@login_required
+def ajax_get_user_list(request):
+    try:
+        if request.user.is_superuser:
+            user_list = []
+            all_users = User.objects.all()
+
+            for i in all_users:
+                profile_list_dict = {}
+                profile_list_dict['id'] = i.id
+                profile_list_dict['name'] = i.first_name + " " + i.last_name
+                profile_list_dict['username'] = str(i.username)
+                profile_list_dict['email'] = str(i.email)
+                profile_list_dict['is_active'] = i.is_active
+                user_list.append(profile_list_dict)
+
+            retVal = {"data": user_list}
+            print(retVal)
+            return HttpResponse(json.dumps(retVal), content_type="application/json")
+    except Exception as ex:
+        return redirect('/')
+
+@login_required
+def user_list(request):
+    if request.user.is_superuser:
+        return render(request, "user/user_management.html")
+    else:
+        messages.add_message(request, messages.ERROR, "Users are not allowed to change other user's information.")
+        return redirect('/')
+

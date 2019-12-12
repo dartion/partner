@@ -25,9 +25,32 @@ class UserRegisterForm(forms.ModelForm):
     # Because we are using Django default user
     # it already has username property, therefore we just add email and password
     username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form-control-lg',
+                                                             'placeholder': ' ',
+                                                             'id': 'username',
+                                                             'name': 'j_username',
+                                                             'type': 'text',
+                                                             'autocorrect': 'off',
+                                                             'autocapitalize': 'none',
+                                                             'value': ''
+                                                             }
+                                                      )
+                               )
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form-control-lg',
                                                                                'placeholder': ' ',
-                                                                               'id': 'username',
-                                                                               'name': 'j_username',
+                                                                               'id': 'first_name',
+                                                                               'name': 'first_name',
+                                                                               'type': 'text',
+                                                                               'autocorrect': 'off',
+                                                                               'autocapitalize': 'none',
+                                                                               'value': ''
+                                                                               }
+                                                                        )
+                               )
+
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form-control-lg',
+                                                                               'placeholder': ' ',
+                                                                               'id': 'first_name',
+                                                                               'name': 'first_name',
                                                                                'type': 'text',
                                                                                'autocorrect': 'off',
                                                                                'autocapitalize': 'none',
@@ -96,6 +119,8 @@ class UserRegisterForm(forms.ModelForm):
         model = User
         fields = [
             'username',
+            'first_name',
+            'last_name',
             'email',
             'email2',
             'password'
