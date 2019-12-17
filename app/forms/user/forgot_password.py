@@ -17,10 +17,11 @@ from django.contrib import messages
 from random import randint
 from app.models import ResetPassword
 from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader
-from django.template.loader import render_to_string
+
 
 
 class ForgotPasswordForm(forms.Form):

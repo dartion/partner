@@ -2,12 +2,72 @@
 {% extends "generic/layout.html" %}
 {% load static %}
 {% block styles %}
-
+<link href="static/css/custom_style.css" rel="stylesheet">
 {% endblock styles %}
 {% block topBody %}
-    <h1>How to use?</h1>
-    <p>"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
-"There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."</p>
+
+    <div class="row">
+        <div class="col-sm-2">&nbsp;</div>
+        <div class="col-sm-8 info-box menu-heading" >
+            <h2>How to use the application?</h2>
+
+            <br><br>
+            <table class="table-alignment">
+                <tr>
+                    <td>1. </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td> Register by signing up <a href="{% url 'register' %}">here</a> with your email ID and phone number.<br></td>
+              </tr>
+
+
+              <td>2. </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>Administrator will approve your account<br></td>
+              </tr>
+                <br>
+                <tr>
+                <td>3. </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td>Login with your registered username and password. Please click on Forgot Password link if you don't remember your password<br></td>
+              </tr>
+                <tr>
+                <td>4. </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td><br>Once you're logged in, you can search for profiles under "Search Profiles" tab or you can create profile(s) and click on "Submit".<br>
+               There will be account details displayed under the "Profile Status" tab once you have submitted the profile.<br></td>
+              </tr>
+
+                <tr>
+                    <td>5. </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td><br> Administrator will then approve the profile after the fee has been received.<br><br></td>
+              </tr>
+                                <tr>
+                    <td>6. </td>
+                  <td>&nbsp;</td>
+                  <td>&nbsp;</td>
+                  <td> To deactivate/delete your account/profile, please <a href="{% url 'contact_us' %}"> contact </a> administrator.<br></td>
+              </tr>
+
+
+            </table>
+
+
+
+            <br>
+            <br>
+
+        </div>
+        <div class="col-sm-2">&nbsp;</div>
+    </div>
+
+
+
 
 {% endblock %}
 

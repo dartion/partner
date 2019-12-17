@@ -182,3 +182,5 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 25
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 
+# ADMIN_EMAIL='dayanandkarthini@gmail.com'
+ADMIN_EMAIL='dartion@gmail.com'

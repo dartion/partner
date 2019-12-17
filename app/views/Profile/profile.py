@@ -12,6 +12,9 @@ from django.contrib.auth import (
     authenticate,
 )
 from partner.settings import ALLOWED_HOSTS
+from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 import json
 
 @login_required
@@ -22,6 +25,17 @@ def create_profile(request):
         post = form.save(request.user.id)
         messages.add_message(request, messages.SUCCESS,
                              "Profile created successfully.")
+
+        subject = 'Profile Created'
+
+        message = ''
+        html_message = render_to_string('profile/email/profile_created_email_template.html',
+                                        {
+                                         'url': "{}".format(settings.ALLOWED_HOSTS[0])})
+        email_from = settings.EMAIL_SENDER
+        recipient_list = [settings.ADMIN_EMAIL]
+        send_mail(subject, message, from_email=email_from, recipient_list=recipient_list, html_message=html_message)
+
 
         return redirect('/update_personal_info/{}'.format(post.id))
 
@@ -709,6 +723,15 @@ def submit_application(request,id):
             messages.add_message(request, messages.SUCCESS,
                                  "Your application has been Submitted successfully. Please contact administrator "
                                  "to update your profile")
+            subject = 'Profile Submitted'
+
+            message = ''
+            html_message = render_to_string('profile/email/submit_profile_email_template.html',
+                                            {
+                                                'url': "{}".format(settings.ALLOWED_HOSTS[0])})
+            email_from = settings.EMAIL_SENDER
+            recipient_list = [settings.ADMIN_EMAIL]
+            send_mail(subject, message, from_email=email_from, recipient_list=recipient_list, html_message=html_message)
             return redirect('/')
     except Exception as ex:
         messages.add_message(request, messages.WARNING,
