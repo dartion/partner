@@ -29,3 +29,15 @@
     font-size: small;
     width: 6.5em;
 }
+
+.menu-heading{
+    text-align: center;
+}
+
+.info-box{
+    border: 1px solid gray;
+}
+.table-alignment{
+    margin: auto;
+    text-align: left;
+}

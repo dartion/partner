@@ -145,9 +145,6 @@
                         if (data.submit == false){
                             html += "<a class='btn btn-outline-warning edit-view-delete-buttons' href=\'"+ edit_profile_url +"\'>Edit Profile</a>"
                         }
-
-
-
                         html += "   "
                         html += "<a class='btn btn-outline-primary edit-view-delete-buttons' href=\'"+ view_profile_url +"\'>View Profile</a>"
                         html += "   "
@@ -157,15 +154,36 @@
                         {% endif %}
                         return html
                         }},
-                        {"data": function(data){return data;}, "title": "Submit Application", defaultContent: "", render: function(data){
+                        {"data": function(data){return data;}, "title": "Profile Status", defaultContent: "", render: function(data){
                             html =""
 
                                 if (data.submit == true){
+                                    {% if admin_user == False %}
+                                    if (data.is_active == false){
                                     html += ""
+                                    html += "<span class='badge badge-warning'>Submitted</span>"
+                                    html += "<br/>"
+                                    html += "To make this profile appear in Search Profile list<br/><br/>"
+                                    html += "Please Pay Registration Fees To :<br/><br/>" +
+                                        "Name : <b>Karthini M D</b><br/>" +
+                                        "Bank: <b>State Bank of India - Bogadi branch</b><br/>" +
+                                        "        A/c no :  <b>6402538939</b> <br/>" +
+                                        "    IFSC code :  <b>SBIN0041117</b>"
+
+                                    }
+                                    else{
+
+                                        html+="<span class='badge badge-success'>Active</span>"
+                                        html+="<br/><br/>"
+                                        html+="To delete/inactivate profile please contact administrator.<br/>"
+                                        html+="(Contact details can be found <a href={% url 'contact_us' %}>here</a>)"
+                                    }
+                                    {% endif %}
                                     {% if admin_user %}
                                         html += "<ahref class='btn btn-outline-danger activate-deactivate-button 'style='font-size:small; width: 9em;'" +
                             " href='#' onClick='confirmRevoke("+ data.id+ ")'>Revoke Profile</ahref>"
                                     {% endif %}
+
                                 }
                                 else if ( data.submit == false){
 
@@ -178,7 +196,7 @@
                             }},
 
                     {% if admin_user %}
-                          {"data":function (data){return data;}, "title": "User Status", defaultContent: "", render:function (data) {
+                          {"data":function (data){return data;}, "title": "Profile Status", defaultContent: "", render:function (data) {
                                   html = ""
                                   activate_user_url = "{% url 'activate_user' profileID=111 %}".replace(/111/, data.id);
                                   deactivate_user_url = "{% url 'deactivate_user' profileID=111 %}".replace(/111/, data.id);

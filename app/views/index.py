@@ -22,6 +22,9 @@ from app.forms.user.forgot_password import  ForgotPasswordForm
 from app.forms.user.reset_password import  ResetPasswordForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
 from django.contrib.auth import (
     authenticate,
     login,
@@ -73,6 +76,17 @@ def register_view(request):
         # login(request, new_user)
         if next:
             return redirect(next)
+        messages.add_message(request, messages.SUCCESS, "{} user has been registered successfully. Please wait until the administrator approves your account".format(user.username))
+
+        subject = 'New User Request'
+
+        message = ''
+        html_message = render_to_string('user/new_user_email_template.html', {
+                                         'url': "{}".format(settings.ALLOWED_HOSTS[0]
+                                                            )})
+        email_from = settings.EMAIL_SENDER
+        recipient_list = [settings.ADMIN_EMAIL]
+        send_mail(subject, message, from_email=email_from, recipient_list=recipient_list, html_message=html_message)
         return redirect('/')
 
     context = {
@@ -164,10 +178,11 @@ def ajax_get_profile_list(request,user_id):
         profile_list_dict['phone_number'] = i.phone_number
         profile_list_dict['id'] = i.id
         profile_list_dict['submit'] = i.submit
+        profile_list_dict['message'] = False
+        profile_list_dict['is_active'] = i.is_active
+
         if request.user.is_superuser:
-
             profile_list_dict['is_active'] = i.is_active
-
         profile_list.append(profile_list_dict)
 
     retVal = {"data": profile_list}
@@ -203,6 +218,16 @@ def activate_profile_owner(request, id):
             user = User.objects.get(id=id)
             user.is_active = True
             user.save()
+            subject = '{} - User Activated'.format(user.first_name)
+
+            message = ''
+            html_message = render_to_string('user/user_activated_email_template.html', {
+                'url': "{}".format(settings.ALLOWED_HOSTS[0]), 'user': user.first_name})
+            email_from = settings.EMAIL_SENDER
+            recipient_list = [user.email]
+            send_mail(subject, message, from_email=email_from, recipient_list=recipient_list, html_message=html_message)
+
+
             messages.add_message(request, messages.SUCCESS,
                                  "User has been activated successfully.")
             return redirect('/user_list')
@@ -223,6 +248,16 @@ def deactivate_profile_owner(request, id):
             user.save()
             messages.add_message(request, messages.SUCCESS,
                                  "User has been deactivated successfully.")
+            subject = '{} - User Deactivated'.format(user.first_name)
+
+            message = ''
+            html_message = render_to_string('user/user_deactivated_email_template.html', {
+                'url': "{}".format(settings.ALLOWED_HOSTS[0])
+                                   , 'user': user.first_name })
+            email_from = settings.EMAIL_SENDER
+            recipient_list = [user.email]
+            send_mail(subject, message, from_email=email_from, recipient_list=recipient_list, html_message=html_message)
+
             return redirect('/user_list')
 
     except Exception as ex:
@@ -245,6 +280,7 @@ def ajax_get_user_list(request):
                 profile_list_dict['username'] = str(i.username)
                 profile_list_dict['email'] = str(i.email)
                 profile_list_dict['is_active'] = i.is_active
+
                 user_list.append(profile_list_dict)
 
             retVal = {"data": user_list}
