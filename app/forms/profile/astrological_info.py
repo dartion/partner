@@ -21,8 +21,11 @@ class UpdateAstrologicalInfo(forms.ModelForm):
             self.fields['rashi'] = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg' }),
                                                    initial=astrological_info_object.rashi)
             self.fields['horoscope_matching'] = forms.CharField(
-                widget=forms.TextInput(attrs={'required': True, 'class':'form-control form-control-lg'}),
-                initial=astrological_info_object.horoscope_matching)
+                widget=forms.TextInput(attrs={'required': False, 'class':'form-control form-control-lg'}),
+                initial=astrological_info_object.horoscope_matching,required=False)
+            self.fields['horoscope_attached'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': False, 'class':'form-control form-control-lg'}),
+                initial=astrological_info_object.horoscope_matching,required=False)
 
             data_exists = True
 
@@ -32,7 +35,8 @@ class UpdateAstrologicalInfo(forms.ModelForm):
     pravara = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}),required=False)
     nakshatra = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}))
     rashi = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}))
-    horoscope_matching = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}))
+    horoscope_matching = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}),required=False)
+    horoscope_attached = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}),required=False)
 
 
     class Meta:
@@ -41,7 +45,8 @@ class UpdateAstrologicalInfo(forms.ModelForm):
                   # 'pravara',
                   'nakshatra',
                   'rashi',
-                  'horoscope_matching'
+                  'horoscope_matching',
+                  'horoscope_attached',
         )
 
     def clean(self, *args, **kwargs):
@@ -55,6 +60,7 @@ class UpdateAstrologicalInfo(forms.ModelForm):
         nakshatra = self.cleaned_data.get('nakshatra')
         rashi = self.cleaned_data.get('rashi')
         horoscope_matching = self.cleaned_data.get('horoscope_matching')
+        horoscope_attached = self.cleaned_data.get('horoscope_attached')
 
         try:
             p = ProfileAstrologicalInfo.objects.get(profile_id=profile_id)
@@ -63,6 +69,7 @@ class UpdateAstrologicalInfo(forms.ModelForm):
             p.nakshatra = nakshatra
             p.rashi = rashi
             p.horoscope_matching = horoscope_matching
+            p.horoscope_attached = horoscope_attached
             p.save()
             return p
         except Exception as ex:
@@ -72,6 +79,7 @@ class UpdateAstrologicalInfo(forms.ModelForm):
                 nakshatra=nakshatra,
                 rashi=rashi,
                 horoscope_matching=horoscope_matching,
+                horoscope_attached=horoscope_attached,
                 profile=ProfileBasicInfo.objects.get(id=profile_id)
 
             )
@@ -100,6 +108,9 @@ class ViewAstrologicalInfo(forms.ModelForm):
         self.fields['horoscope_matching'] = forms.CharField(
             widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
             initial=astrological_object.horoscope_matching)
+        self.fields['horoscope_attached'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=astrological_object.horoscope_attached)
 
     class Meta:
         model = ProfileAstrologicalInfo

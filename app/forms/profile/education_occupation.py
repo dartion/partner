@@ -20,12 +20,13 @@ class UpdateEducationOccupation(forms.ModelForm):
             self.fields['occupation'] = forms.CharField(
                 widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}),
                 initial=edu_occ_info_object.occupation)
+            self.fields['place_of_occupation'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required': True, 'class': 'form-control form-control-lg'}),
+                initial=edu_occ_info_object.place_of_occupation)
             self.fields['working_since'] = forms.CharField(
                 widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}),
                 initial=edu_occ_info_object.working_since)
-            self.fields['place_of_occupation'] = forms.CharField(
-                widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}),
-                initial=edu_occ_info_object.place_of_occupation)
+
             self.fields['average_monthly_income'] = forms.CharField(
                 widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}),
                 initial=edu_occ_info_object.average_monthly_income)
@@ -35,8 +36,10 @@ class UpdateEducationOccupation(forms.ModelForm):
     degree_or_diploma = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}))
     pg_degree_or_diploma = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}))
     occupation = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}))
+    place_of_occupation = forms.CharField(
+        widget=forms.TextInput(attrs={'required': False, 'class': 'form-control form-control-lg'}))
     working_since = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}))
-    place_of_occupation = forms.CharField(widget=forms.TextInput(attrs={'required': False,'class':'form-control form-control-lg'}))
+
     average_monthly_income = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}))
 
     class Meta:
@@ -44,8 +47,8 @@ class UpdateEducationOccupation(forms.ModelForm):
         fields = ('degree_or_diploma',
                   'pg_degree_or_diploma',
                   'occupation',
-                  'working_since',
                   'place_of_occupation',
+                  'working_since',
                   'average_monthly_income',
 
         )
@@ -105,12 +108,13 @@ class ViewEducationOccupation(forms.ModelForm):
         self.fields['occupation'] = forms.CharField(
             widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
             initial=edu_occ_object.occupation)
-        self.fields['working_since'] = forms.CharField(
-            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
-            initial=edu_occ_object.working_since)
         self.fields['place_of_occupation'] = forms.CharField(
             widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
             initial=edu_occ_object.place_of_occupation)
+        self.fields['working_since'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=edu_occ_object.working_since)
+
         self.fields['average_monthly_income'] = forms.CharField(
             widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
             initial=edu_occ_object.average_monthly_income)
@@ -123,8 +127,8 @@ class ViewEducationOccupation(forms.ModelForm):
         fields = ('degree_or_diploma',
                   'pg_degree_or_diploma',
                   'occupation',
-                  'working_since',
                   'place_of_occupation',
+                  'working_since',
                   'average_monthly_income',
 
         )

@@ -41,3 +41,9 @@
     margin: auto;
     text-align: left;
 }
+
+.block-background{
+    border: 1px solid gray;
+    padding: 3em;
+    background: beige;
+}

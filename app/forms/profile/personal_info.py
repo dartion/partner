@@ -70,7 +70,7 @@ class UpdateProfilePersonalInfo(forms.ModelForm):
                 widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}),
                 initial=personal_info_object.additional_info)
 
-            self.fields['email'] = forms.CharField(widget=forms.TextInput(attrs={'class':'form-control form-control-lg'}),
+            self.fields['email'] = forms.CharField(widget=forms.TextInput(attrs={'required':False, 'class':'form-control form-control-lg'}),
                                                    initial=personal_info_object.email, required=False)
             data_exists = True
         except Exception as e:
@@ -101,7 +101,7 @@ class UpdateProfilePersonalInfo(forms.ModelForm):
         residential_address = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'class':'form-control form-control-lg'}))
         contact_number = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'class':'form-control form-control-lg'}))
         additional_info = forms.CharField(widget=forms.TextInput(attrs={'required': True, 'class':'form-control form-control-lg'}))
-        email = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control form-control-lg'}), required=False)
+        email = forms.CharField(widget=forms.TextInput(attrs={'required':False, 'class': 'form-control form-control-lg'}), required=False)
 
     class Meta:
         model = ProfilePersonalInfo

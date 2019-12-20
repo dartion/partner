@@ -30,6 +30,7 @@ class ProfileBasicInfo(models.Model):
     profile_created_by = models.CharField(max_length=40, null=False, blank=False)
     is_active = models.BooleanField(null=True, blank=True,default=False)
     submit = models.BooleanField(null=False, blank=False,default=False)
+    married = models.CharField(max_length=100, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -83,7 +84,7 @@ class ProfileEducationOccupation(models.Model):
     occupation = models.CharField(max_length=100, null=True, blank=True)
     working_since = models.CharField(max_length=100, null=True, blank=True)
     place_of_occupation = models.CharField(max_length=100, null=True, blank=True)
-    average_monthly_income = models.BigIntegerField(null=False, blank=False, unique=True)
+    average_monthly_income = models.CharField(max_length=200, null=True, blank=True)
     profile = models.ForeignKey(ProfileBasicInfo,unique=True, on_delete=models.CASCADE, null=True, blank=True)
 
 
@@ -98,7 +99,7 @@ class ProfileHabits(models.Model):
     smoking= models.CharField(max_length=100, null=True, blank=True)
     alcholic_drinks=  models.CharField(max_length=100, null=True, blank=True)
     profile = models.ForeignKey(ProfileBasicInfo,unique=True, on_delete=models.CASCADE, null=True, blank=True)
-
+    hobbies = models.CharField(max_length=200, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.full_clean()
@@ -112,7 +113,7 @@ class ProfileAstrologicalInfo(models.Model):
     rashi = models.CharField(max_length=100, null=True, blank=True)
     horoscope_matching = models.CharField(max_length=100, null=True, blank=True)
     profile = models.ForeignKey(ProfileBasicInfo, unique=True,on_delete=models.CASCADE, null=True, blank=True)
-    #ToDo: Horoscope upload
+    horoscope_attached = models.CharField(max_length=100, null=True, blank=True)
 
 
     def save(self, *args, **kwargs):
@@ -126,7 +127,6 @@ class ProfileFamilyDetails(models.Model):
     family_values = models.CharField(max_length=100, null=True, blank=True)
     no_of_brothers = models.CharField(max_length=100, null=True, blank=True)
     no_of_sisters = models.CharField(max_length=100, null=True, blank=True)
-    married = models.CharField(max_length=100, null=True, blank=True)
     profile = models.ForeignKey(ProfileBasicInfo, unique=True,on_delete=models.CASCADE,  null=True, blank=True)
 
 
