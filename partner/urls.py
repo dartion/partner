@@ -13,18 +13,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-#  partner - urls.py
-#
+#  partner -   urls.py
 #  Description:
-#  Author:           Darshan Nagavara (DN)
-#  Created:          13 Nov. 2019
-#  Source:           https://github.com/IntersectAustralia/partner
-#  License:          Copyright (c) 2019 DN - All Rights Reserved
+#  Author:           darshan
+#  Created:          21 Dec. 2019
+#  Source:           https://github.com/dartion/partner
+#  License:          Copyright (c) 2019 DN - All Rights ReservedAll Rights Reserved
 #                    Unauthorized copying of this file, via any medium is
 #                    strictly prohibited. Proprietary and confidential
 
-
-
+#  partner - urls.py
+#
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import  static

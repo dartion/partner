@@ -1,12 +1,12 @@
 /*
- * jQuery File Upload Plugin Test
- * https://github.com/blueimp/jQuery-File-Upload
- *
- * Copyright 2010, Sebastian Tschan
- * https://blueimp.net
- *
- * Licensed under the MIT license:
- * http://www.opensource.org/licenses/MIT
+ * partner -   test.js
+ * Description:
+ * Author:           darshan
+ * Created:          21 Dec. 2019
+ * Source:           https://github.com/dartion/partner
+ * License:          Copyright (c) 2019 DN - All Rights ReservedAll Rights Reserved
+ *                   Unauthorized copying of this file, via any medium is
+ *                   strictly prohibited. Proprietary and confidential
  */
 
 /* global $, QUnit, window, document, expect, module, test, asyncTest, start, ok, strictEqual, notStrictEqual */

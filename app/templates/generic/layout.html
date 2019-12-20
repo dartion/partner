@@ -4,8 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="BANK3600 - Simulator">
-    <meta name="author" content="Craig Hamilton">
+    <meta name="description" content="SLV app">
     {% block metatags %} {% endblock %}
     <link rel="icon" href="{% static "formwork/favicon.ico" %}"/>
     <title>{{ APP_NAME }}</title>
@@ -23,8 +22,9 @@
     {% block styles %}{% endblock styles %}
 </head>
 {% block bodyTag %}
-    <body>
-{% endblock bodyTag %}
+    <body class="background_picture">
+
+
 <header>
     <!--  fixed-top -->
 {#    <nav class="navbar navbar-expand-md fixed-top bg-sydWhite appTitle">#}
@@ -98,32 +98,36 @@
 
 <div class="row"></div>
 <div class="row"></div>
-<div class="row">
-    <div class="col-sm-2">&nbsp;</div>
-{#    <div class="mx-auto order-0 w-100 nav-title appTitle">{{ APP_NAME }}</div>#}
-    <div class="col-sm-8">
-    <div class="appTitle">{{ APP_NAME }}</div>
-    </div>
-    <div class="col-sm-2">&nbsp;</div>
 
-</div>
-<main role="main" class="col-sm-12">
+
+<div  class="col-sm-12 background_picture">
     <div class="row"></div>
-<div class="row">&nbsp;</div>
-<div class="row">&nbsp;</div>
+    <div class="row">&nbsp;</div>
+    <div class="row">&nbsp;</div>
 
-    {% block topBody %}{% endblock topBody %}
+    {% block topBody %}
+
+                    <div class="row">
+                <div class="col-sm-2">&nbsp;</div>
+            {#    <div class="mx-auto order-0 w-100 nav-title appTitle">{{ APP_NAME }}</div>#}
+                <div class="col-sm-8">
+                <div class="appTitle background_picture">{{ APP_NAME }}</div>
+                </div>
+                <div class="col-sm-2">&nbsp;</div>
+
+            </div>
+    {% endblock topBody %}
     {% block middleBody %}{% endblock middleBody %}
     {% block lowerBody %}{% endblock lowerBody %}
 
-
+</div>
     <!-- FOOTER -->
     <footer class="container">
 {#        <a href=""><img class=""#}
 {#                                                src="{% static '' %}"></a>#}
         <span class="text-muted">Developed by <a href="">Dartion</a></span>
     </footer>
-</main>
+
 
 <!-- Bootstrap core JavaScript
 ================================================== -->
@@ -138,6 +142,6 @@
         crossorigin="anonymous"></script>
 
 {% block scripts %}{% endblock scripts %}
-
+{% endblock bodyTag %}
 </body>
 </html>
