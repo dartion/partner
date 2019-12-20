@@ -1,3 +1,14 @@
+/*
+ * partner -   prepopulate_init.js
+ * Description:
+ * Author:           darshan
+ * Created:          21 Dec. 2019
+ * Source:           https://github.com/dartion/partner
+ * License:          Copyright (c) 2019 DN - All Rights ReservedAll Rights Reserved
+ *                   Unauthorized copying of this file, via any medium is
+ *                   strictly prohibited. Proprietary and confidential
+ */
+
 (function($) {
     'use strict';
     var fields = $('#django-admin-prepopulated-fields-constants').data('prepopulatedFields');

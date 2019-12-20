@@ -1,3 +1,14 @@
+/*
+ * partner -   DateTimeShortcuts.js
+ * Description:
+ * Author:           darshan
+ * Created:          21 Dec. 2019
+ * Source:           https://github.com/dartion/partner
+ * License:          Copyright (c) 2019 DN - All Rights ReservedAll Rights Reserved
+ *                   Unauthorized copying of this file, via any medium is
+ *                   strictly prohibited. Proprietary and confidential
+ */
+
 /*global Calendar, findPosX, findPosY, getStyle, get_format, gettext, gettext_noop, interpolate, ngettext, quickElement*/
 // Inserts shortcut buttons after all of the following:
 //     <input type="text" class="vDateField">

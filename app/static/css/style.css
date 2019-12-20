@@ -1,14 +1,12 @@
 /*
- * partner - style.css
- *
+ * partner -   style.css
  * Description:
- * Author:           Darshan Nagavara (DN)
- * Created:          13 Nov. 2019
- * Source:           https://github.com/IntersectAustralia/partner
- * License:          Copyright (c) 2019 DN - All Rights Reserved DN
+ * Author:           darshan
+ * Created:          21 Dec. 2019
+ * Source:           https://github.com/dartion/partner
+ * License:          Copyright (c) 2019 DN - All Rights ReservedAll Rights Reserved
  *                   Unauthorized copying of this file, via any medium is
  *                   strictly prohibited. Proprietary and confidential
- *
  */
 
 /*!
@@ -154,3 +152,28 @@ table.dataTable > thead > tr > th {
     margin-left: 0.3em;
     margin-top: 0.3em;
 }
+
+body{
+    background: whitesmoke;
+}
+/*body{*/
+/*    background-image: url("/static/background.jpeg");*/
+/*}*/
+
+
+/*body::after {*/
+/*  content: "";*/
+/*  background: url("/static/ background.jpeg");*/
+/*  !*background: url("/static/background.png");*!*/
+/*    background-repeat: repeat repeat-y;*/
+/*    background-size:1500px 1500px;*/
+/*  opacity: 0.1;*/
+/*  top: 0;*/
+/*  left: 0;*/
+/*  bottom: 0;*/
+/*  right: 0;*/
+/*  position: absolute;*/
+/*  z-index: -1;*/
+/*}*/
+
+

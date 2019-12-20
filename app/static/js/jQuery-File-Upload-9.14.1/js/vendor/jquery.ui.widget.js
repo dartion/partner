@@ -1,7 +1,13 @@
-/*! jQuery UI - v1.11.4+CommonJS - 2015-08-28
-* http://jqueryui.com
-* Includes: widget.js
-* Copyright 2015 jQuery Foundation and other contributors; Licensed MIT */
+/*
+ * partner -   jquery.ui.widget.js
+ * Description:
+ * Author:           darshan
+ * Created:          21 Dec. 2019
+ * Source:           https://github.com/dartion/partner
+ * License:          Copyright (c) 2019 DN - All Rights ReservedAll Rights Reserved
+ *                   Unauthorized copying of this file, via any medium is
+ *                   strictly prohibited. Proprietary and confidential
+ */
 
 (function( factory ) {
 	if ( typeof define === "function" && define.amd ) {
