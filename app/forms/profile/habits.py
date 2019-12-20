@@ -30,6 +30,9 @@ class UpdateHabits(forms.ModelForm):
                 choices=ACHOHOLIC_DRINKS_CHOICES, attrs={'class': 'form-control form-control-lg'}),
                                                              initial=habits_object.alcholic_drinks
                                                              )
+            self.fields['hobbies'] = forms.CharField(
+                widget=forms.TextInput(attrs={'required':False, 'class': 'form-control form-control-lg'}),
+                initial=habits_object.hobbies,required=False)
 
             data_exists = True
 
@@ -49,12 +52,15 @@ class UpdateHabits(forms.ModelForm):
         alcholic_drinks = forms.CharField(label='Alcoholic Drinks',
                                           widget=forms.Select(choices=ACHOHOLIC_DRINKS_CHOICES,
                                                               attrs={'class': 'form-control form-control-lg'}))
-
+        hobbies= forms.CharField(
+            widget=forms.TextInput(attrs={'required': False, 'class': 'form-control form-control-lg'}),
+            required=False)
     class Meta:
         model = ProfileHabits
         fields = ('food',
                   'smoking',
                   'alcholic_drinks',
+                  'hobbies'
                   )
 
     def clean(self, *args, **kwargs):
@@ -66,12 +72,15 @@ class UpdateHabits(forms.ModelForm):
         food = self.cleaned_data.get('food')
         smoking = self.cleaned_data.get('smoking')
         alcholic_drinks = self.cleaned_data.get('alcholic_drinks')
+        hobbies = self.cleaned_data.get('hobbies')
+
 
         try:
             p = ProfileHabits.objects.get(profile_id=profile_id)
             p.food = food
             p.smoking = smoking
             p.alcholic_drinks = alcholic_drinks
+            p.hobbies = hobbies
             p.save()
             return p
         except Exception as e:
@@ -79,6 +88,7 @@ class UpdateHabits(forms.ModelForm):
                 food=food,
                 smoking=smoking,
                 alcholic_drinks=alcholic_drinks,
+                hobbies=hobbies,
                 profile=ProfileBasicInfo.objects.get(id=profile_id)
             )
             return new_habits_object
@@ -109,12 +119,16 @@ class ViewHabits(forms.ModelForm):
                                                                      attrs={'disabled': 'disabled',
                                                                             'class': 'form-control form-control-lg'}),
                                                  initial=habits_object.alcholic_drinks)
+        self.fields['hobbies'] = forms.CharField(
+            widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
+            initial=habits_object.hobbies)
 
     class Meta:
         model = ProfileHabits
         fields = ('food',
                   'smoking',
                   'alcholic_drinks',
+                  'hobbies',
                   )
 
     def clean(self, *args, **kwargs):

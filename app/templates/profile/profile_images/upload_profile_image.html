@@ -10,7 +10,7 @@
             <div class="col-sm-4">
                 {% include "generic/edit_side_bar.html" %}
             </div>
-            <div class="col-sm-8" align="center">
+            <div class="col-sm-8 block-background" align="center">
                 <h2>Edit Profile Photo</h2>
                 {% for message in messages %}
                     {% if message.tags == "success" %}
@@ -27,7 +27,11 @@
                 {% if form.errors.items %}
 
                 {% endif %}
-                <div class="row">&nbsp;</div>
+                <div class="row">
+                    Note:
+                    Please upload color photo. Black and white photo will be removed.
+
+                </div>
             <form method="POST" enctype="multipart/form-data">
                 <div class="row" style="text-align: center;">
                     <img src="{{ url }}" height="500" width="500">

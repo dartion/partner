@@ -137,7 +137,7 @@
                 "columns": [
                     {"data": "first_name", "title": "Name", defaultContent: ""},
                     {"data": "dob", "title": "DOB", defaultContent: ""},
-                    {"data": "phone_number", "title": "Phone number", defaultContent: ""},
+                    {"data": "phone_number", "title": "Contact Ph No", defaultContent: ""},
                     {"data": function(data){return data;}, "title": "Actions", defaultContent: "", render:function (data) {
                         html = ''
                         edit_profile_url = "{% url 'edit_profile' id=111 %}".replace(/111/, data.id);

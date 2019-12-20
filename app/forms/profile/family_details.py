@@ -17,7 +17,7 @@ class UpdateFamilyDetails(forms.ModelForm):
             FAMILY_TYPE_CHOICES = [('Joint Family', 'Joint Family'), ('Nuclear Family', 'Nuclear Family')]
             FAMILY_VALUES_CHOICES = [('Orthodox', 'Orthodox'), ('Traditional', 'Traditional'), ('Moderate', 'Moderate'),
                                      ('Liberal', 'Liberal')]
-            MARRIED_CHOICES = [('Unmarried', 'Unmarried'), ('Divorcee', 'Divorcee')]
+
 
             self.fields['family_class'] = forms.CharField(label='Family Class', widget=forms.Select(choices=FAMILY_CLASS_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.family_class)
 
@@ -33,21 +33,21 @@ class UpdateFamilyDetails(forms.ModelForm):
             self.fields['no_of_sisters'] = forms.CharField(
                 widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}),
                 initial=family_info_object.no_of_sisters)
-            self.fields['married'] = forms.CharField(label='Married', widget=forms.Select(choices=MARRIED_CHOICES,attrs={'class':'form-control form-control-lg'}),initial=family_info_object.married)
+
             data_exists = True
         except Exception as ex:
             print(ex)
     FAMILY_CLASS_CHOICES = [('Upper Middle Class', 'Upper Middle Class'),('Middle class','Middle class'), ('Lower Middle Class','Lower Middle Class')]
     FAMILY_TYPE_CHOICES = [('Joint Family', 'Joint Family'),('Nuclear Family','Nuclear Family')]
     FAMILY_VALUES_CHOICES = [('Orthodox','Orthodox'),('Traditional', 'Traditional'), ('Moderate','Moderate'), ('Liberal','Liberal')]
-    MARRIED_CHOICES = [('Unmarried','Unmarried'), ('Divorcee','Divorcee')]
+
 
     family_class = forms.CharField(label='Family Class', widget=forms.Select(choices=FAMILY_CLASS_CHOICES,attrs={'class':'form-control form-control-lg'}))
     family_type = forms.CharField(label='Family Type', widget=forms.Select(choices=FAMILY_TYPE_CHOICES,attrs={'class':'form-control form-control-lg'}))
     family_values = forms.CharField(label='Family Values', widget=forms.Select(choices=FAMILY_VALUES_CHOICES,attrs={'class':'form-control form-control-lg'}))
     no_of_brothers = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}))
     no_of_sisters = forms.CharField(widget=forms.TextInput(attrs={'required': True,'class':'form-control form-control-lg'}))
-    married = forms.CharField(label='Married Status', widget=forms.Select(choices=MARRIED_CHOICES,attrs={'class':'form-control form-control-lg'}))
+    # married = forms.CharField(label='Married Status', widget=forms.Select(choices=MARRIED_CHOICES,attrs={'class':'form-control form-control-lg'}))
 
     class Meta:
         model = ProfileFamilyDetails
@@ -56,7 +56,7 @@ class UpdateFamilyDetails(forms.ModelForm):
                   'family_values',
                   'no_of_brothers',
                   'no_of_sisters',
-                  'married'
+                  # 'married'
         )
 
     def clean(self, *args, **kwargs):
@@ -70,7 +70,7 @@ class UpdateFamilyDetails(forms.ModelForm):
         family_values = self.cleaned_data.get('family_values')
         no_of_brothers = self.cleaned_data.get('no_of_brothers')
         no_of_sisters = self.cleaned_data.get('no_of_sisters')
-        married = self.cleaned_data.get('married')
+        # married = self.cleaned_data.get('married')
 
         try:
             print(profile_id)
@@ -80,7 +80,7 @@ class UpdateFamilyDetails(forms.ModelForm):
             p.family_values = family_values
             p.no_of_brothers = no_of_brothers
             p.no_of_sisters = no_of_sisters
-            p.married = married
+            # p.married = married
             p.save()
             return p
         except Exception as ex:
@@ -90,7 +90,7 @@ class UpdateFamilyDetails(forms.ModelForm):
                 family_values=family_values,
                 no_of_brothers=no_of_brothers,
                 no_of_sisters=no_of_sisters,
-                married=married,
+                # married=married,
                 profile=ProfileBasicInfo.objects.get(id=profile_id)
             )
             return new_family_details_object
@@ -106,7 +106,7 @@ class ViewFamilyDetails(forms.ModelForm):
         FAMILY_CLASS_CHOICES = [('Upper Middle Class', 'Upper Middle Class'),('Middle class','Middle class'), ('Lower Middle Class','Lower Middle Class')]
         FAMILY_TYPE_CHOICES = [('Joint Family', 'Joint Family'),('Nuclear Family','Nuclear Family')]
         FAMILY_VALUES_CHOICES = [('Orthodox','Orthodox'),('Traditional', 'Traditional'), ('Moderate','Moderate'), ('Liberal','Liberal')]
-        MARRIED_CHOICES = [('Unmarried','Unmarried'), ('Divorcee','Divorcee')]
+        LiberalMARRIED_CHOICES = [('Unmarried','Unmarried'), ('Divorcee','Divorcee')]
 
         self.fields['family_class'] = forms.CharField(widget=forms.Select(choices=FAMILY_CLASS_CHOICES,
                                                                         attrs={'disabled': 'disabled',
@@ -134,10 +134,10 @@ class ViewFamilyDetails(forms.ModelForm):
             widget=forms.TextInput(attrs={'readOnly': True, 'class': 'form-control form-control-lg'}),
             initial=family_deets_object.no_of_sisters)
 
-        self.fields['married'] = forms.CharField(widget=forms.Select(choices=FAMILY_VALUES_CHOICES,
-                                                                            attrs={'disabled': 'disabled',
-                                                                                   'class': 'form-control form-control-lg'}),
-                                                        initial=family_deets_object.married)
+        # self.fields['married'] = forms.CharField(widget=forms.Select(choices=FAMILY_VALUES_CHOICES,
+        #                                                                     attrs={'disabled': 'disabled',
+        #                                                                            'class': 'form-control form-control-lg'}),
+        #                                                 initial=family_deets_object.married)
 
     class Meta:
         model = ProfileFamilyDetails
@@ -146,7 +146,7 @@ class ViewFamilyDetails(forms.ModelForm):
                   'family_values',
                   'no_of_brothers',
                   'no_of_sisters',
-                  'married'
+                  # 'married'
         )
 
     def clean(self, *args, **kwargs):

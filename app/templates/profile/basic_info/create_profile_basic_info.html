@@ -1,16 +1,16 @@
 {% extends "generic/layout.html" %}
 {% load static %}
 {% block styles %}
-
+<link href="static/css/custom_style.css" rel="stylesheet">
 {% endblock styles %}
 {% block topBody %}
 
     <div class="container">
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-2">
 
             </div>
-            <div class="col-sm-6" align="center">
+            <div class="col-sm-8 block-background" align="center">
                 <h2>Create Profile</h2>
                 {% for message in messages %}
                     {% if message.tags == "success" %}
