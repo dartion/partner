@@ -33,7 +33,7 @@ h1, h2, h3, h4, h5, h6, .text-heading {
 }
 
 .appTitle {
-    color: #333333;
+    color: #ffffff;
     text-align: center;
     font-size: -webkit-xxx-large;
     font-family: cursive;
@@ -176,4 +176,8 @@ body{
 /*  z-index: -1;*/
 /*}*/
 
-
+.background_picture{
+    background: url("/static/banner.jpeg");
+    height: 22em;
+    background-repeat: round;
+}
